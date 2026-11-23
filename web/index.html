@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Twinpill · One name. Two medicines.</title>
+  <meta name="description" content="In India, one medicine name can mean two completely different drugs. Type, say or photograph a name and Twinpill shows every medicine it could be, and the one question that tells them apart.">
+  <meta property="og:title" content="Twinpill · One name. Two medicines.">
+  <meta property="og:description" content="3,633 Indian medicine names are sold by different companies for unrelated drugs. Check yours.">
+  <meta name="theme-color" content="#14112b">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/" aria-label="Twinpill home">
+      <span class="logo" aria-hidden="true"><span></span><span></span></span>
+      <span class="brand-name">Twinpill</span>
+    </a>
+    <nav class="nav">
+      <a href="#/" data-route="check" data-i18n="nav_check">Check a name</a>
+      <a href="#/atlas" data-route="atlas" data-i18n="nav_atlas">Twin Atlas</a>
+      <a href="#/evidence" data-route="evidence" data-i18n="nav_evidence">Evidence</a>
+      <a href="#/how" data-route="how" data-i18n="nav_how">How it works</a>
+    </nav>
+    <button class="lang" id="langBtn" aria-label="Switch language">தமிழ்</button>
+  </header>
+
+  <main id="view"></main>
+
+  <footer class="foot">
+    <p data-i18n="footer">Twinpill never tells you which medicine to take. It shows what a name could mean, so you can ask before you swallow.</p>
+    <p class="muted small">Data: 242,924 Indian medicine listings (public catalogue snapshot), WHO ATC classes via Wikidata, ISMP confused-names list. Every lookup runs on your device; nothing you type, say or photograph leaves it.</p>
+  </footer>
+
+  <template id="tpl-check">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker" data-i18n="kicker">Medicine name check · India</p>
+        <h1><span data-i18n="h1a">One name.</span><br><span class="hl" data-i18n="h1b">Two medicines.</span></h1>
+        <p class="lede" data-i18n="lede">In India, the same medicine name can mean a fever tablet or an epilepsy drug, depending on which company made it. Type, say or snap a name. We show every medicine it could be, and the one question that tells them apart.</p>
+      </div>
+      <div class="counter" aria-live="polite">
+        <div class="big" id="ctr">3,633</div>
+        <div class="cap" data-i18n="ctr_cap">medicine names sold by different companies for completely unrelated drugs</div>
+      </div>
+    </section>
+
+    <section class="search-wrap">
+      <form id="searchForm" class="search" autocomplete="off">
+        <input id="q" type="search" inputmode="search" aria-label="Medicine name" placeholder="Type a medicine name, e.g. Acetam 500">
+        <button type="button" class="icon-btn" id="micBtn" title="Say the name" aria-label="Say the name">
+          <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>
+        </button>
+        <label class="icon-btn" title="Photograph the strip or prescription" aria-label="Photograph the strip">
+          <svg viewBox="0 0 24 24"><path d="M9 3 7.2 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 3H9Zm3 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+          <input id="photo" type="file" accept="image/*" capture="environment" hidden>
+        </label>
+        <button class="go" type="submit" data-i18n="check">Check</button>
+      </form>
+      <div class="status" id="status" role="status"></div>
+      <div class="chips" id="chips">
+        <span class="muted small" data-i18n="try">Try:</span>
+        <button class="chip" data-q="Acetam 500">Acetam 500</button>
+        <button class="chip" data-q="Adnil">Adnil</button>
+        <button class="chip" data-q="Olip">Olip</button>
+        <button class="chip" data-q="Zentra 100">Zentra 100</button>
+        <button class="chip" data-q="Linamac">Linamac</button>
+        <button class="chip" data-q="Dolo 650">Dolo 650</button>
+      </div>
+    </section>
+
+    <section id="result" class="result"></section>
+  </template>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
