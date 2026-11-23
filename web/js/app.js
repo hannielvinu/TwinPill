@@ -1,6 +1,6 @@
 import { T, FORM_TA, FORM_KN } from "./i18n.js";
 import { toLatin, hasIndic } from "./translit.js";
-import { loadRoots, findRoots, parseQuery, productsFor, meanings, isTwin, matchNumber, decidingQuestion, confident, loadIngredients, findIngredient, commonIngredient, findRootsIndic } from "./search.js";
+import { loadRoots, findRoots, parseQuery, productsFor, meanings, isTwin, matchNumber, decidingQuestion, confident, loadIngredients, findIngredient, commonIngredient, findRootsIndic, bestFromSpeech, loadCommonWords } from "./search.js";
 
 let lang = "en";
 try { lang = localStorage.getItem("tp_lang") || "en"; } catch { /* private mode */ }
@@ -226,22 +226,31 @@ async function onMic() {
   try {
     const alts = await listen(SPEECH[lang]);
     btn.classList.remove("rec");
-    // Google returns several guesses; keep the one that lands on a real catalogue name.
-    await loadRoots();
-    let best = alts[0], bestScore = -1;
+    // Google returns several guesses, and in English it often splits a brand into everyday words
+    // ("a seat am 500"). Score every guess by the catalogue name it contains and keep the strongest.
+    await Promise.all([loadRoots(), loadIngredients(), loadCommonWords()]);
+    let pick = null;
     for (const a of alts) {
-      const indic = hasIndic(a);
-      const { name } = parseQuery(indic ? toLatin(a) : a);
-      let hs = findRoots(name, 2, { indic });
-      if (indic && !(hs[0] && hs[0].how === "exact")) hs = findRootsIndic(name, 2);
-      const h = hs[0];
-      const sc = !h ? 0 : h.how === "exact" ? 3 : confident(name, h, { indic, second: hs[1] }) ? 1 + Math.min(h.score, 1.5) / 2 : h.score * 0.3;
-      const scn = sc + (/\d/.test(a) ? 0.01 : 0); // a number read off the strip helps the deciding question
-      if (scn > bestScore) { best = a; bestScore = scn; }
+      const latin = hasIndic(a) ? toLatin(a) : a;
+      const ing = findIngredient(parseQuery(latin).name.replace(/ /g, ""));
+      if (ing && (!pick || pick.score < 3)) { pick = { heard: a, query: ing.name, score: 3, others: [] }; continue; }
+      const b = bestFromSpeech(latin);
+      const num = (latin.match(/\d+(?:\.\d+)?/) || [""])[0];
+      const sc = b ? b.score + (num ? 0.01 : 0) : 0;
+      if (b && (!pick || sc > pick.score)) pick = { heard: a, query: `${b.root}${num ? " " + num : ""}`, score: sc, root: b.root, others: b.others };
     }
-    setStatus(esc(t("heard", best)) + (alts.length > 1 ? ` <span class="muted small">(${alts.slice(0, 4).map(esc).join(" · ")})</span>` : ""));
-    document.getElementById("q").value = best;
-    runQuery(best);
+    const heardAll = alts.slice(0, 4).map(esc).join(" · ");
+    if (!pick) {
+      setStatus(esc(t("heard", alts[0])) + (alts.length > 1 ? ` <span class="muted small">(${heardAll})</span>` : ""));
+      document.getElementById("q").value = alts[0];
+      runQuery(alts[0]);
+      return;
+    }
+    const chips = (pick.others || []).map((r) => `<button class="chip" data-q="${esc(r)}">${esc(cap(r))}</button>`).join(" ");
+    setStatus(`${esc(t("heard", pick.heard))}${pick.root ? ` → <b>${esc(cap(pick.root))}</b>` : ""}${chips ? ` <span class="muted small">${esc(t("dym_others"))}</span> ${chips}` : ""}`);
+    document.querySelectorAll("#status .chip").forEach((c) => c.addEventListener("click", () => { document.getElementById("q").value = c.dataset.q; runQuery(c.dataset.q); }));
+    document.getElementById("q").value = pick.query;
+    runQuery(pick.query);
   } catch (err) {
     btn.classList.remove("rec");
     setStatus(esc(t("voice_err", String(err.message || err))));

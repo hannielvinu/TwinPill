@@ -65,6 +65,7 @@ export function indicNorm(word) {
   s = s.replace(/aa/g, "a").replace(/ii|ee/g, "i").replace(/uu|oo/g, "u");
   s = s.replace(/x/g, "ks").replace(/c(?=[eiy])/g, "s").replace(/ch|sh|z|j/g, "s").replace(/ck|c|q|kh|gh|g/g, "k");
   s = s.replace(/ph|bh|f|b/g, "p").replace(/th|dh|d/g, "t").replace(/w/g, "v").replace(/y/g, "i").replace(/o/g, "u").replace(/e/g, "i");
+  s = s.replace(/h/g, ""); // remaining h is silent or a breath ("oh lip" → "ulip")
   s = s.replace(/^([kptsm])u(?=[rlv])/, "$1");
   s = s.replace(/(.)\1+/g, "$1");
   return s;

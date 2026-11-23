@@ -2,6 +2,6 @@
   "cases": 11,
   "passed": 11,
   "page_errors": [],
-  "warm_lookup_ms_median": 49,
-  "warm_lookup_ms_p95": 72
+  "warm_lookup_ms_median": 47,
+  "warm_lookup_ms_p95": 67
 }

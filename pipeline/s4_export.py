@@ -98,3 +98,15 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+def export_common_words(n: int = 20000) -> None:
+    """Everyday English words, so voice matching does not mistake 'seat' or 'all' for a brand name."""
+    import re
+    from wordfreq import top_n_list
+    words = [w for w in top_n_list("en", n + 2000) if re.fullmatch(r"[a-z]+", w)][:n]
+    (WEB_DATA / "common_words.json").write_text(json.dumps(words, separators=(",", ":")))
+
+
+if __name__ == "__main__":
+    export_common_words()

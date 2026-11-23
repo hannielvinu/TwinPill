@@ -267,3 +267,53 @@ export function findRootsIndic(name, limit = 8) {
   out.sort((a, b) => b.score - a.score || b.count - a.count);
   return out.slice(0, limit);
 }
+
+/**
+ * Best catalogue name inside a voice transcript (any language). Google's English recogniser turns
+ * unfamiliar brand names into everyday words ("add nil", "all lip", "a seat am"), so we try every span
+ * of 1–3 words, joined without spaces, through three matchers (exact, sound-normalised, learned ranker)
+ * and keep the strongest. Returns { root, span, score } or null.
+ */
+let COMMON = null;
+export async function loadCommonWords() {
+  if (!COMMON) COMMON = new Set(await fetch("data/common_words.json").then((r) => r.json()).catch(() => []));
+  return COMMON;
+}
+
+export function bestFromSpeech(latinText) {
+  const raw = String(latinText).toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(Boolean);
+  const common = COMMON || new Set();
+  const all = new Map(); // root -> best score
+  // words with the position of the next token, so "pan 40" (word + strength) is not treated as filler
+  const words = [], nextIsNum = [];
+  raw.forEach((w, i) => { if (/^[a-z]+$/.test(w)) { words.push(w); nextIsNum.push(/^\d/.test(raw[i + 1] || "")); } });
+  for (let i = 0; i < words.length; i++) {
+    for (let n = 1; n <= 3 && i + n <= words.length; n++) {
+      const span = words.slice(i, i + n).join("");
+      if (span.length < 3) continue;
+      const cands = [];
+      const ex = findRoots(span, 1)[0];
+      if (ex && ex.how === "exact") cands.push({ root: ex.root, score: 3, count: ex.count });
+      for (const c of findRootsIndic(span, 3)) {
+        if (c.score >= 0.9) cands.push({ root: c.root, score: c.score >= 1.5 ? 2.6 : 1 + c.score, count: c.count });
+      }
+      const rk = findRoots(span, 2);
+      if (rk[0] && rk[0].how !== "exact" && confident(span, rk[0])) cands.push({ root: rk[0].root, score: 1 + rk[0].score, count: rk[0].count });
+      // A span that is just an everyday English word ("seat", "all", "hello") is weak evidence of a brand,
+      // unless a strength number follows it ("pan 40").
+      const everyday = n === 1 && common.has(span) && !nextIsNum[i];
+      for (const c of cands) {
+        const sc = (everyday ? Math.min(c.score, 2) * 0.75 : c.score) + n * 0.02 + Math.log10(c.count + 1) * 0.03;
+        if (!all.has(c.root) || all.get(c.root).score < sc) all.set(c.root, { root: c.root, span: words.slice(i, i + n).join(" "), score: sc });
+      }
+    }
+  }
+  const ranked = [...all.values()].sort((x, y) => y.score - x.score);
+  // Plain chit-chat ("hello how are you") is all everyday words and has no strength number:
+  // only accept an exact brand or an exact sound match there.
+  const chat = words.length >= 3 && words.every((w) => common.has(w)) && !raw.some((w) => /^\d/.test(w));
+  const minScore = chat ? 2.9 : 1.4;
+  if (!ranked.length || ranked[0].score < minScore) return null;
+  const tidy = (r) => r.root.replace(/ /g, "").length >= 4 && !/\b[a-z]\b/.test(r.root); // skip fragments like "t nil"
+  return { ...ranked[0], others: ranked.slice(1).filter((r) => r.score >= 1.4 && tidy(r)).slice(0, 3).map((r) => r.root) };
+}
