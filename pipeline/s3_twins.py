@@ -8,6 +8,7 @@ Each twin pair gets a transparent harm score and the 'only clue' that tells the 
 from __future__ import annotations
 
 import itertools
+import re
 import json
 
 import pandas as pd
@@ -22,6 +23,32 @@ def product_use(ings: list[str], use_of: dict[str, str]) -> str:
         if u and u not in uses:
             uses.append(u)
     return " + ".join(uses[:2])
+
+
+def dose_parts(strength: str) -> int:
+    """Number of active-ingredient doses printed in the name ('10mg/50mg/40mg' -> 3; '200mg/5ml' -> 1)."""
+    parts = [x for x in str(strength).split("/") if re.search(r"\d", x)]
+    return len([x for x in parts if not re.search(r"ml$", x)])
+
+
+def flag_incomplete(prods: pd.DataFrame) -> pd.Series:
+    """The source lists at most two ingredients. A product may be missing one if
+    (a) its name prints more doses than listed ingredients, or
+    (b) it lists exactly two ingredients and lacks the molecule that most of the same company's
+        products under this name contain (brand families keep their parent molecule: Telma-MCT).
+    Such products are never used to declare a twin, because the 'no shared ingredient' test is unreliable."""
+    inc = prods["strength"].map(dose_parts) > prods["ings"].map(len)
+    two = prods["ings"].map(len) == 2
+    for (root, maker), g in prods.groupby(["root", "maker"]):
+        if len(g) < 3:
+            continue
+        counts = pd.Series([i for x in g["ings"] for i in x]).value_counts()
+        top, n = counts.index[0], counts.iloc[0]
+        if n / len(g) < 0.5:
+            continue
+        miss = g.index[two.loc[g.index] & ~g["ings"].map(lambda x, t=top: t in x)]
+        inc.loc[miss] = True
+    return inc
 
 
 def harm_score(a: dict, b: dict) -> tuple[int, list[str]]:
@@ -67,13 +94,14 @@ def main() -> None:
     prods["atc1"] = [sorted({c[0] for c in a}) for a in prods["atc3"]]
     prods["high_alert"] = [any(ha_of.get(i, False) for i in x) for x in prods["ings"]]
     prods["ingkey"] = prods["ings"].map(lambda x: "|".join(sorted(x)))
+    prods["incomplete"] = flag_incomplete(prods)
     prods.to_pickle(PROC / "products_enriched.pkl")
 
     pairs = []
     multi = prods.groupby("root").filter(lambda g: g["ingkey"].nunique() > 1)
     for root, g in multi.groupby("root"):
         # one representative product per (maker, ingredient set, form, strength)
-        reps = g.drop_duplicates(["maker", "ingkey", "form", "strength"]).to_dict("records")
+        reps = g[~g["incomplete"]].drop_duplicates(["maker", "ingkey", "form", "strength"]).to_dict("records")
         for a, b in itertools.combinations(reps, 2):
             if set(a["ings"]) & set(b["ings"]):
                 continue
@@ -106,6 +134,7 @@ def main() -> None:
         "products_under_a_twin_name": int(prods["root"].isin(roots_cross | roots_family).sum()),
         "pairs_where_strength_is_only_clue": int((tw.clue == "strength").sum()),
         "roots_where_strength_is_only_clue_and_high_alert": int(tw[(tw.clue == "strength") & tw.high_alert]["root"].nunique()),
+        "products_flagged_incomplete_ingredients": int(prods["incomplete"].sum()),
         "pairs_where_only_company_differs": int((tw.clue == "company").sum()),
         "roots_where_only_company_differs": int(tw.loc[tw.clue == "company", "root"].nunique()),
     }

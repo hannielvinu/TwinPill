@@ -9,7 +9,7 @@
 **In India, one medicine name can mean two completely different drugs.**
 Type, say or photograph a name: Twinpill shows every medicine it could be, and the one question that tells them apart.
 
-[**Live app**](https://hannielvinu.github.io/twinpill/) · [Twin Atlas](https://hannielvinu.github.io/twinpill/#/atlas) · [Evidence](https://hannielvinu.github.io/twinpill/#/evidence) · [Technical report](docs/REPORT.md)
+[**Live app**](https://hannielvinu.github.io/TwinPill/) · [Twin Atlas](https://hannielvinu.github.io/TwinPill/#/atlas) · [Evidence](https://hannielvinu.github.io/TwinPill/#/evidence) · [Technical report](docs/REPORT.md)
 
 </div>
 
@@ -27,11 +27,11 @@ India has no database of medicine brand names ([Lancet Regional Health – South
 
 | Finding | Count |
 |---|---|
-| Brand names used by **different companies** for medicines with **no shared ingredient** | **3,633** |
-| Names one company reuses for unrelated medicines via suffixes (Medzole / Medzole-DSR style) | **5,047** |
-| Twin names involving a **high-alert** medicine (sedatives, epilepsy, diabetes, opioids, blood thinners, cancer) | **758** |
-| High-alert twins where the **printed number is the only clue** | **404** |
-| Share of brand names used by 2+ companies that hide a cross-company twin | **44.3%** |
+| Brand names used by **different companies** for medicines with **no shared ingredient** | **3,449** |
+| Names one company reuses for unrelated medicines via suffixes (Medzole / Medzole-DSR style) | **2,977** |
+| Twin names involving a **high-alert** medicine (sedatives, epilepsy, diabetes, opioids, blood thinners, cancer) | **588** |
+| High-alert twins where the **printed number is the only clue** | **304** |
+| Share of brand names used by 2+ companies that hide a cross-company twin | **42.0%** |
 
 Real examples from the catalogue (click any of them in the app):
 
@@ -41,7 +41,7 @@ Real examples from the catalogue (click any of them in the app):
 | **Adnil** | 5 mg · glibenclamide (diabetes) | 0.5 mg · clonazepam (sedative) | the number |
 | **Olip** | eye drop · olopatadine (allergy) | tablet · olanzapine (antipsychotic) | the form |
 | **Biopam** | tablet · clonazepam (sedative) | injection · pralidoxime (pesticide-poisoning antidote) | the form |
-| **Zentra 100** | capsule SR · opioid painkiller | capsule · antifungal | the letters "SR" |
+| **Zentra 100** | capsule SR · opioid painkiller | capsule · antifungal | the company name (and the letters "SR") |
 | **Dolo** | Dolo 650 · paracetamol | Dolo Soft MR · nimesulide + tizanidine (other company) | the letters after the name |
 
 ## What Twinpill does
@@ -88,7 +88,7 @@ flowchart LR
 
 - **Brand-key extraction:** the name a person would actually say ("New Triglucored", not "New"), using word-frequency filtering of generic first words.
 - **Ingredient → class:** 1,643 ingredients mapped to WHO ATC codes via Wikidata plus a curated gap list (99.0% of products covered), then to plain-language uses in English and Tamil.
-- **Twin detection + harm score:** two products under one brand key with no shared ingredient. A transparent 0–100 harm score adds points for a different purpose, a different body system, a high-alert medicine, the same route and form, and the same printed strength.
+- **Twin detection + harm score:** two products under one brand key with no shared ingredient. A truncation guard excludes products whose ingredient list may be incomplete, so every reported twin is checkable. A transparent 0–100 harm score adds points for a different purpose, a different body system, a high-alert medicine, the same route and form, and the same printed strength.
 - **Indian-English phonetic key:** collapses spellings that sound identical at a chemist counter (ph/f, c/k/s, z/s/j, v/w, aspirated pairs, vowel drift). Identical in Python and JavaScript, and tested.
 - **Confusability model:** logistic regression over 21 sound, spelling and handwriting features. It is trained on 440 real confused pairs from the ISMP List of Confused Drug Names against 1,320 never-reported pairs, and validated with name-grouped 5-fold cross-validation.
 - **Heard-alike audit + learned ranker:** 300 Indian brand names are spoken by two synthetic voices and transcribed by Whisper large-v3. A ranker learns to recover the intended name from what speech AI wrote. It is trained on one voice and tested on the other.
@@ -96,14 +96,14 @@ flowchart LR
 
 ## Results
 
-See the live [Evidence page](https://hannielvinu.github.io/twinpill/#/evidence) and [`results/metrics.json`](results/metrics.json).
+See the live [Evidence page](https://hannielvinu.github.io/TwinPill/#/evidence) and [`results/metrics.json`](results/metrics.json).
 
 **1. Which name pairs get confused?** (held-out ISMP pairs, no name shared between train and test)
 
 | Method | ROC-AUC | PR-AUC | Recall at 90% precision |
 |---|---|---|---|
 | Edit distance (what fuzzy search uses) | 0.906 | 0.801 | 43.6% |
-| POCA-style sound + spelling score | 0.912 | 0.814 | 37.1% |
+| POCA-style sound + spelling score | 0.911 | 0.814 | 37.0% |
 | Gradient boosting, 21 features | 0.922 | 0.838 | 49.1% |
 | **Twinpill model** | **0.929** | **0.848** | **57.5%** |
 
@@ -121,9 +121,9 @@ PR-AUC 95% bootstrap CI: Twinpill 0.815–0.876 vs edit distance 0.768–0.833.
 | **Twinpill learned ranker** (trained on one voice, tested on the other) | **75.5%** | **89.0%** |
 
 
-**Does one question separate the twins?** For all 8,050 twin names: 2,241 are settled by the form, 956 by the printed number, and 3,065 by the letters after the name, so **77.8% are settled without needing the company name**. The rest are flagged plainly as "only the company name tells them apart".
+**Does one question separate the twins?** For all 6,022 twin names: 1,909 are settled by the form, 863 by the printed number, and 1,831 by the letters after the name, so **76.4% are settled without needing the company name**. The rest are flagged plainly as "only the company name tells them apart".
 
-**App checks:** 7/7 end-to-end browser checks pass on known names (`tests/e2e_app.cjs`), with no page errors. The median lookup takes **45 ms** on the device (p95 58 ms). 9 unit tests cover parsing and Python↔JavaScript parity of the phonetic key and the ranker.
+**App checks:** 9/9 end-to-end browser checks pass (`tests/e2e_app.cjs`): known twins, a misheard name, a no-twin brand, an unknown name (shown as not found, never guessed) and a generic name, with no page errors. The median lookup takes **54 ms** on the device (p95 70 ms). 9 unit tests cover parsing and Python↔JavaScript parity of the phonetic key and the ranker.
 
 ## Run it
 
@@ -154,7 +154,7 @@ docs/       technical report
 ## Limits we state openly
 
 - The catalogue is a public snapshot from around 2021–22. Some products have changed since, and some published cases (Linamac, Medzole) are not in it, so the counts describe that snapshot.
-- The source lists only the first two ingredients per product, so a rare overlap in a third ingredient can be missed.
+- The source lists at most two ingredients per product. 8,863 products that may be missing one are never used to declare a twin: either the name prints more doses than listed ingredients, or a brand-family product lacks the family's parent molecule (e.g. Telma-MCT, which in reality also contains telmisartan). The twin counts are therefore conservative.
 - The heard-alike audit uses synthetic voices. Recordings of real Indian and Tamil-accented speakers are the next validation step.
 - The harm score is a transparent rule, not a clinical outcome model.
 - Twinpill is not medical advice and never recommends a medicine.

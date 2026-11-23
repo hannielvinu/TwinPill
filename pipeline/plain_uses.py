@@ -113,6 +113,24 @@ USE_TA = {
     "breathing": "சுவாசம்", "eyes and ears": "கண் மற்றும் காது", "various": "பிற",
 }
 
+ATC3_PLAIN.update({
+    "B06A": "enzymes for swelling", "C03B": "water tablet", "B03X": "anaemia (injection)", "A07X": "loose motions",
+    "G02A": "labour and bleeding after birth", "J07A": "vaccine", "J07B": "vaccine", "C03X": "water tablet",
+    "C02K": "blood pressure (lungs)", "G03H": "hormone (anti-androgen)", "V08A": "scan dye", "C02D": "blood pressure",
+    "S01H": "numbing eye drops", "B05A": "blood products", "R02A": "sore throat", "A14A": "muscle-building steroid",
+    "D02B": "sun protection", "S01L": "eye (retina)", "R07A": "breathing", "S01J": "eye exam dye", "H04A": "low sugar emergency",
+    "P02D": "worms", "P01C": "parasites",
+})
+USE_TA.update({
+    "enzymes for swelling": "வீக்கத்திற்கான நொதி", "anaemia (injection)": "இரத்தசோகை (ஊசி)",
+    "labour and bleeding after birth": "பிரசவம் மற்றும் பிரசவத்துக்குப் பின் இரத்தப்போக்கு",
+    "blood pressure (lungs)": "நுரையீரல் இரத்த அழுத்தம்", "hormone (anti-androgen)": "ஹார்மோன்",
+    "scan dye": "ஸ்கேன் சாயம்", "numbing eye drops": "கண் மரத்துப்போகும் சொட்டு", "blood products": "இரத்தப் பொருட்கள்",
+    "sore throat": "தொண்டை வலி", "muscle-building steroid": "தசை வளர்க்கும் ஸ்டீராய்டு", "sun protection": "வெயில் பாதுகாப்பு",
+    "eye (retina)": "கண் (விழித்திரை)", "eye exam dye": "கண் பரிசோதனை சாயம்", "low sugar emergency": "சர்க்கரை குறைவு அவசரம்",
+    "parasites": "ஒட்டுண்ணி",
+})
+
 # ISMP-style high-alert / narrow-margin / strongly sedating molecules (substring match).
 HIGH_ALERT = [
     "insulin", "warfarin", "acenocoumarol", "heparin", "enoxaparin", "dabigatran", "rivaroxaban", "apixaban",
@@ -142,11 +160,25 @@ MANUAL_ATC = {
 
 # Where the ATC group is technically right but misleading for a lay reader.
 USE_OVERRIDE = {
+    "phenylephrine": "blocked nose", "levosulpiride": "acidity and bloating", "domperidone": "vomiting and gas",
+    "itopride": "acidity and bloating", "mosapride": "acidity and bloating", "pseudoephedrine": "blocked nose",
+    "caffeine": "alertness (caffeine)", "aspirin": "blood thinner and pain", "ammonium chloride": "cough (mucus)",
+    "insulin isophane": "diabetes (insulin)", "insulin glargine": "diabetes (insulin)", "insulin aspart": "diabetes (insulin)",
+    "human insulin": "diabetes (insulin)", "insulin lispro": "diabetes (insulin)", "ibuprofen": "pain and fever",
+    "paracetamol": "pain and fever", "diclofenac": "pain and swelling", "aceclofenac": "pain and swelling",
+    "metformin": "diabetes (sugar tablets)", "dexamethasone": "steroid (inflammation)", "prednisolone": "steroid (inflammation)",
+    "ofloxacin": "antibiotic", "ciprofloxacin": "antibiotic", "chloramphenicol": "antibiotic", "metronidazole": "infection (antibiotic)",
+    "ornidazole": "infection (antibiotic)", "tinidazole": "infection (antibiotic)", "fluconazole": "fungal infection",
+    "itraconazole": "fungal infection", "clotrimazole": "fungal infection", "ketoconazole": "fungal infection",
+    "chlorpheniramine maleate": "allergy", "pheniramine": "allergy", "naproxen": "pain and swelling",
     "clonazepam": "fits and anxiety (sedative)", "lenalidomide": "blood cancer (myeloma)",
     "thalidomide": "blood cancer (myeloma)", "pralidoxime": "antidote (pesticide poisoning)",
     "olopatadine": "eye or nose allergy", "methotrexate": "cancer and arthritis",
 }
 USE_TA.update({
+    "acidity and bloating": "அமிலத்தன்மை மற்றும் வயிறு உப்புசம்",
+    "alertness (caffeine)": "விழிப்புணர்வு (காஃபின்)", "blood thinner and pain": "இரத்தம் உறைவதைத் தடுக்கும் / வலி",
+    "infection (antibiotic)": "தொற்று (ஆன்டிபயாடிக்)",
     "fits and anxiety (sedative)": "வலிப்பு மற்றும் பதட்டம் (தூக்க மருந்து வகை)",
     "blood cancer (myeloma)": "இரத்தப் புற்றுநோய் (மைலோமா)",
     "antidote (pesticide poisoning)": "பூச்சிக்கொல்லி விஷ முறிவு மருந்து",

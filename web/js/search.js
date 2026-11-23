@@ -25,7 +25,7 @@ export async function productsFor(root) {
   const shard = await shardCache.get(k);
   return (shard[root] || []).map((p) => ({
     name: p[0], maker: p[1], strength: p[2], form: p[3], route: p[4], ings: p[5],
-    use: p[6], useTa: p[7], highAlert: !!p[8], price: p[9], suffix: p[10] || "",
+    use: p[6], useTa: p[7], highAlert: !!p[8], price: p[9], suffix: p[10] || "", incomplete: !!p[11],
   }));
 }
 
@@ -133,8 +133,10 @@ export function meanings(products) {
   const groups = new Map();
   for (const p of products) {
     const key = [...p.ings].sort().join("|");
-    if (!groups.has(key)) groups.set(key, { key, ings: p.ings, use: p.use, useTa: p.useTa, highAlert: p.highAlert, products: [] });
-    groups.get(key).products.push(p);
+    if (!groups.has(key)) groups.set(key, { key, ings: p.ings, use: p.use, useTa: p.useTa, highAlert: p.highAlert, products: [], complete: 0 });
+    const g = groups.get(key);
+    g.products.push(p);
+    if (!p.incomplete) g.complete++;
   }
   const gs = [...groups.values()];
   for (const g of gs) {
@@ -144,18 +146,47 @@ export function meanings(products) {
     g.strengths = [...new Set(g.products.map((p) => p.strength).filter(Boolean))];
     g.suffixes = [...new Set(g.products.map((p) => p.suffix || ""))];
   }
+  for (const g of gs) g.incomplete = g.complete === 0; // source may have dropped an ingredient (it lists at most two)
   gs.sort((a, b) => b.products.length - a.products.length);
-  // A "twin" exists when two meanings share no ingredient at all.
-  const twinWith = (g) => gs.filter((h) => h !== g && !h.ings.some((i) => g.ings.includes(i)));
+  // A "twin" exists when two meanings with reliable ingredient lists share no ingredient at all.
+  const twinWith = (g) => (g.incomplete ? [] : gs.filter((h) => h !== g && !h.incomplete && !h.ings.some((i) => g.ings.includes(i))));
   for (const g of gs) g.unrelated = twinWith(g).length;
   return gs;
 }
 
 export function isTwin(gs) {
-  for (let i = 0; i < gs.length; i++)
-    for (let j = i + 1; j < gs.length; j++)
-      if (!gs[i].ings.some((x) => gs[j].ings.includes(x))) return true;
-  return false;
+  return gs.some((g) => g.unrelated > 0);
+}
+
+/**
+ * Is a non-exact hit close enough to show as "did you mean"? The learned ranker orders candidates but is
+ * not calibrated for names that are simply absent from the catalogue, so we also require the candidate to
+ * sound the same or be spelt within ~20% of what was typed or heard.
+ */
+export function confident(name, hit) {
+  if (!hit) return false;
+  if (hit.how === "exact") return true;
+  const flat = name.replace(/ /g, ""), rflat = hit.root.replace(/ /g, "");
+  if (flat.length < 4) return false;
+  return hit.score >= 0.5 && jaroWinkler(flat, rflat) >= 0.85 && (phoneticKey(flat) === phoneticKey(rflat) || levSim(flat, rflat) >= 0.8);
+}
+
+let INGS = null; // [name, use, useTa, nBrands, topBrands, highAlert]
+export async function loadIngredients() {
+  if (!INGS) INGS = await fetch("data/ingredients.json").then((r) => r.json());
+  return INGS;
+}
+
+/** A generic (molecule) name such as "metformin", typed instead of a brand. */
+export function findIngredient(name) {
+  if (!INGS || !name || name.length < 4) return null;
+  let best = null;
+  for (const r of INGS) {
+    if (!r[3]) continue;
+    const s = r[0] === name ? 2 : (r[0][0] === name[0] ? jaroWinkler(name, r[0]) : 0);
+    if (s >= 0.94 && (!best || s > best.s)) best = { s, name: r[0], use: r[1], useTa: r[2], brands: r[3], top: r[4], highAlert: !!r[5] };
+  }
+  return best;
 }
 
 const numOf = (s) => (String(s).match(/\d+(?:\.\d+)?/) || [null])[0];
@@ -163,8 +194,13 @@ const numOf = (s) => (String(s).match(/\d+(?:\.\d+)?/) || [null])[0];
 /** Which groups match a number the person read off the strip (e.g. "500"). */
 export function matchNumber(gs, number) {
   if (!number) return gs;
-  const hit = gs.filter((g) => g.strengths.some((s) => (s.match(/\d+(?:\.\d+)?/g) || []).includes(number)));
-  return hit.length ? hit : gs;
+  return gs.filter((g) => g.strengths.some((s) => (s.match(/\d+(?:\.\d+)?/g) || []).includes(number)));
+}
+
+/** An ingredient every reliable meaning shares (e.g. pantoprazole for all "Pan" products), if any. */
+export function commonIngredient(gs) {
+  if (!gs.length) return null;
+  return gs[0].ings.find((i) => gs.every((g) => g.ings.includes(i))) || null;
 }
 
 /**
@@ -188,5 +224,9 @@ export function decidingQuestion(gs) {
   if (sufDisjoint) {
     return { kind: "suffix", options: top.map((g, i) => ({ label: [...sufs[i]].map((x) => (x ? x.toUpperCase() : "—")).slice(0, 3).join(" / "), group: g })) };
   }
-  return { kind: "company", options: top.map((g) => ({ label: g.makers[0], group: g })) };
+  const makers = top.map((g) => new Set(g.makers));
+  const makerDisjoint = makers.every((a, i) => makers.every((b, j) => i === j || ![...a].some((x) => b.has(x))));
+  if (makerDisjoint) return { kind: "company", options: top.map((g) => ({ label: g.makers[0], group: g })) };
+  // Same company, overlapping suffixes: ask for the full printed name.
+  return { kind: "fullname", options: top.map((g) => ({ label: g.products[0].name.replace(/\s+(tablet|capsule|syrup|injection|suspension|drops?)\b.*$/i, ""), group: g })) };
 }

@@ -3,7 +3,7 @@
 **Technical report · Data Sprint 2.0 (Open Innovation) · Team ZeroBix**
 
 ## Abstract
-One brand name in India can refer to medicines with no active ingredient in common. We cleaned a public catalogue of 253,973 Indian medicine listings into 242,924 products and found **3,633 brand names that different companies use for unrelated medicines**, plus 5,047 names that one company reuses for unrelated products through suffixes. 758 of these twin names involve a high-alert medicine.
+One brand name in India can refer to medicines with no active ingredient in common. We cleaned a public catalogue of 253,973 Indian medicine listings into 242,924 products and found **3,449 brand names that different companies use for unrelated medicines**, plus 2,977 names that one company reuses for unrelated products through suffixes. 588 of these twin names involve a high-alert medicine.
 
 We also measured a risk that had not been quantified before. When 300 Indian brand names were spoken to Whisper large-v3, it spelled only **48.8%** correctly, and **7.0%** of its transcripts were a *different real Indian brand*. A learned candidate ranker recovers the intended name 75.5% of the time at top-1 and 89.0% within the top 3, on a voice it never saw; exact search manages 48.8%. A confusability model trained on 440 real confused-name pairs (ISMP) reaches PR-AUC 0.848, against 0.801 for edit distance and 0.814 for a POCA-style score.
 
@@ -35,7 +35,9 @@ Indian prescriptions are mostly handwritten lists of brand names, with no diagno
 
 ## 3 Method
 ### 3.1 Twin detection and harm
-Within each brand key we take one representative per (maker, ingredient set, form, strength). Any two representatives with disjoint ingredient sets form a **twin pair**: *cross* when the makers differ, *family* when they are the same. The harm score (0–100) adds:
+**Truncation guard.** The source lists at most two ingredients. A product is marked *possibly incomplete* if its name prints more doses than listed ingredients (`10mg/50mg/40mg` with two ingredients), or if it lists exactly two ingredients and lacks the molecule shared by most of the same company's products under that name (Telma-MCT is listed as chlorthalidone + metoprolol, but every Telma contains telmisartan). 8,863 products are marked this way, and they never take part in a twin.
+
+Within each brand key we take one representative per (maker, ingredient set, form, strength) among the remaining products. Any two representatives with disjoint ingredient sets form a **twin pair**: *cross* when the makers differ, *family* when they are the same. The harm score (0–100) adds:
 
 | Condition | Points |
 |---|---|
@@ -60,7 +62,7 @@ Ordered rewrite rules: ph→f, gh/kh/bh/dh/th→g/k/b/d/t, ck/q→k, x→ks, sof
 | Method | ROC-AUC | PR-AUC (95% CI) | Recall @ 90% precision |
 |---|---|---|---|
 | Edit distance | 0.906 | 0.801 (0.768–0.833) | 43.6% |
-| POCA-style (mean of spelling and Metaphone similarity) | 0.912 | 0.814 (0.780–0.846) | 37.1% |
+| POCA-style (mean of spelling and Metaphone similarity) | 0.911 | 0.814 (0.780–0.846) | 37.0% |
 | LightGBM, 21 features | 0.922 | 0.838 (0.810–0.868) | 49.1% |
 | **Logistic regression, 21 features (chosen)** | **0.929** | **0.848 (0.815–0.876)** | **57.5%** |
 
@@ -80,7 +82,7 @@ Logistic regression was chosen because it won out-of-fold, is transparent, and r
 | **Learned ranker, top-1 / top-3 (cross-voice)** | **75.5% / 89.0%** |
 
 ### 3.5 The deciding question
-For the unrelated meanings of a name, the app asks about the first attribute whose values do not overlap: form, then printed number, then suffix letters, then company. Across all 8,050 twin names, 2,241 are settled by form, 956 by number and 3,065 by suffix, so **77.8% are settled without the company name**.
+For the unrelated meanings of a name, the app asks about the first attribute whose values do not overlap: form, then printed number, then suffix letters, then company. Across all 6,022 twin names, 1,909 are settled by form, 863 by number and 1,831 by suffix, so **76.4% are settled without the company name**.
 
 ## 4 System
 Static site (HTML, CSS, ES modules) on GitHub Pages:
@@ -89,11 +91,11 @@ Static site (HTML, CSS, ES modules) on GitHub Pages:
 - **Photo:** Tesseract.js reads the photo, and every word found is looked up.
 - **Language:** English and Tamil interface, plus read-aloud.
 
-There is no server and no analytics; prescriptions never leave the device. End-to-end Playwright checks pass 7 of 7 (Acetam, Olip, Adnil, Biopam, Dolo, the misspelling "acetum", and a single-meaning control, Crocin), with a median warm lookup of 45 ms (p95 58 ms).
+There is no server and no analytics; prescriptions never leave the device. End-to-end Playwright checks pass 9 of 9: Acetam, Olip, Adnil, Biopam, Dolo, the misspelling "acetum", a no-twin control (Crocin), an unknown name (Saridon, which is shown as not found rather than guessed) and a generic name (Metformin). The median warm lookup is 54 ms (p95 70 ms).
 
 ## 5 Limitations and future work
 - **Old snapshot:** the catalogue dates from around 2021–22. Some products have since changed, and published cases such as Linamac and Medzole are not in it. A current catalogue would change the counts.
-- **Two ingredients only:** the source lists at most two ingredients per product, so a third-ingredient overlap can be missed.
+- **Two ingredients only:** the source lists at most two ingredients per product. The truncation guard (§3.1) keeps this from creating false twins, but it also drops some real ones, so the counts are a lower bound.
 - **Synthetic speech:** the heard-alike voices are synthetic. Real speakers, including Tamil-accented ones, and recordings from real phones are the next validation set.
 - **Unvalidated harm score:** it is a transparent rule; we plan to build a pharmacist-labelled set to calibrate it.
 - **Confusability labels are US-based:** ISMP pairs reflect US names. An Indian-reported pair set would be better.

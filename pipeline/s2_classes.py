@@ -69,7 +69,11 @@ def main() -> None:
             codes = set(codes) | {MANUAL_ATC[ing].ljust(7, '_')}
         codes = sorted(codes)
         atc3 = sorted({c[:4] for c in codes})
-        use = next((ATC3_PLAIN[c] for c in atc3 if c in ATC3_PLAIN), None)
+        # Prefer the everyday (systemic) use: rare or local codes such as C01E (ibuprofen for a newborn heart
+        # condition), A01A (mouth) or S/D (eye/skin) are used only when nothing else applies.
+        LOW = ("C01E", "A01A", "B05X", "B05C", "V03A", "S0", "D0", "G01", "R02")
+        ranked = sorted(atc3, key=lambda c: (c.startswith(LOW), c))
+        use = next((ATC3_PLAIN[c] for c in ranked if c in ATC3_PLAIN), None)
         if use is None and codes:
             use = ATC1_PLAIN.get(codes[0][0])
         use = USE_OVERRIDE.get(ing, use)

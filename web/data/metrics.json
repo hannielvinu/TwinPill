@@ -8,6 +8,11 @@
     "PR-AUC",
     "Recall at 90% precision"
    ],
+   "fmt": [
+    "num",
+    "num",
+    "pct"
+   ],
    "rows": [
     {
      "name": "Edit distance (what fuzzy search uses)",
@@ -53,6 +58,10 @@
     "Top-1 correct",
     "Top-3 correct"
    ],
+   "fmt": [
+    "pct",
+    "pct"
+   ],
    "rows": [
     {
      "name": "Exact-match search on the transcript",
@@ -82,38 +91,42 @@
   },
   {
    "title": "3 \u00b7 Does one question separate the twins?",
-   "what": "For all 8,050 twin names, which single question splits the unrelated medicines.",
+   "what": "For all 6,022 twin names, which single question splits the unrelated medicines.",
    "cols": [
     "Names",
     "Share"
+   ],
+   "fmt": [
+    "int",
+    "pct"
    ],
    "rows": [
     {
      "name": "Asked by form (tablet or eye drop?)",
      "vals": [
-      2241,
-      0.2784
+      1909,
+      0.317
      ]
     },
     {
      "name": "Asked by the printed number",
      "vals": [
-      956,
-      0.1188
+      863,
+      0.1433
      ]
     },
     {
      "name": "Asked by the letters after the name (DSR, Plus\u2026)",
      "vals": [
-      3065,
-      0.3807
+      1831,
+      0.3041
      ]
     },
     {
-     "name": "Only the company name tells them apart",
+     "name": "Only the company or full printed name tells them apart",
      "vals": [
-      1788,
-      0.2221
+      1419,
+      0.2356
      ]
     }
    ],

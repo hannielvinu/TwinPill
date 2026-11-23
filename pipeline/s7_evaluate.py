@@ -143,7 +143,7 @@ def main() -> None:
     sections = [
         {"title": "1 · Which name pairs get confused?",
          "what": f"{conf['n_positive']} real confused pairs from the ISMP list vs {conf['n_pairs'] - conf['n_positive']} never-reported pairs; 5-fold cross-validation with no name shared between train and test.",
-         "cols": ["ROC-AUC", "PR-AUC", "Recall at 90% precision"],
+         "cols": ["ROC-AUC", "PR-AUC", "Recall at 90% precision"], "fmt": ["num", "num", "pct"],
          "rows": [
              {"name": "Edit distance (what fuzzy search uses)", "vals": [M["levenshtein"]["roc_auc"], M["levenshtein"]["pr_auc"], M["levenshtein"]["recall_at_90_precision"]]},
              {"name": "POCA-style sound + spelling score (FDA approach)", "vals": [M["poca_like"]["roc_auc"], M["poca_like"]["pr_auc"], M["poca_like"]["recall_at_90_precision"]]},
@@ -157,7 +157,7 @@ def main() -> None:
         sections.append({
             "title": "2 · Heard-alike: medicine names through speech AI",
             "what": f"{heard['names']} Indian brand names spoken by {len(heard['voices'])} synthetic voices ({heard['utterances']} utterances), transcribed by {heard['asr_model']}, then looked up.",
-            "cols": ["Top-1 correct", "Top-3 correct"],
+            "cols": ["Top-1 correct", "Top-3 correct"], "fmt": ["pct", "pct"],
             "rows": [
                 {"name": "Exact-match search on the transcript", "vals": [heard["retrieval_top1"]["plain_exact_search"], heard["retrieval_top1"]["plain_exact_search"]]},
                 {"name": "Fuzzy spelling + sound search", "vals": [heard["retrieval_top1"]["fuzzy_jw_phonetic"], heard["retrieval_top3"]["fuzzy_jw_phonetic"]]},
@@ -168,12 +168,12 @@ def main() -> None:
     sections.append({
         "title": f"{len(sections) + 1} · Does one question separate the twins?",
         "what": f"For all {cov['twin_names']:,} twin names, which single question splits the unrelated medicines.",
-        "cols": ["Names", "Share"],
+        "cols": ["Names", "Share"], "fmt": ["int", "pct"],
         "rows": [
             {"name": "Asked by form (tablet or eye drop?)", "vals": [cov["by_form"], round(cov["by_form"] / cov["twin_names"], 4)]},
             {"name": "Asked by the printed number", "vals": [cov["by_printed_number"], round(cov["by_printed_number"] / cov["twin_names"], 4)]},
             {"name": "Asked by the letters after the name (DSR, Plus…)", "vals": [cov["by_letters_after_name"], round(cov["by_letters_after_name"] / cov["twin_names"], 4)]},
-            {"name": "Only the company name tells them apart", "vals": [cov["company_only"], round(cov["company_only"] / cov["twin_names"], 4)]},
+            {"name": "Only the company or full printed name tells them apart", "vals": [cov["company_only"], round(cov["company_only"] / cov["twin_names"], 4)]},
         ],
         "note": "When only the company differs, Twinpill says so plainly and asks the person to read the company name on the strip.",
         "plot": "data/plots/twin_counts.png"})

@@ -47,12 +47,12 @@ def main() -> None:
     (WEB_DATA / "roots.json").write_text(json.dumps(roots, separators=(",", ":")))
 
     shards: dict[str, dict] = defaultdict(dict)
-    cols = ["name", "maker", "strength", "form", "route", "ings", "use", "high_alert", "price", "suffix"]
+    cols = ["name", "maker", "strength", "form", "route", "ings", "use", "high_alert", "price", "suffix", "incomplete"]
     for root, g in prods.groupby("root"):
         rows = []
         for r in g[cols].itertuples(index=False):
             rows.append([r.name, r.maker, r.strength, r.form, r.route, r.ings, r.use, ta(r.use), int(r.high_alert),
-                         None if pd.isna(r.price) else round(float(r.price), 2), r.suffix])
+                         None if pd.isna(r.price) else round(float(r.price), 2), r.suffix, int(r.incomplete)])
         shards[shard_of(root)][root] = rows
     for k, v in shards.items():
         (WEB_DATA / "p" / f"{k}.json").write_text(json.dumps(v, ensure_ascii=False, separators=(",", ":")))
@@ -68,6 +68,19 @@ def main() -> None:
             "b": {"name": r.b_name, "maker": r.b_maker, "ings": r.b_ings, "use": r.b_use, "use_ta": ta(r.b_use)},
         })
     (WEB_DATA / "atlas.json").write_text(json.dumps(atlas, ensure_ascii=False, separators=(",", ":")))
+
+    # ingredient index: lets the app recognise a generic name ("metformin") instead of guessing a brand
+    ing = pd.read_pickle(PROC / "ingredients.pkl")
+    brands_by_ing: dict[str, dict] = defaultdict(dict)
+    for r in prods[["root", "ings"]].itertuples(index=False):
+        for i in r.ings:
+            brands_by_ing[i][r.root] = brands_by_ing[i].get(r.root, 0) + 1
+    ing_rows = []
+    for r in ing.itertuples(index=False):
+        b = brands_by_ing.get(r.ingredient, {})
+        top = sorted(b.items(), key=lambda kv: -kv[1])[:8]
+        ing_rows.append([r.ingredient, r.use, ta(r.use), len(b), [k for k, _ in top], int(r.high_alert)])
+    (WEB_DATA / "ingredients.json").write_text(json.dumps(ing_rows, ensure_ascii=False, separators=(",", ":")))
 
     stats = json.loads((PROC / "s3_report.json").read_text())
     stats.update(json.loads((PROC / "s1_report.json").read_text()))

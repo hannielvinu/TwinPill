@@ -8,6 +8,11 @@
         "PR-AUC",
         "Recall at 90% precision"
       ],
+      "fmt": [
+        "num",
+        "num",
+        "pct"
+      ],
       "rows": [
         {
           "name": "Edit distance (what fuzzy search uses)",
@@ -53,6 +58,10 @@
         "Top-1 correct",
         "Top-3 correct"
       ],
+      "fmt": [
+        "pct",
+        "pct"
+      ],
       "rows": [
         {
           "name": "Exact-match search on the transcript",
@@ -82,38 +91,42 @@
     },
     {
       "title": "3 \u00b7 Does one question separate the twins?",
-      "what": "For all 8,050 twin names, which single question splits the unrelated medicines.",
+      "what": "For all 6,022 twin names, which single question splits the unrelated medicines.",
       "cols": [
         "Names",
         "Share"
+      ],
+      "fmt": [
+        "int",
+        "pct"
       ],
       "rows": [
         {
           "name": "Asked by form (tablet or eye drop?)",
           "vals": [
-            2241,
-            0.2784
+            1909,
+            0.317
           ]
         },
         {
           "name": "Asked by the printed number",
           "vals": [
-            956,
-            0.1188
+            863,
+            0.1433
           ]
         },
         {
           "name": "Asked by the letters after the name (DSR, Plus\u2026)",
           "vals": [
-            3065,
-            0.3807
+            1831,
+            0.3041
           ]
         },
         {
-          "name": "Only the company name tells them apart",
+          "name": "Only the company or full printed name tells them apart",
           "vals": [
-            1788,
-            0.2221
+            1419,
+            0.2356
           ]
         }
       ],
@@ -160,12 +173,12 @@
     "caught": 0
   },
   "question_coverage": {
-    "twin_names": 8050,
-    "by_form": 2241,
-    "by_printed_number": 956,
-    "by_letters_after_name": 3065,
-    "company_only": 1788,
-    "resolved_without_company": 0.7779
+    "twin_names": 6022,
+    "by_form": 1909,
+    "by_printed_number": 863,
+    "by_letters_after_name": 1831,
+    "company_only": 1419,
+    "resolved_without_company": 0.7644
   },
   "confusability": {
     "n_pairs": 1760,
@@ -364,18 +377,19 @@
     "products": 242924,
     "roots": 121382,
     "roots_used_by_2plus_companies": 8207,
-    "twin_roots_cross_company": 3633,
-    "twin_roots_same_company_family": 5047,
-    "twin_roots_any": 8050,
-    "share_of_multi_company_roots_with_cross_twin": 0.4427,
-    "twin_pairs": 196184,
-    "twin_roots_high_alert": 758,
-    "twin_roots_harm_ge_70": 631,
-    "products_under_a_twin_name": 33844,
-    "pairs_where_strength_is_only_clue": 115933,
-    "roots_where_strength_is_only_clue_and_high_alert": 404,
-    "pairs_where_only_company_differs": 9260,
-    "roots_where_only_company_differs": 3110,
+    "twin_roots_cross_company": 3449,
+    "twin_roots_same_company_family": 2977,
+    "twin_roots_any": 6022,
+    "share_of_multi_company_roots_with_cross_twin": 0.4203,
+    "twin_pairs": 166681,
+    "twin_roots_high_alert": 588,
+    "twin_roots_harm_ge_70": 520,
+    "products_under_a_twin_name": 24974,
+    "pairs_where_strength_is_only_clue": 102618,
+    "roots_where_strength_is_only_clue_and_high_alert": 304,
+    "products_flagged_incomplete_ingredients": 8863,
+    "pairs_where_only_company_differs": 6265,
+    "roots_where_only_company_differs": 1987,
     "rows_raw": 253973,
     "rows_active": 246068,
     "rows_after_dedup": 243852,
@@ -387,20 +401,20 @@
     "manufacturers": 7639,
     "ingredient_ingredients": 1643,
     "ingredient_with_atc": 1313,
-    "ingredient_with_plain_use": 1313,
+    "ingredient_with_plain_use": 1316,
     "ingredient_product_weighted_atc_coverage": 0.9897,
     "ingredient_high_alert_ingredients": 143,
     "harm_histogram": {
-      "(-0.001, 20.0]": 3116,
-      "(20.0, 40.0]": 322,
-      "(40.0, 60.0]": 3081,
-      "(60.0, 80.0]": 1243,
-      "(80.0, 100.0]": 288
+      "(-0.001, 20.0]": 2379,
+      "(20.0, 40.0]": 270,
+      "(40.0, 60.0]": 2060,
+      "(60.0, 80.0]": 1073,
+      "(80.0, 100.0]": 240
     },
     "clue_counts_roots": {
-      "form": 3295,
-      "company": 2727,
-      "strength": 2028
+      "form": 2677,
+      "company": 1728,
+      "strength": 1617
     }
   }
 }

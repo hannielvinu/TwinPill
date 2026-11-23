@@ -8,7 +8,9 @@ const CASES = [
   ["Adnil", "TWIN", "Clonazepam"],
   ["Biopam", "TWIN", "Pralidoxime"],
   ["Dolo 650", "TWIN", "Nimesulide"],
-  ["Crocin", "ONE", "Paracetamol"],
+  ["Crocin", "NO TWIN", "Paracetamol"],
+  ["Saridon", "NOT FOUND", "not in our catalogue"],
+  ["Metformin", "GENERIC", "not a brand"],
   ["acetum", "TWIN", "Levetiracetam"], // misheard spelling still lands on Acetam
 ];
 (async () => {
