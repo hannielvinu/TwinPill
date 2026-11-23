@@ -224,7 +224,8 @@ async function onMic() {
   btn.classList.add("rec");
   setStatus(esc(t("listening_in", t("voice_lang"))));
   try {
-    const alts = await listen(SPEECH[lang]);
+    const q = document.getElementById("q");
+    const alts = await listen(SPEECH[lang], (live) => { q.value = live; setStatus(`${esc(t("listening_in", t("voice_lang")))} <b>${esc(live)}</b>`); });
     btn.classList.remove("rec");
     // Google returns several guesses, and in English it often splits a brand into everyday words
     // ("a seat am 500"). Score every guess by the catalogue name it contains and keep the strongest.
