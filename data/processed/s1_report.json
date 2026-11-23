@@ -1,0 +1,11 @@
+{
+  "rows_raw": 253973,
+  "rows_active": 246068,
+  "rows_after_dedup": 243852,
+  "dropped_no_ingredient": 0,
+  "dropped_root_under_3_letters": 928,
+  "rows_clean": 242924,
+  "unique_roots": 121382,
+  "unique_ingredients": 1643,
+  "manufacturers": 7639
+}

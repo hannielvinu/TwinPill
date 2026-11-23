@@ -1,0 +1,125 @@
+{
+  "names": 300,
+  "utterances": 600,
+  "voices": [
+    "Kore",
+    "Puck"
+  ],
+  "tts_model": "gemini-3.8-flash-tts",
+  "asr_model": "whisper-large-v3",
+  "spelled_right": 0.4883,
+  "missing_or_unparsed": 0.0267,
+  "lands_on_other_real_brand": 0.07,
+  "retrieval_top1": {
+    "plain_exact_search": 0.4883,
+    "fuzzy_jw_phonetic": 0.6583,
+    "twinpill": 0.6683
+  },
+  "retrieval_top3": {
+    "fuzzy_jw_phonetic": 0.7617,
+    "twinpill": 0.73
+  },
+  "danger_set_spelled_right": 0.5533,
+  "examples_other_brand": [
+    [
+      "allpride",
+      "alpride"
+    ],
+    [
+      "onex",
+      "onyx"
+    ],
+    [
+      "claz",
+      "clas"
+    ],
+    [
+      "lozin",
+      "lozen"
+    ],
+    [
+      "roze",
+      "rose"
+    ],
+    [
+      "sandon",
+      "sandin"
+    ],
+    [
+      "clon",
+      "klon"
+    ],
+    [
+      "medizole",
+      "metazol"
+    ],
+    [
+      "resque",
+      "rescue"
+    ],
+    [
+      "xylo",
+      "zylo"
+    ],
+    [
+      "ethimax",
+      "ethamax"
+    ],
+    [
+      "tapra",
+      "topra"
+    ],
+    [
+      "sydol",
+      "cydol"
+    ],
+    [
+      "mydol",
+      "midol"
+    ],
+    [
+      "nurogab",
+      "neurogab"
+    ],
+    [
+      "meditrex",
+      "metatrex"
+    ],
+    [
+      "zycet",
+      "zyset"
+    ],
+    [
+      "luly",
+      "luli"
+    ],
+    [
+      "aziton",
+      "azitin"
+    ],
+    [
+      "monti",
+      "monty"
+    ],
+    [
+      "siclo",
+      "cyclo"
+    ],
+    [
+      "acedol",
+      "acetol"
+    ],
+    [
+      "diamin",
+      "diamon"
+    ],
+    [
+      "clotrin",
+      "clitrin"
+    ],
+    [
+      "bpride",
+      "bepride"
+    ]
+  ]
+}

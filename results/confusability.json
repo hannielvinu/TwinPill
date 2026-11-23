@@ -1,0 +1,68 @@
+{
+  "n_pairs": 1760,
+  "n_positive": 440,
+  "n_names": 239,
+  "models": {
+    "lgbm": {
+      "roc_auc": 0.9219,
+      "pr_auc": 0.8383,
+      "recall_at_90_precision": 0.4909,
+      "pr_auc_95ci": [
+        0.8099,
+        0.8681
+      ]
+    },
+    "logreg": {
+      "roc_auc": 0.9289,
+      "pr_auc": 0.8477,
+      "recall_at_90_precision": 0.575,
+      "pr_auc_95ci": [
+        0.8149,
+        0.8763
+      ]
+    },
+    "levenshtein": {
+      "roc_auc": 0.9061,
+      "pr_auc": 0.8015,
+      "recall_at_90_precision": 0.4364,
+      "pr_auc_95ci": [
+        0.768,
+        0.8325
+      ]
+    },
+    "poca_like": {
+      "roc_auc": 0.9115,
+      "pr_auc": 0.8138,
+      "recall_at_90_precision": 0.3705,
+      "pr_auc_95ci": [
+        0.7801,
+        0.846
+      ]
+    }
+  },
+  "chosen_model": "logreg",
+  "threshold_p90": 0.7221,
+  "feature_importance_gain": {
+    "lev_ratio": 3290.1,
+    "dl_ratio": 2387.8,
+    "visual_lev": 1489.7,
+    "jw": 1437.6,
+    "ph_lev": 1381.6,
+    "dice3": 1199.1,
+    "len_diff": 849.7,
+    "metaphone_lev": 849.1,
+    "len_mean": 817.3,
+    "prefix": 738.2,
+    "consonant_lev": 732.8,
+    "indel": 729.7,
+    "dice2": 704.9,
+    "suffix": 326.7,
+    "same_first": 57.1,
+    "vowel_skel_eq": 56.5,
+    "same_last": 29.9,
+    "soundex_eq": 17.7,
+    "ph_eq": 0.0,
+    "metaphone_eq": 0.0,
+    "nysiis_eq": 0.0
+  }
+}

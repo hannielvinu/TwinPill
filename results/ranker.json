@@ -1,0 +1,36 @@
+{
+  "folds": [
+    {
+      "test_voice": "Kore",
+      "exact_top1": 0.51,
+      "rule_top1": 0.66,
+      "rule_top3": 0.7767,
+      "learned_top1": 0.78,
+      "learned_top3": 0.91,
+      "n": 300
+    },
+    {
+      "test_voice": "Puck",
+      "exact_top1": 0.4667,
+      "rule_top1": 0.6567,
+      "rule_top3": 0.7467,
+      "learned_top1": 0.73,
+      "learned_top3": 0.87,
+      "n": 300
+    }
+  ],
+  "mean": {
+    "exact": {
+      "top1": 0.4884,
+      "top3": 0.4884
+    },
+    "rule": {
+      "top1": 0.6583,
+      "top3": 0.7617
+    },
+    "learned": {
+      "top1": 0.755,
+      "top3": 0.89
+    }
+  }
+}

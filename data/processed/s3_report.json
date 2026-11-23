@@ -1,0 +1,17 @@
+{
+  "products": 242924,
+  "roots": 121382,
+  "roots_used_by_2plus_companies": 8207,
+  "twin_roots_cross_company": 3633,
+  "twin_roots_same_company_family": 5047,
+  "twin_roots_any": 8050,
+  "share_of_multi_company_roots_with_cross_twin": 0.4427,
+  "twin_pairs": 196184,
+  "twin_roots_high_alert": 758,
+  "twin_roots_harm_ge_70": 631,
+  "products_under_a_twin_name": 33844,
+  "pairs_where_strength_is_only_clue": 115933,
+  "roots_where_strength_is_only_clue_and_high_alert": 404,
+  "pairs_where_only_company_differs": 9260,
+  "roots_where_only_company_differs": 3110
+}

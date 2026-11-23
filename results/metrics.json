@@ -1,0 +1,406 @@
+{
+  "sections": [
+    {
+      "title": "1 \u00b7 Which name pairs get confused?",
+      "what": "440 real confused pairs from the ISMP list vs 1320 never-reported pairs; 5-fold cross-validation with no name shared between train and test.",
+      "cols": [
+        "ROC-AUC",
+        "PR-AUC",
+        "Recall at 90% precision"
+      ],
+      "rows": [
+        {
+          "name": "Edit distance (what fuzzy search uses)",
+          "vals": [
+            0.9061,
+            0.8015,
+            0.4364
+          ]
+        },
+        {
+          "name": "POCA-style sound + spelling score (FDA approach)",
+          "vals": [
+            0.9115,
+            0.8138,
+            0.3705
+          ]
+        },
+        {
+          "name": "Gradient boosting, 21 features",
+          "vals": [
+            0.9219,
+            0.8383,
+            0.4909
+          ]
+        },
+        {
+          "name": "Twinpill model (logistic regression, 21 features)",
+          "vals": [
+            0.9289,
+            0.8477,
+            0.575
+          ],
+          "ours": true
+        }
+      ],
+      "note": "Twinpill PR-AUC 95% CI [0.8149, 0.8763]; edit distance [0.768, 0.8325].",
+      "plot": "data/plots/confusability_pr.png"
+    },
+    {
+      "title": "2 \u00b7 Heard-alike: medicine names through speech AI",
+      "what": "300 Indian brand names spoken by 2 synthetic voices (600 utterances), transcribed by whisper-large-v3, then looked up.",
+      "cols": [
+        "Top-1 correct",
+        "Top-3 correct"
+      ],
+      "rows": [
+        {
+          "name": "Exact-match search on the transcript",
+          "vals": [
+            0.4884,
+            0.4884
+          ]
+        },
+        {
+          "name": "Fuzzy spelling + sound search",
+          "vals": [
+            0.6583,
+            0.7617
+          ]
+        },
+        {
+          "name": "Twinpill learned ranker (trained on one voice, tested on the other)",
+          "vals": [
+            0.755,
+            0.89
+          ],
+          "ours": true
+        }
+      ],
+      "note": "Speech AI spelled only 49% of names exactly right; 7.0% of transcripts were a different real Indian brand.",
+      "plot": "data/plots/heard_alike.png"
+    },
+    {
+      "title": "3 \u00b7 Does one question separate the twins?",
+      "what": "For all 8,050 twin names, which single question splits the unrelated medicines.",
+      "cols": [
+        "Names",
+        "Share"
+      ],
+      "rows": [
+        {
+          "name": "Asked by form (tablet or eye drop?)",
+          "vals": [
+            2241,
+            0.2784
+          ]
+        },
+        {
+          "name": "Asked by the printed number",
+          "vals": [
+            956,
+            0.1188
+          ]
+        },
+        {
+          "name": "Asked by the letters after the name (DSR, Plus\u2026)",
+          "vals": [
+            3065,
+            0.3807
+          ]
+        },
+        {
+          "name": "Only the company name tells them apart",
+          "vals": [
+            1788,
+            0.2221
+          ]
+        }
+      ],
+      "note": "When only the company differs, Twinpill says so plainly and asks the person to read the company name on the strip.",
+      "plot": "data/plots/twin_counts.png"
+    }
+  ],
+  "published_cases": {
+    "cases": [
+      {
+        "name": "Linamac",
+        "source": "Lancet RH-SEA 2024",
+        "meanings_reported": 2,
+        "meanings_in_snapshot": 1,
+        "flagged_as_twin": false,
+        "detectable": false
+      },
+      {
+        "name": "Medzole",
+        "source": "Lancet RH-SEA 2024",
+        "meanings_reported": 4,
+        "meanings_in_snapshot": 0,
+        "flagged_as_twin": false,
+        "detectable": false
+      },
+      {
+        "name": "Flucor",
+        "source": "Lancet RH-SEA 2024",
+        "meanings_reported": 2,
+        "meanings_in_snapshot": 1,
+        "flagged_as_twin": false,
+        "detectable": false
+      },
+      {
+        "name": "Medzol",
+        "source": "CDSCO notice 2026 (as reported)",
+        "meanings_reported": 2,
+        "meanings_in_snapshot": 1,
+        "flagged_as_twin": false,
+        "detectable": false
+      }
+    ],
+    "detectable": 0,
+    "caught": 0
+  },
+  "question_coverage": {
+    "twin_names": 8050,
+    "by_form": 2241,
+    "by_printed_number": 956,
+    "by_letters_after_name": 3065,
+    "company_only": 1788,
+    "resolved_without_company": 0.7779
+  },
+  "confusability": {
+    "n_pairs": 1760,
+    "n_positive": 440,
+    "n_names": 239,
+    "models": {
+      "lgbm": {
+        "roc_auc": 0.9219,
+        "pr_auc": 0.8383,
+        "recall_at_90_precision": 0.4909,
+        "pr_auc_95ci": [
+          0.8099,
+          0.8681
+        ]
+      },
+      "logreg": {
+        "roc_auc": 0.9289,
+        "pr_auc": 0.8477,
+        "recall_at_90_precision": 0.575,
+        "pr_auc_95ci": [
+          0.8149,
+          0.8763
+        ]
+      },
+      "levenshtein": {
+        "roc_auc": 0.9061,
+        "pr_auc": 0.8015,
+        "recall_at_90_precision": 0.4364,
+        "pr_auc_95ci": [
+          0.768,
+          0.8325
+        ]
+      },
+      "poca_like": {
+        "roc_auc": 0.9115,
+        "pr_auc": 0.8138,
+        "recall_at_90_precision": 0.3705,
+        "pr_auc_95ci": [
+          0.7801,
+          0.846
+        ]
+      }
+    },
+    "chosen_model": "logreg",
+    "threshold_p90": 0.7221,
+    "feature_importance_gain": {
+      "lev_ratio": 3290.1,
+      "dl_ratio": 2387.8,
+      "visual_lev": 1489.7,
+      "jw": 1437.6,
+      "ph_lev": 1381.6,
+      "dice3": 1199.1,
+      "len_diff": 849.7,
+      "metaphone_lev": 849.1,
+      "len_mean": 817.3,
+      "prefix": 738.2,
+      "consonant_lev": 732.8,
+      "indel": 729.7,
+      "dice2": 704.9,
+      "suffix": 326.7,
+      "same_first": 57.1,
+      "vowel_skel_eq": 56.5,
+      "same_last": 29.9,
+      "soundex_eq": 17.7,
+      "ph_eq": 0.0,
+      "metaphone_eq": 0.0,
+      "nysiis_eq": 0.0
+    }
+  },
+  "heard_alike": {
+    "names": 300,
+    "utterances": 600,
+    "voices": [
+      "Kore",
+      "Puck"
+    ],
+    "tts_model": "gemini-3.8-flash-tts",
+    "asr_model": "whisper-large-v3",
+    "spelled_right": 0.4883,
+    "missing_or_unparsed": 0.0267,
+    "lands_on_other_real_brand": 0.07,
+    "retrieval_top1": {
+      "plain_exact_search": 0.4884,
+      "fuzzy_jw_phonetic": 0.6583,
+      "twinpill": 0.755
+    },
+    "retrieval_top3": {
+      "fuzzy_jw_phonetic": 0.7617,
+      "twinpill": 0.89
+    },
+    "danger_set_spelled_right": 0.5533,
+    "examples_other_brand": [
+      [
+        "allpride",
+        "alpride"
+      ],
+      [
+        "onex",
+        "onyx"
+      ],
+      [
+        "claz",
+        "clas"
+      ],
+      [
+        "lozin",
+        "lozen"
+      ],
+      [
+        "roze",
+        "rose"
+      ],
+      [
+        "sandon",
+        "sandin"
+      ],
+      [
+        "clon",
+        "klon"
+      ],
+      [
+        "medizole",
+        "metazol"
+      ],
+      [
+        "resque",
+        "rescue"
+      ],
+      [
+        "xylo",
+        "zylo"
+      ],
+      [
+        "ethimax",
+        "ethamax"
+      ],
+      [
+        "tapra",
+        "topra"
+      ],
+      [
+        "sydol",
+        "cydol"
+      ],
+      [
+        "mydol",
+        "midol"
+      ],
+      [
+        "nurogab",
+        "neurogab"
+      ],
+      [
+        "meditrex",
+        "metatrex"
+      ],
+      [
+        "zycet",
+        "zyset"
+      ],
+      [
+        "luly",
+        "luli"
+      ],
+      [
+        "aziton",
+        "azitin"
+      ],
+      [
+        "monti",
+        "monty"
+      ],
+      [
+        "siclo",
+        "cyclo"
+      ],
+      [
+        "acedol",
+        "acetol"
+      ],
+      [
+        "diamin",
+        "diamon"
+      ],
+      [
+        "clotrin",
+        "clitrin"
+      ],
+      [
+        "bpride",
+        "bepride"
+      ]
+    ]
+  },
+  "atlas": {
+    "products": 242924,
+    "roots": 121382,
+    "roots_used_by_2plus_companies": 8207,
+    "twin_roots_cross_company": 3633,
+    "twin_roots_same_company_family": 5047,
+    "twin_roots_any": 8050,
+    "share_of_multi_company_roots_with_cross_twin": 0.4427,
+    "twin_pairs": 196184,
+    "twin_roots_high_alert": 758,
+    "twin_roots_harm_ge_70": 631,
+    "products_under_a_twin_name": 33844,
+    "pairs_where_strength_is_only_clue": 115933,
+    "roots_where_strength_is_only_clue_and_high_alert": 404,
+    "pairs_where_only_company_differs": 9260,
+    "roots_where_only_company_differs": 3110,
+    "rows_raw": 253973,
+    "rows_active": 246068,
+    "rows_after_dedup": 243852,
+    "dropped_no_ingredient": 0,
+    "dropped_root_under_3_letters": 928,
+    "rows_clean": 242924,
+    "unique_roots": 121382,
+    "unique_ingredients": 1643,
+    "manufacturers": 7639,
+    "ingredient_ingredients": 1639,
+    "ingredient_with_atc": 1312,
+    "ingredient_with_plain_use": 1312,
+    "ingredient_product_weighted_atc_coverage": 0.9899,
+    "ingredient_high_alert_ingredients": 143,
+    "harm_histogram": {
+      "(-0.001, 20.0]": 3116,
+      "(20.0, 40.0]": 322,
+      "(40.0, 60.0]": 3081,
+      "(60.0, 80.0]": 1243,
+      "(80.0, 100.0]": 288
+    },
+    "clue_counts_roots": {
+      "form": 3295,
+      "company": 2727,
+      "strength": 2028
+    }
+  }
+}
