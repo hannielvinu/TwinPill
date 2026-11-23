@@ -124,7 +124,7 @@ PR-AUC 95% bootstrap CI: Twinpill 0.815–0.876 vs edit distance 0.768–0.833.
 
 **Does one question separate the twins?** For all 6,022 twin names: 1,909 are settled by the form, 863 by the printed number, and 1,831 by the letters after the name, so **76.4% are settled without needing the company name**. The rest are flagged plainly as "only the company name tells them apart".
 
-**App checks:** 11/11 end-to-end browser checks pass (`tests/e2e_app.cjs`): known twins, a misheard name, a no-twin brand, an unknown name (shown as not found, never guessed), a generic name, and names in Tamil and Kannada script, with no page errors. The median lookup takes **49 ms** on the device (p95 68 ms). 9 unit tests cover parsing and Python↔JavaScript parity of the phonetic key and the ranker.
+**App checks:** 11/11 end-to-end browser checks pass (`tests/e2e_app.cjs`): known twins, a misheard name, a no-twin brand, an unknown name (shown as not found, never guessed), a generic name, and names in Tamil and Kannada script, with no page errors. The median lookup takes **49 ms** on the device (p95 68 ms). 10 unit tests cover parsing, Python↔JavaScript parity of the phonetic key and the ranker, and 18 voice-transcript cases (English mishearings such as "add nil" → Adnil, plus Tamil and Kannada script).
 
 ## Run it
 
