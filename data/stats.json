@@ -1,0 +1,43 @@
+{
+ "products": 242924,
+ "roots": 121382,
+ "roots_used_by_2plus_companies": 8207,
+ "twin_roots_cross_company": 3633,
+ "twin_roots_same_company_family": 5047,
+ "twin_roots_any": 8050,
+ "share_of_multi_company_roots_with_cross_twin": 0.4427,
+ "twin_pairs": 196184,
+ "twin_roots_high_alert": 758,
+ "twin_roots_harm_ge_70": 631,
+ "products_under_a_twin_name": 33844,
+ "pairs_where_strength_is_only_clue": 115933,
+ "roots_where_strength_is_only_clue_and_high_alert": 404,
+ "pairs_where_only_company_differs": 9260,
+ "roots_where_only_company_differs": 3110,
+ "rows_raw": 253973,
+ "rows_active": 246068,
+ "rows_after_dedup": 243852,
+ "dropped_no_ingredient": 0,
+ "dropped_root_under_3_letters": 928,
+ "rows_clean": 242924,
+ "unique_roots": 121382,
+ "unique_ingredients": 1643,
+ "manufacturers": 7639,
+ "ingredient_ingredients": 1639,
+ "ingredient_with_atc": 1312,
+ "ingredient_with_plain_use": 1312,
+ "ingredient_product_weighted_atc_coverage": 0.9899,
+ "ingredient_high_alert_ingredients": 143,
+ "harm_histogram": {
+  "(-0.001, 20.0]": 3116,
+  "(20.0, 40.0]": 322,
+  "(40.0, 60.0]": 3081,
+  "(60.0, 80.0]": 1243,
+  "(80.0, 100.0]": 288
+ },
+ "clue_counts_roots": {
+  "form": 3295,
+  "company": 2727,
+  "strength": 2028
+ }
+}
