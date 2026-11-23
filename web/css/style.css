@@ -31,7 +31,11 @@
   --bg: #0f0d22; --paper: #1a1733; --ink: #f4f2ff; --ink-2: #c9c5e8; --muted: #9590b8; --line: #2c2850;
   --twin-soft: #3a1424; --a-soft: #231f4d; --b-soft: #3a2412; --safe-soft: #0f2e24; color-scheme: dark;
 }
-html[lang="ta"] body { --body: "Noto Sans Tamil", "Inter", sans-serif; --head: "Noto Sans Tamil", "Poppins", sans-serif; }
+html[lang="ta"] body { --body: "Anek Tamil", "Inter", sans-serif; --head: "Anek Tamil", "Poppins", sans-serif; }
+html[lang="kn"] body { --body: "Anek Kannada", "Inter", sans-serif; --head: "Anek Kannada", "Poppins", sans-serif; }
+html[lang="ta"] h1, html[lang="kn"] h1 { line-height: 1.2; }
+/* brand and medicine names stay in Latin script; keep them in the Latin fonts */
+.pill, .search input, .chip, .rn { font-family: "Inter", system-ui, sans-serif; }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -53,7 +57,9 @@ h1, h2, h3, h4 { font-family: var(--head); line-height: 1.1; margin: 0; letter-s
 .nav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
 .nav a { text-decoration: none; padding: 8px 12px; border-radius: 999px; font-weight: 500; font-size: .93rem; color: #d9d6f2; }
 .nav a.on, .nav a:hover { background: #ffffff1a; color: #fff; }
-.lang { border: 1px solid #ffffff40; background: transparent; color: #fff; border-radius: 999px; padding: 7px 14px; font-weight: 600; }
+.lang { border: 1px solid #ffffff40; background: transparent; color: #fff; border-radius: 999px; padding: 7px 30px 7px 14px; font: 600 .95rem "Inter", "Anek Tamil", "Anek Kannada", sans-serif; appearance: none; -webkit-appearance: none; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, #fff 50%), linear-gradient(135deg, #fff 50%, transparent 50%); background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%; background-size: 5px 5px; background-repeat: no-repeat; }
+.lang option { color: #14112b; background: #fff; }
 
 main { max-width: 1120px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 40px; }
 
@@ -184,3 +190,6 @@ tr.ours td { font-weight: 700; background: var(--a-soft); }
   .arow { grid-template-columns: 1fr 64px; }
   .arow .side { grid-column: 1 / -1; }
 }
+/* letter-spacing and upper-casing break Tamil/Kannada conjuncts */
+html[lang="ta"] .kicker, html[lang="kn"] .kicker, html[lang="ta"] .question .label, html[lang="kn"] .question .label,
+html[lang="ta"] .tag, html[lang="kn"] .tag, html[lang="ta"] .how, html[lang="kn"] .how { letter-spacing: 0; text-transform: none; font-size: .85rem; }

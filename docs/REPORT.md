@@ -87,11 +87,11 @@ For the unrelated meanings of a name, the app asks about the first attribute who
 ## 4 System
 Static site (HTML, CSS, ES modules) on GitHub Pages:
 - **Data:** brand keys (121,382) in one JSON file, with product details in 621 shards loaded on demand.
-- **Voice:** Whisper base.en (q8) runs in the browser via Transformers.js.
+- **Voice:** the browser's Web Speech API (Google speech recognition in Chrome and Android) in Indian English, Tamil or Kannada, with up to 5 alternatives. The app keeps the alternative that lands on a real catalogue name. Tamil and Kannada transcripts are transliterated to Latin and compared on a sound-normalised form (long vowels shortened, voicing removed because Tamil does not write it, Tamil's helper vowel in clusters dropped), so அசிட்டம் → Acetam, குரோசின் → Crocin, ಡೋಲೋ → Dolo.
 - **Photo:** Tesseract.js reads the photo, and every word found is looked up.
-- **Language:** English and Tamil interface, plus read-aloud.
+- **Language:** English, Tamil and Kannada interface (Anek Tamil / Anek Kannada fonts), plus read-aloud.
 
-There is no server and no analytics; prescriptions never leave the device. End-to-end Playwright checks pass 9 of 9: Acetam, Olip, Adnil, Biopam, Dolo, the misspelling "acetum", a no-twin control (Crocin), an unknown name (Saridon, which is shown as not found rather than guessed) and a generic name (Metformin). The median warm lookup is 49 ms (p95 68 ms).
+There is no server and no analytics; typed names and photos never leave the device (voice goes to the browser's speech service). End-to-end Playwright checks pass 11 of 11: Acetam, Olip, Adnil, Biopam, Dolo, the misspelling "acetum", a no-twin control (Crocin), an unknown name (Saridon, which is shown as not found rather than guessed), a generic name (Metformin), and names in Tamil (அசிட்டம் 500) and Kannada (ಡೋಲೋ 650) script. The median warm lookup is 49 ms (p95 68 ms).
 
 ## 5 Limitations and future work
 - **Old snapshot:** the catalogue dates from around 2021–22. Some products have since changed, and published cases such as Linamac and Medzole are not in it. A current catalogue would change the counts.

@@ -46,9 +46,9 @@ Real examples from the catalogue (click any of them in the app):
 
 ## What Twinpill does
 
-1. **Type, say or snap** a medicine name. Speech (Whisper) and photo reading (Tesseract) run **on the device**; nothing leaves the phone.
+1. **Type, say or snap** a medicine name, in **English, Tamil or Kannada**. Voice uses the browser's speech recognition (Google's engine in Chrome and Android, the same as Google voice typing). A name said or typed in Tamil or Kannada script is converted to Latin letters and matched by sound. Photo reading (Tesseract) and all matching run on the device.
 2. Twinpill finds the brand, **plus every name a listener, a speech app or a hurried reader could land on instead**.
-3. It groups everything sold under that name by active ingredient, in plain words ("fits (epilepsy)", not "antiepileptic"), in **English or Tamil**.
+3. It groups everything sold under that name by active ingredient, in plain words ("fits (epilepsy)", not "antiepileptic"), in **English, Tamil or Kannada**.
 4. It asks **the one question that splits the unrelated medicines**: the form, then the printed number, then the letters after the name, then the company. Tap the answer that matches the strip and the right medicine lights up.
 5. The **Twin Atlas** ranks India's most dangerous name clashes for pharmacists, hospitals and the regulator.
 
@@ -62,7 +62,7 @@ Twinpill never names the "right" drug. It shows what a name could mean so a pers
 | E-pharmacy search (1mg, PharmEasy…) | Shows the product you clicked | Never warns that the name has an unrelated twin |
 | CDSCO consultation (Jul 2026) | Asks about identical brand-name extensions | Sound-alikes, look-alikes and speech mishearings |
 | Hospital LASA lists | Hand-made lists of a few dozen pairs | Not the 120,000+ Indian brand names |
-| **Twinpill** | Every Indian brand name, all four clash types (same name, same family, sounds alike, misheard by speech AI), plus the single deciding question, offline, in Tamil | – |
+| **Twinpill** | Every Indian brand name, all four clash types (same name, same family, sounds alike, misheard by speech AI), plus the single deciding question, in Tamil and Kannada | – |
 
 ## Architecture
 
@@ -76,18 +76,19 @@ flowchart LR
   T[Gemini TTS → Whisper large-v3<br/>300 Indian names, 2 voices] --> F[s6 heard-alike audit<br/>+ s6b learned ranker]
   D --> G[s4 export → static JSON]
   E --> H
-  F --> H[web app · runs fully on device<br/>search · deciding question · atlas]
+  F --> H[web app · matching runs on device<br/>search · deciding question · atlas]
   G --> H
-  V[Whisper base.en in browser] --> H
+  V[Google speech via Web Speech API<br/>en-IN · ta-IN · kn-IN] --> H
+  X[Tamil/Kannada → Latin<br/>sound-normalised match] --> H
   O[Tesseract.js OCR] --> H
 ```
 
-**Stack:** Python (pandas, scikit-learn, LightGBM, rapidfuzz, jellyfish, matplotlib) for the pipeline; vanilla JavaScript, Transformers.js and Tesseract.js for the app; static hosting on GitHub Pages. No server, no account, no tracking.
+**Stack:** Python (pandas, scikit-learn, LightGBM, rapidfuzz, jellyfish, matplotlib) for the pipeline; vanilla JavaScript, the Web Speech API and Tesseract.js for the app; static hosting on GitHub Pages. No server, no account, no tracking.
 
 ## AI / ML methods
 
 - **Brand-key extraction:** the name a person would actually say ("New Triglucored", not "New"), using word-frequency filtering of generic first words.
-- **Ingredient → class:** 1,643 ingredients mapped to WHO ATC codes via Wikidata plus a curated gap list (99.0% of products covered), then to plain-language uses in English and Tamil.
+- **Ingredient → class:** 1,643 ingredients mapped to WHO ATC codes via Wikidata plus a curated gap list (99.0% of products covered), then to plain-language uses in English, Tamil and Kannada.
 - **Twin detection + harm score:** two products under one brand key with no shared ingredient. A truncation guard excludes products whose ingredient list may be incomplete, so every reported twin is checkable. A transparent 0–100 harm score adds points for a different purpose, a different body system, a high-alert medicine, the same route and form, and the same printed strength.
 - **Indian-English phonetic key:** collapses spellings that sound identical at a chemist counter (ph/f, c/k/s, z/s/j, v/w, aspirated pairs, vowel drift). Identical in Python and JavaScript, and tested.
 - **Confusability model:** logistic regression over 21 sound, spelling and handwriting features. It is trained on 440 real confused pairs from the ISMP List of Confused Drug Names against 1,320 never-reported pairs, and validated with name-grouped 5-fold cross-validation.
@@ -123,7 +124,7 @@ PR-AUC 95% bootstrap CI: Twinpill 0.815–0.876 vs edit distance 0.768–0.833.
 
 **Does one question separate the twins?** For all 6,022 twin names: 1,909 are settled by the form, 863 by the printed number, and 1,831 by the letters after the name, so **76.4% are settled without needing the company name**. The rest are flagged plainly as "only the company name tells them apart".
 
-**App checks:** 9/9 end-to-end browser checks pass (`tests/e2e_app.cjs`): known twins, a misheard name, a no-twin brand, an unknown name (shown as not found, never guessed) and a generic name, with no page errors. The median lookup takes **49 ms** on the device (p95 68 ms). 9 unit tests cover parsing and Python↔JavaScript parity of the phonetic key and the ranker.
+**App checks:** 11/11 end-to-end browser checks pass (`tests/e2e_app.cjs`): known twins, a misheard name, a no-twin brand, an unknown name (shown as not found, never guessed), a generic name, and names in Tamil and Kannada script, with no page errors. The median lookup takes **49 ms** on the device (p95 68 ms). 9 unit tests cover parsing and Python↔JavaScript parity of the phonetic key and the ranker.
 
 ## Run it
 
@@ -146,7 +147,7 @@ docs/       technical report
 
 ## Impact and deployment
 
-- **Zero cost per lookup.** A static site that works offline after the first load, on any phone browser, with nothing to install.
+- **Zero cost per lookup.** A static site that works on any phone browser with nothing to install; typing and photo lookups work offline after the first load.
 - **Fits real workflows.** A pharmacist checks a brand-only prescription in seconds. A caregiver checks before reading a name over the phone. An e-pharmacy can call the same twin list at search time. Hospitals can generate their LASA list from the atlas.
 - **Regulatory use.** The atlas is ready-made evidence for CDSCO's brand-name consultation, and it extends that consultation from identical names to sound-alikes and speech mishearings.
 - **Next steps:** refresh from a current catalogue, add Hindi, Kannada and Malayalam, add a pharmacist-validated harm label set, and add a WhatsApp voice-note front end.
@@ -167,8 +168,8 @@ docs/       technical report
 - Indian medicine catalogue ([junioralive/Indian-Medicine-Dataset](https://github.com/junioralive/Indian-Medicine-Dataset)), downloaded at build time and not redistributed.
 - WHO ATC codes via [Wikidata](https://www.wikidata.org) (CC0).
 - [ISMP List of Confused Drug Names](https://online.ecri.org/hubfs/ISMP/Resources/ISMP_ConfusedDrugNames.pdf), used to label training pairs.
-- Open-source libraries: pandas, scikit-learn, LightGBM, rapidfuzz, jellyfish, wordfreq, matplotlib, [Transformers.js](https://github.com/huggingface/transformers.js) with OpenAI Whisper base.en weights, and [Tesseract.js](https://github.com/naptha/tesseract.js).
+- Open-source libraries: pandas, scikit-learn, LightGBM, rapidfuzz, jellyfish, wordfreq, matplotlib, the browser's Web Speech API (Google speech recognition in Chrome), and [Tesseract.js](https://github.com/naptha/tesseract.js).
 - Gemini TTS and Groq-hosted Whisper large-v3, used only offline for the audit.
-- Fonts: Poppins, Inter and Noto Sans Tamil (Google Fonts).
+- Fonts: Poppins, Inter, Anek Tamil and Anek Kannada (Google Fonts).
 
 MIT licence for the code.

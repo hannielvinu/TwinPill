@@ -1,5 +1,6 @@
-import { T, FORM_TA } from "./i18n.js";
-import { loadRoots, findRoots, parseQuery, productsFor, meanings, isTwin, matchNumber, decidingQuestion, confident, loadIngredients, findIngredient, commonIngredient } from "./search.js";
+import { T, FORM_TA, FORM_KN } from "./i18n.js";
+import { toLatin, hasIndic } from "./translit.js";
+import { loadRoots, findRoots, parseQuery, productsFor, meanings, isTwin, matchNumber, decidingQuestion, confident, loadIngredients, findIngredient, commonIngredient, findRootsIndic } from "./search.js";
 
 let lang = "en";
 try { lang = localStorage.getItem("tp_lang") || "en"; } catch { /* private mode */ }
@@ -7,8 +8,10 @@ const t = (k, ...a) => { const v = T[lang][k] ?? T.en[k]; return typeof v === "f
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const cap = (s) => String(s || "").replace(/\b[a-z]/g, (c) => c.toUpperCase());
 const sent = (s) => { s = String(s || ""); return s.charAt(0).toUpperCase() + s.slice(1); };
-const formLabel = (f) => (lang === "ta" ? FORM_TA[f] || f : f);
-const useLabel = (g) => (lang === "ta" ? g.useTa || g.use : g.use) || (lang === "ta" ? "வகை தெரியவில்லை" : "class not listed");
+const formLabel = (f) => (lang === "ta" ? FORM_TA[f] || f : lang === "kn" ? FORM_KN[f] || f : f);
+const pickUse = (o) => (lang === "ta" ? o.useTa || o.use_ta : lang === "kn" ? o.useKn || o.use_kn : null) || o.use;
+const useLabel = (g) => pickUse(g) || ({ ta: "வகை தெரியவில்லை", kn: "ವರ್ಗ ತಿಳಿದಿಲ್ಲ" }[lang] || "class not listed");
+const SPEECH = { en: "en-IN", ta: "ta-IN", kn: "kn-IN" };
 const view = document.getElementById("view");
 let lastQuery = "";
 let shownGroups = [];
@@ -16,11 +19,11 @@ let shownGroups = [];
 /* ---------- language ---------- */
 function applyLang() {
   document.documentElement.lang = lang;
-  document.getElementById("langBtn").textContent = lang === "en" ? "தமிழ்" : "English";
+  document.getElementById("langSel").value = lang;
   document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
 }
-document.getElementById("langBtn").addEventListener("click", () => {
-  lang = lang === "en" ? "ta" : "en";
+document.getElementById("langSel").addEventListener("change", (e) => {
+  lang = e.target.value;
   try { localStorage.setItem("tp_lang", lang); } catch { /* ignore */ }
   route();
 });
@@ -68,10 +71,16 @@ async function runQuery(text) {
   lastQuery = text;
   const box = document.getElementById("result");
   if (!box) return;
-  const { name, number } = parseQuery(text);
+  const indic = hasIndic(text); // typed or spoken in Tamil/Kannada script: compare by sound in Latin letters
+  const opts = { indic };
+  const { name, number } = parseQuery(indic ? toLatin(text) : text);
   if (!name) { box.innerHTML = ""; return; }
   await Promise.all([loadRoots(), loadIngredients()]);
-  const hits = findRoots(name, 8);
+  let hits = findRoots(name, 8, opts);
+  if (indic && !(hits[0] && hits[0].how === "exact")) {
+    hits = findRootsIndic(name, 8);
+    opts.second = hits[1];
+  }
   const exact = hits[0] && hits[0].how === "exact";
   const chip = (r) => `<button class="chip" data-q="${esc(r)}">${esc(cap(r))}</button>`;
   const wireChips = () => box.querySelectorAll("button.chip[data-q]").forEach((b) => b.addEventListener("click", () => { document.getElementById("q").value = b.dataset.q; runQuery(b.dataset.q); }));
@@ -80,14 +89,14 @@ async function runQuery(text) {
   const ing = !exact ? findIngredient(name) : null;
   if (ing) {
     box.innerHTML = `<div class="verdict info"><span class="badge">GENERIC</span><div><h2>${esc(t("generic_title", cap(ing.name)))}</h2>
-      <p>${esc(t("used_for"))}: <b>${esc(lang === "ta" ? ing.useTa || ing.use : ing.use)}</b>. ${esc(t("generic_sub", ing.brands.toLocaleString("en-US")))}</p></div></div>
+      <p>${esc(t("used_for"))}: <b>${esc(pickUse(ing))}</b>. ${esc(t("generic_sub", ing.brands.toLocaleString("en-US")))}</p></div></div>
       <div class="sounds"><h4>${esc(t("generic_brands"))}</h4><div class="chips" style="margin-top:10px">${ing.top.map(chip).join("")}</div></div>
       <p class="disclaimer">${esc(t("disclaimer"))}</p>`;
     wireChips();
     return;
   }
   // Not in the catalogue, or only a weak look-alike: say so plainly, never present a guess as the answer.
-  if (!hits.length || !confident(name, hits[0])) {
+  if (!hits.length || !confident(name, hits[0], opts)) {
     const near = hits.filter((h) => h.score >= 0.2).slice(0, 5);
     box.innerHTML = `<div class="verdict unknown"><span class="badge">NOT FOUND</span><div><h2>${esc(t("nf_title", text.trim()))}</h2><p>${esc(t("nf_sub"))}</p></div></div>
       ${near.length ? `<div class="sounds"><h4>${esc(t("nf_closest"))}</h4><p class="muted small">${esc(t("nf_closest_sub"))}</p><div class="chips" style="margin-top:10px">${near.map((h) => chip(h.root)).join("")}</div></div>` : ""}`;
@@ -102,7 +111,7 @@ async function runQuery(text) {
 
   let html = "";
   if (!exact) {
-    const others = hits.slice(1, 4).filter((h) => confident(name, h));
+    const others = hits.slice(1, 4).filter((h) => (indic ? h.score >= 1.5 : confident(name, h, opts)));
     html += `<div class="didyou">${esc(t("dym", text.trim()))} <b>${esc(display)}</b>${others.length ? ` ${esc(t("dym_others"))} ${others.map((h) => chip(h.root)).join(" ")}` : ""}</div>`;
   }
   if (twin) {
@@ -200,40 +209,43 @@ function wireQuestion(dq, qtext, autoPick = -1) {
   sp?.addEventListener("click", () => {
     const opts = dq.options.map((o) => `${dq.kind === "form" ? formLabel(o.label) : o.label}: ${useLabel(o.group)}`).join(". ");
     const u = new SpeechSynthesisUtterance(`${qtext} ${opts}`);
-    u.lang = lang === "ta" ? "ta-IN" : "en-IN";
+    u.lang = SPEECH[lang];
     speechSynthesis.cancel();
     speechSynthesis.speak(u);
   });
 }
 
-/* ---------- voice (on-device Whisper) ---------- */
-let asr = null, rec = null, chunks = [];
+/* ---------- voice (browser speech recognition: Google in Chrome/Android) ---------- */
 async function onMic() {
   const btn = document.getElementById("micBtn");
-  if (rec && rec.state === "recording") { rec.stop(); return; }
+  const { speechSupported, listen, stopListening } = await import("./voice.js");
+  if (btn.classList.contains("rec")) { stopListening(); return; }
+  if (!speechSupported()) { setStatus(esc(t("voice_none"))); return; }
+  btn.classList.add("rec");
+  setStatus(esc(t("listening_in", t("voice_lang"))));
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    chunks = [];
-    rec = new MediaRecorder(stream);
-    rec.ondataavailable = (e) => chunks.push(e.data);
-    rec.onstop = async () => {
-      btn.classList.remove("rec");
-      stream.getTracks().forEach((tr) => tr.stop());
-      const blob = new Blob(chunks, { type: rec.mimeType });
-      setStatus(`<span class="spinner"></span>${esc(t("loading_voice"))}`);
-      try {
-        const { transcribe } = await import("./voice.js");
-        const text = await transcribe(blob, (msg) => setStatus(`<span class="spinner"></span>${esc(msg)}`));
-        setStatus(esc(t("heard", text)));
-        document.getElementById("q").value = text;
-        runQuery(text);
-      } catch (err) { setStatus(esc(String(err.message || err))); }
-    };
-    rec.start();
-    btn.classList.add("rec");
-    setStatus(esc(t("listening")));
-    setTimeout(() => { if (rec.state === "recording") rec.stop(); }, 5000);
-  } catch (err) { setStatus(esc("Microphone not available: " + (err.message || err))); }
+    const alts = await listen(SPEECH[lang]);
+    btn.classList.remove("rec");
+    // Google returns several guesses; keep the one that lands on a real catalogue name.
+    await loadRoots();
+    let best = alts[0], bestScore = -1;
+    for (const a of alts) {
+      const indic = hasIndic(a);
+      const { name } = parseQuery(indic ? toLatin(a) : a);
+      let hs = findRoots(name, 2, { indic });
+      if (indic && !(hs[0] && hs[0].how === "exact")) hs = findRootsIndic(name, 2);
+      const h = hs[0];
+      const sc = !h ? 0 : h.how === "exact" ? 3 : confident(name, h, { indic, second: hs[1] }) ? 1 + Math.min(h.score, 1.5) / 2 : h.score * 0.3;
+      const scn = sc + (/\d/.test(a) ? 0.01 : 0); // a number read off the strip helps the deciding question
+      if (scn > bestScore) { best = a; bestScore = scn; }
+    }
+    setStatus(esc(t("heard", best)) + (alts.length > 1 ? ` <span class="muted small">(${alts.slice(0, 4).map(esc).join(" · ")})</span>` : ""));
+    document.getElementById("q").value = best;
+    runQuery(best);
+  } catch (err) {
+    btn.classList.remove("rec");
+    setStatus(esc(t("voice_err", String(err.message || err))));
+  }
 }
 
 /* ---------- photo (on-device OCR) ---------- */
@@ -270,8 +282,8 @@ async function renderAtlas() {
   const draw = (f) => {
     const rows = atlas.filter((r) => f === "all" || r.kind === f || r.clue === f).slice(0, 150);
     list.innerHTML = rows.map((r) => `<div class="arow" data-q="${esc(r.root)}"><div class="rn">${esc(r.root)}<div class="how">${r.kind === "cross" ? "2+ companies" : "same company"}</div></div>
-      <div class="side"><b>${esc(r.a.name)}</b><span>${esc(cap(r.a.ings.join(" + ")))} · ${esc(lang === "ta" ? r.a.use_ta : r.a.use)}</span></div>
-      <div class="side"><b>${esc(r.b.name)}</b><span>${esc(cap(r.b.ings.join(" + ")))} · ${esc(lang === "ta" ? r.b.use_ta : r.b.use)}</span></div>
+      <div class="side"><b>${esc(r.a.name)}</b><span>${esc(cap(r.a.ings.join(" + ")))} · ${esc(pickUse(r.a))}</span></div>
+      <div class="side"><b>${esc(r.b.name)}</b><span>${esc(cap(r.b.ings.join(" + ")))} · ${esc(pickUse(r.b))}</span></div>
       <div class="harm">${r.harm}<small>${esc(t("harm"))}</small></div></div>`).join("");
     list.querySelectorAll(".arow").forEach((el) => el.addEventListener("click", () => { location.hash = `#/?q=${encodeURIComponent(el.dataset.q)}`; }));
   };
@@ -314,11 +326,11 @@ async function renderEvidence() {
 /* ---------- how it works ---------- */
 function renderHow() {
   view.innerHTML = `<section class="page-head"><p class="kicker">How it works</p><h1>From a name to the one right question.</h1>
-    <p>Twinpill runs entirely in your browser. The catalogue, the matching and the speech and photo readers all run on your device, so a prescription never leaves your phone.</p></section>
+    <p>Twinpill runs in your browser. The catalogue, the matching and the photo reader run on your device. Voice uses your browser's speech recognition (Google in Chrome and Android) in English, Tamil or Kannada; a name said or typed in Tamil or Kannada script is matched to the brand by sound.</p></section>
     <ol class="steps">
       <li><b>Clean the catalogue.</b> 246,068 active Indian listings → 242,924 products after removing duplicates; brand name, strength, form and ingredients parsed from each.</li>
       <li><b>Find the twins.</b> Products are grouped by the name a person would say. Any two products under one name with no shared ingredient form a twin pair (different companies or one company's suffix variants). Products whose ingredient list may be cut short by the source are left out, so every twin is checkable.</li>
-      <li><b>Know what each medicine is for.</b> 1,643 ingredients mapped to WHO ATC classes (99.0% of products) and rewritten in plain English and Tamil (“fits (epilepsy)”, not “antiepileptic”).</li>
+      <li><b>Know what each medicine is for.</b> 1,643 ingredients mapped to WHO ATC classes (99.0% of products) and rewritten in plain English, Tamil and Kannada (“fits (epilepsy)”, not “antiepileptic”).</li>
       <li><b>Score the danger.</b> Different purpose, different body system, a high-alert medicine, the same form and route, and whether the printed number or the company is the only clue.</li>
       <li><b>Catch near-names.</b> An Indian-English sound key plus a learned confusability model (trained on ISMP's published confused-name pairs and on speech-AI mishearings) finds names a listener or a voice app could land on instead.</li>
       <li><b>Ask the one question.</b> For each name the app picks the single question that splits the unrelated meanings: the form first, then the printed number, then the company.</li>

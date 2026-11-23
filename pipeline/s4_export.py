@@ -8,11 +8,15 @@ import pandas as pd
 
 from common import PROC, WEB_DATA
 from phonetic import phonetic_key
-from plain_uses import USE_TA
+from plain_uses import USE_KN, USE_TA
 
 
 def ta(use: str) -> str:
     return " + ".join(USE_TA.get(u, u) for u in use.split(" + ")) if use else ""
+
+
+def kn(use: str) -> str:
+    return " + ".join(USE_KN.get(u, u) for u in use.split(" + ")) if use else ""
 
 
 def shard_of(root: str) -> str:
@@ -52,7 +56,7 @@ def main() -> None:
         rows = []
         for r in g[cols].itertuples(index=False):
             rows.append([r.name, r.maker, r.strength, r.form, r.route, r.ings, r.use, ta(r.use), int(r.high_alert),
-                         None if pd.isna(r.price) else round(float(r.price), 2), r.suffix, int(r.incomplete)])
+                         None if pd.isna(r.price) else round(float(r.price), 2), r.suffix, int(r.incomplete), kn(r.use)])
         shards[shard_of(root)][root] = rows
     for k, v in shards.items():
         (WEB_DATA / "p" / f"{k}.json").write_text(json.dumps(v, ensure_ascii=False, separators=(",", ":")))
@@ -64,8 +68,8 @@ def main() -> None:
     for r in best.head(400).itertuples(index=False):
         atlas.append({
             "root": r.root, "kind": r.kind, "harm": int(r.harm), "clue": r.clue, "why": r.why,
-            "a": {"name": r.a_name, "maker": r.a_maker, "ings": r.a_ings, "use": r.a_use, "use_ta": ta(r.a_use)},
-            "b": {"name": r.b_name, "maker": r.b_maker, "ings": r.b_ings, "use": r.b_use, "use_ta": ta(r.b_use)},
+            "a": {"name": r.a_name, "maker": r.a_maker, "ings": r.a_ings, "use": r.a_use, "use_ta": ta(r.a_use), "use_kn": kn(r.a_use)},
+            "b": {"name": r.b_name, "maker": r.b_maker, "ings": r.b_ings, "use": r.b_use, "use_ta": ta(r.b_use), "use_kn": kn(r.b_use)},
         })
     (WEB_DATA / "atlas.json").write_text(json.dumps(atlas, ensure_ascii=False, separators=(",", ":")))
 
@@ -79,7 +83,7 @@ def main() -> None:
     for r in ing.itertuples(index=False):
         b = brands_by_ing.get(r.ingredient, {})
         top = sorted(b.items(), key=lambda kv: -kv[1])[:8]
-        ing_rows.append([r.ingredient, r.use, ta(r.use), len(b), [k for k, _ in top], int(r.high_alert)])
+        ing_rows.append([r.ingredient, r.use, ta(r.use), len(b), [k for k, _ in top], int(r.high_alert), kn(r.use)])
     (WEB_DATA / "ingredients.json").write_text(json.dumps(ing_rows, ensure_ascii=False, separators=(",", ":")))
 
     stats = json.loads((PROC / "s3_report.json").read_text())

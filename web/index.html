@@ -11,7 +11,7 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&family=Anek+Tamil:wght@400;500;600;700;800&family=Anek+Kannada:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -26,14 +26,18 @@
       <a href="#/evidence" data-route="evidence" data-i18n="nav_evidence">Evidence</a>
       <a href="#/how" data-route="how" data-i18n="nav_how">How it works</a>
     </nav>
-    <button class="lang" id="langBtn" aria-label="Switch language">தமிழ்</button>
+    <select class="lang" id="langSel" aria-label="Language">
+      <option value="en">English</option>
+      <option value="ta">தமிழ்</option>
+      <option value="kn">ಕನ್ನಡ</option>
+    </select>
   </header>
 
   <main id="view"></main>
 
   <footer class="foot">
     <p data-i18n="footer">Twinpill never tells you which medicine to take. It shows what a name could mean, so you can ask before you swallow.</p>
-    <p class="muted small">Data: 242,924 Indian medicine listings (public catalogue snapshot), WHO ATC classes via Wikidata, ISMP confused-names list. Every lookup runs on your device; nothing you type, say or photograph leaves it.</p>
+    <p class="muted small"><span data-i18n="privacy">Typing and photo reading run on your device. Voice uses your browser's speech service (Google in Chrome).</span> Data: 242,924 Indian medicine listings (public catalogue snapshot), WHO ATC classes via Wikidata, ISMP confused-names list.</p>
   </footer>
 
   <template id="tpl-check">

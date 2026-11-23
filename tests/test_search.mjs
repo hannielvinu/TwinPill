@@ -29,3 +29,13 @@ const dolo = meanings([
 ]);
 assert.equal(isTwin(dolo), false);
 console.log("search.js: all assertions passed");
+
+// Tamil / Kannada input (typed or from Google speech) resolves to the Latin brand by sound
+import { toLatin, indicNorm } from "../web/js/translit.js";
+assert.equal(toLatin("அசிட்டம் 500"), "asittam 500");
+assert.equal(toLatin("ಡೋಲೋ 650"), "dooloo 650");
+assert.equal(indicNorm(toLatin("அசிட்டம்")), indicNorm("acetam"));
+assert.equal(indicNorm(toLatin("குரோசின்")), indicNorm("crocin"));
+assert.equal(indicNorm(toLatin("ಅಡ್ನಿಲ್")), indicNorm("adnil"));
+assert.equal(indicNorm(toLatin("டோலோ")), indicNorm("dolo"));
+console.log("translit: all assertions passed");

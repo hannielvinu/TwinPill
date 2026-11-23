@@ -12,6 +12,8 @@ const CASES = [
   ["Saridon", "NOT FOUND", "not in our catalogue"],
   ["Metformin", "GENERIC", "not a brand"],
   ["acetum", "TWIN", "Levetiracetam"], // misheard spelling still lands on Acetam
+  ["அசிட்டம் 500", "TWIN", "Levetiracetam"], // said or typed in Tamil
+  ["ಡೋಲೋ 650", "TWIN", "Nimesulide"], // said or typed in Kannada
 ];
 (async () => {
   const browser = await chromium.launch();
@@ -33,7 +35,7 @@ const CASES = [
     const body = await page.textContent("#result");
     const ok = badge.trim() === verdict && body.toLowerCase().includes(expect.toLowerCase());
     pass += ok;
-    console.log(`${ok ? "PASS" : "FAIL"}  ${q.padEnd(12)} -> ${badge.trim()}  (${times.at(-1)} ms)`);
+    console.log(`${ok ? "PASS" : "FAIL"}  ${q.padEnd(14)} -> ${badge.trim()}  (${times.at(-1)} ms)`);
   }
   // warm lookups (shards cached) for a latency figure
   const warm = [];

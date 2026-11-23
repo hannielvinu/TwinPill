@@ -1,7 +1,7 @@
 {
-  "cases": 9,
-  "passed": 9,
+  "cases": 11,
+  "passed": 11,
   "page_errors": [],
   "warm_lookup_ms_median": 49,
-  "warm_lookup_ms_p95": 68
+  "warm_lookup_ms_p95": 72
 }

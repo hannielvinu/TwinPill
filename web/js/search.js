@@ -1,5 +1,6 @@
 // Name lookup: exact brand match, then spelling and sound neighbours. Runs fully in the browser.
 import { phoneticKey } from "./phonetic.js";
+import { devoice, indicNorm, skeleton } from "./translit.js";
 
 let ROOTS = null; // [root, phon, count, twinFlag(0 none,1 family,2 cross), harm, highAlert]
 let RANKER = null; // learned weights (pipeline/s6b_ranker.py)
@@ -25,7 +26,7 @@ export async function productsFor(root) {
   const shard = await shardCache.get(k);
   return (shard[root] || []).map((p) => ({
     name: p[0], maker: p[1], strength: p[2], form: p[3], route: p[4], ings: p[5],
-    use: p[6], useTa: p[7], highAlert: !!p[8], price: p[9], suffix: p[10] || "", incomplete: !!p[11],
+    use: p[6], useTa: p[7], highAlert: !!p[8], price: p[9], suffix: p[10] || "", incomplete: !!p[11], useKn: p[12] || "",
   }));
 }
 
@@ -94,10 +95,11 @@ export function parseQuery(q) {
 }
 
 /** Return the best brand match plus sound/spelling neighbours. */
-export function findRoots(name, limit = 8) {
+export function findRoots(name, limit = 8, opts = {}) {
   if (!ROOTS || !name) return [];
   const flat = name.replace(/ /g, "");
   const ph = phoneticKey(flat);
+  const dph = devoice(ph); // used only for Tamil/Kannada input, where voicing is not written
   const firstWord = name.split(" ")[0];
   const out = [];
   for (const r of ROOTS) {
@@ -109,9 +111,10 @@ export function findRoots(name, limit = 8) {
     else if (root === firstWord && name.includes(" ")) { score = 1.9; how = "exact"; }
     else {
       if (Math.abs(rflat.length - flat.length) > 3) continue;
-      if (rflat[0] !== flat[0] && r[1] !== ph) continue;
+      const indicSame = opts.indic && devoice(r[1]) === dph && dph.length >= 2;
+      if (rflat[0] !== flat[0] && r[1] !== ph && !indicSame) continue;
       const jw = jaroWinkler(flat, rflat);
-      const sameSound = r[1] === ph && ph.length >= 2;
+      const sameSound = (r[1] === ph || indicSame) && ph.length >= 2;
       if (jw < 0.80 && !sameSound) continue;
       if (RANKER) {
         const z = learnedScore(rankFeatures(flat, ph, r, jw));
@@ -133,7 +136,7 @@ export function meanings(products) {
   const groups = new Map();
   for (const p of products) {
     const key = [...p.ings].sort().join("|");
-    if (!groups.has(key)) groups.set(key, { key, ings: p.ings, use: p.use, useTa: p.useTa, highAlert: p.highAlert, products: [], complete: 0 });
+    if (!groups.has(key)) groups.set(key, { key, ings: p.ings, use: p.use, useTa: p.useTa, useKn: p.useKn, highAlert: p.highAlert, products: [], complete: 0 });
     const g = groups.get(key);
     g.products.push(p);
     if (!p.incomplete) g.complete++;
@@ -163,12 +166,21 @@ export function isTwin(gs) {
  * not calibrated for names that are simply absent from the catalogue, so we also require the candidate to
  * sound the same or be spelt within ~20% of what was typed or heard.
  */
-export function confident(name, hit) {
+export function confident(name, hit, opts = {}) {
   if (!hit) return false;
   if (hit.how === "exact") return true;
+  if (opts.indic) {
+    // findRootsIndic score: >= 1.5 means the sound-normalised names are identical. Otherwise require a
+    // strong match that is clearly ahead of the runner-up, so an absent brand is not mapped to a look-alike.
+    if (hit.score >= 1.5) return true;
+    const second = opts.second ? opts.second.score : 0;
+    return hit.score >= 0.96 && hit.score - second >= 0.03;
+  }
   const flat = name.replace(/ /g, ""), rflat = hit.root.replace(/ /g, "");
   if (flat.length < 4) return false;
-  return hit.score >= 0.5 && jaroWinkler(flat, rflat) >= 0.85 && (phoneticKey(flat) === phoneticKey(rflat) || levSim(flat, rflat) >= 0.8);
+  const sameKey = phoneticKey(flat) === phoneticKey(rflat) || (opts.indic && devoice(phoneticKey(flat)) === devoice(phoneticKey(rflat)));
+  const jwMin = opts.indic ? 0.78 : 0.85; // transliteration from Tamil/Kannada is approximate
+  return hit.score >= (opts.indic ? 0.3 : 0.5) && jaroWinkler(flat, rflat) >= jwMin && (sameKey || levSim(flat, rflat) >= 0.8);
 }
 
 let INGS = null; // [name, use, useTa, nBrands, topBrands, highAlert]
@@ -184,7 +196,7 @@ export function findIngredient(name) {
   for (const r of INGS) {
     if (!r[3]) continue;
     const s = r[0] === name ? 2 : (r[0][0] === name[0] ? jaroWinkler(name, r[0]) : 0);
-    if (s >= 0.94 && (!best || s > best.s)) best = { s, name: r[0], use: r[1], useTa: r[2], brands: r[3], top: r[4], highAlert: !!r[5] };
+    if (s >= 0.94 && (!best || s > best.s)) best = { s, name: r[0], use: r[1], useTa: r[2], brands: r[3], top: r[4], highAlert: !!r[5], useKn: r[6] || "" };
   }
   return best;
 }
@@ -229,4 +241,29 @@ export function decidingQuestion(gs) {
   if (makerDisjoint) return { kind: "company", options: top.map((g) => ({ label: g.makers[0], group: g })) };
   // Same company, overlapping suffixes: ask for the full printed name.
   return { kind: "fullname", options: top.map((g) => ({ label: g.products[0].name.replace(/\s+(tablet|capsule|syrup|injection|suspension|drops?)\b.*$/i, ""), group: g })) };
+}
+
+
+let INDIC = null; // [norm, skeleton] per root, built once on first Tamil/Kannada query
+/**
+ * Candidates for a name heard or typed in Tamil/Kannada script (already transliterated to Latin).
+ * Score = mean of Jaro-Winkler on the sound-normalised name and on its consonant skeleton, with a tiny
+ * popularity tie-break. An exact catalogue match still wins outright.
+ */
+export function findRootsIndic(name, limit = 8) {
+  if (!ROOTS || !name) return [];
+  if (!INDIC) INDIC = ROOTS.map((r) => { const n = indicNorm(r[0]); return [n, skeleton(n)]; });
+  const q = indicNorm(name), qs = skeleton(q);
+  const out = [];
+  for (let i = 0; i < ROOTS.length; i++) {
+    const r = ROOTS[i], [n, sk] = INDIC[i];
+    if (!n || Math.abs(n.length - q.length) > 3) continue;
+    if (n === q) { out.push({ root: r[0], count: r[2], twin: r[3], harm: r[4], highAlert: !!r[5], score: 1.5 + Math.log10(r[2] + 1) * 0.01, how: "sounds" }); continue; }
+    if (n[0] !== q[0] && sk[0] !== qs[0]) continue;
+    const sc = 0.5 * jaroWinkler(q, n) + 0.5 * jaroWinkler(qs, sk);
+    if (sc < 0.8) continue;
+    out.push({ root: r[0], count: r[2], twin: r[3], harm: r[4], highAlert: !!r[5], score: sc + Math.log10(r[2] + 1) * 0.01, how: "sounds" });
+  }
+  out.sort((a, b) => b.score - a.score || b.count - a.count);
+  return out.slice(0, limit);
 }
