@@ -1,0 +1,9 @@
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.4
+lightgbm>=4.3
+rapidfuzz>=3.6
+jellyfish>=1.0
+wordfreq>=3.1
+matplotlib>=3.8
+pytest>=8.0
