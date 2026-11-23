@@ -2,12 +2,14 @@
 import { phoneticKey } from "./phonetic.js";
 
 let ROOTS = null; // [root, phon, count, twinFlag(0 none,1 family,2 cross), harm, highAlert]
+let RANKER = null; // learned weights (pipeline/s6b_ranker.py)
 const shardCache = new Map();
 
 export async function loadRoots() {
   if (!ROOTS) {
-    const r = await fetch("data/roots.json");
+    const [r, w] = await Promise.all([fetch("data/roots.json"), fetch("data/ranker.json").catch(() => null)]);
     ROOTS = await r.json();
+    try { RANKER = w && w.ok !== false ? await w.json() : null; } catch { RANKER = null; }
   }
   return ROOTS;
 }
@@ -23,7 +25,7 @@ export async function productsFor(root) {
   const shard = await shardCache.get(k);
   return (shard[root] || []).map((p) => ({
     name: p[0], maker: p[1], strength: p[2], form: p[3], route: p[4], ings: p[5],
-    use: p[6], useTa: p[7], highAlert: !!p[8], price: p[9],
+    use: p[6], useTa: p[7], highAlert: !!p[8], price: p[9], suffix: p[10] || "",
   }));
 }
 
@@ -55,6 +57,32 @@ export function jaroWinkler(a, b) {
   return jaro + p * 0.1 * (1 - jaro);
 }
 
+export function levSim(a, b) {
+  if (a === b) return 1;
+  const m = a.length, n = b.length;
+  if (!m || !n) return 0;
+  let prev = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++) {
+    const cur = [i];
+    for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = cur;
+  }
+  return 1 - prev[n] / Math.max(m, n);
+}
+
+/** Same 8 features as pipeline/ranker.py rank_features(). */
+export function rankFeatures(flat, ph, r, jw) {
+  const rflat = r[0].replace(/ /g, "");
+  return [jw, r[1] === ph && ph.length >= 2 ? 1 : 0, levSim(ph, r[1]), levSim(flat, rflat), Math.log10(r[2] + 1),
+    r[0].includes(" ") ? 1 : 0, rflat[0] === flat[0] ? 1 : 0, Math.abs(rflat.length - flat.length)];
+}
+
+function learnedScore(x) {
+  let z = RANKER.intercept;
+  for (let i = 0; i < x.length; i++) z += RANKER.coef[i] * (x[i] - RANKER.mean[i]) / RANKER.scale[i];
+  return z;
+}
+
 /** Split what the person typed or said into a name part and any number printed after it. */
 export function parseQuery(q) {
   const raw = String(q || "").toLowerCase().trim();
@@ -84,8 +112,14 @@ export function findRoots(name, limit = 8) {
       if (rflat[0] !== flat[0] && r[1] !== ph) continue;
       const jw = jaroWinkler(flat, rflat);
       const sameSound = r[1] === ph && ph.length >= 2;
-      if (jw < 0.86 && !sameSound) continue;
-      score = jw + (sameSound ? 0.08 : 0);
+      if (jw < 0.80 && !sameSound) continue;
+      if (RANKER) {
+        const z = learnedScore(rankFeatures(flat, ph, r, jw));
+        score = 1 / (1 + Math.exp(-z)); // 0..1, always below an exact match
+      } else {
+        if (jw < 0.86 && !sameSound) continue;
+        score = jw + (sameSound ? 0.08 : 0) - 0.2;
+      }
       how = sameSound ? "sounds" : "spelling";
     }
     out.push({ root, count: r[2], twin: r[3], harm: r[4], highAlert: !!r[5], score, how });
@@ -108,6 +142,7 @@ export function meanings(products) {
     g.forms = [...new Set(g.products.map((p) => p.form))];
     g.routes = [...new Set(g.products.map((p) => p.route))];
     g.strengths = [...new Set(g.products.map((p) => p.strength).filter(Boolean))];
+    g.suffixes = [...new Set(g.products.map((p) => p.suffix || ""))];
   }
   gs.sort((a, b) => b.products.length - a.products.length);
   // A "twin" exists when two meanings share no ingredient at all.
@@ -134,7 +169,7 @@ export function matchNumber(gs, number) {
 
 /**
  * The single question that best separates the unrelated meanings:
- * form first (tablet vs eye drop), then the printed number, then the company.
+ * form first (tablet vs eye drop), then the printed number, then letters after the name, then the company.
  */
 export function decidingQuestion(gs) {
   const top = gs.slice(0, 4);
@@ -147,6 +182,11 @@ export function decidingQuestion(gs) {
   const disjoint = nums.every((a, i) => nums.every((b, j) => i === j || ![...a].some((x) => b.has(x))));
   if (disjoint && nums.every((s) => s.size)) {
     return { kind: "strength", options: top.map((g, i) => ({ label: [...nums[i]].slice(0, 3).join(" / "), group: g })) };
+  }
+  const sufs = top.map((g) => new Set(g.suffixes));
+  const sufDisjoint = sufs.every((a, i) => sufs.every((b, j) => i === j || ![...a].some((x) => b.has(x))));
+  if (sufDisjoint) {
+    return { kind: "suffix", options: top.map((g, i) => ({ label: [...sufs[i]].map((x) => (x ? x.toUpperCase() : "—")).slice(0, 3).join(" / "), group: g })) };
   }
   return { kind: "company", options: top.map((g) => ({ label: g.makers[0], group: g })) };
 }
