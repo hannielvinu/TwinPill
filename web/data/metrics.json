@@ -1,0 +1,124 @@
+{
+ "sections": [
+  {
+   "title": "1 \u00b7 Which name pairs get confused?",
+   "what": "440 real confused pairs from the ISMP list vs 1320 never-reported pairs; 5-fold cross-validation with no name shared between train and test.",
+   "cols": [
+    "ROC-AUC",
+    "PR-AUC",
+    "Recall at 90% precision"
+   ],
+   "rows": [
+    {
+     "name": "Edit distance (what fuzzy search uses)",
+     "vals": [
+      0.9061,
+      0.8015,
+      0.4364
+     ]
+    },
+    {
+     "name": "POCA-style sound + spelling score (FDA approach)",
+     "vals": [
+      0.9115,
+      0.8138,
+      0.3705
+     ]
+    },
+    {
+     "name": "Gradient boosting, 21 features",
+     "vals": [
+      0.9219,
+      0.8383,
+      0.4909
+     ]
+    },
+    {
+     "name": "Twinpill model (logistic regression, 21 features)",
+     "vals": [
+      0.9289,
+      0.8477,
+      0.575
+     ],
+     "ours": true
+    }
+   ],
+   "note": "Twinpill PR-AUC 95% CI [0.8149, 0.8763]; edit distance [0.768, 0.8325].",
+   "plot": "data/plots/confusability_pr.png"
+  },
+  {
+   "title": "2 \u00b7 Heard-alike: medicine names through speech AI",
+   "what": "300 Indian brand names spoken by 2 synthetic voices (600 utterances), transcribed by whisper-large-v3, then looked up.",
+   "cols": [
+    "Top-1 correct",
+    "Top-3 correct"
+   ],
+   "rows": [
+    {
+     "name": "Exact-match search on the transcript",
+     "vals": [
+      0.4884,
+      0.4884
+     ]
+    },
+    {
+     "name": "Fuzzy spelling + sound search",
+     "vals": [
+      0.6583,
+      0.7617
+     ]
+    },
+    {
+     "name": "Twinpill learned ranker (trained on one voice, tested on the other)",
+     "vals": [
+      0.755,
+      0.89
+     ],
+     "ours": true
+    }
+   ],
+   "note": "Speech AI spelled only 49% of names exactly right; 7.0% of transcripts were a different real Indian brand.",
+   "plot": "data/plots/heard_alike.png"
+  },
+  {
+   "title": "3 \u00b7 Does one question separate the twins?",
+   "what": "For all 8,050 twin names, which single question splits the unrelated medicines.",
+   "cols": [
+    "Names",
+    "Share"
+   ],
+   "rows": [
+    {
+     "name": "Asked by form (tablet or eye drop?)",
+     "vals": [
+      2241,
+      0.2784
+     ]
+    },
+    {
+     "name": "Asked by the printed number",
+     "vals": [
+      956,
+      0.1188
+     ]
+    },
+    {
+     "name": "Asked by the letters after the name (DSR, Plus\u2026)",
+     "vals": [
+      3065,
+      0.3807
+     ]
+    },
+    {
+     "name": "Only the company name tells them apart",
+     "vals": [
+      1788,
+      0.2221
+     ]
+    }
+   ],
+   "note": "When only the company differs, Twinpill says so plainly and asks the person to read the company name on the strip.",
+   "plot": "data/plots/twin_counts.png"
+  }
+ ]
+}

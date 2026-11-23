@@ -47,12 +47,12 @@ def main() -> None:
     (WEB_DATA / "roots.json").write_text(json.dumps(roots, separators=(",", ":")))
 
     shards: dict[str, dict] = defaultdict(dict)
-    cols = ["name", "maker", "strength", "form", "route", "ings", "use", "high_alert", "price"]
+    cols = ["name", "maker", "strength", "form", "route", "ings", "use", "high_alert", "price", "suffix"]
     for root, g in prods.groupby("root"):
         rows = []
         for r in g[cols].itertuples(index=False):
             rows.append([r.name, r.maker, r.strength, r.form, r.route, r.ings, r.use, ta(r.use), int(r.high_alert),
-                         None if pd.isna(r.price) else round(float(r.price), 2)])
+                         None if pd.isna(r.price) else round(float(r.price), 2), r.suffix])
         shards[shard_of(root)][root] = rows
     for k, v in shards.items():
         (WEB_DATA / "p" / f"{k}.json").write_text(json.dumps(v, ensure_ascii=False, separators=(",", ":")))

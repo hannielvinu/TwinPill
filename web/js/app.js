@@ -88,7 +88,11 @@ async function runQuery(text) {
     html += `<div class="verdict safe"><span class="badge">ONE</span><div><h2>${esc(t("safe_title", display))}</h2><p>${esc(t("safe_sub"))}</p></div></div>`;
   }
 
-  let shown = gs.slice(0, 4);
+  // Always show the unrelated meanings first: the biggest group, then whatever shares nothing with it.
+  const head = gs[0];
+  const unrel = gs.filter((g) => g !== head && !g.ings.some((i) => head.ings.includes(i)));
+  const rest = gs.filter((g) => g !== head && !unrel.includes(g));
+  let shown = [head, ...unrel, ...rest].slice(0, 4);
   let autoPick = -1;
   if (twin && number) {
     const hit = matchNumber(gs, number);
@@ -98,10 +102,10 @@ async function runQuery(text) {
     }
   }
   if (twin) {
-    const dq = decidingQuestion(shown);
+    const dq = decidingQuestion([head, ...unrel].slice(0, 4).length > 1 ? [head, ...unrel].slice(0, 4) : shown);
     if (dq) {
       let qtext = dq.kind === "form" ? t("q_form").replace("{a}", formLabel(dq.options[0].label)).replace("{b}", formLabel(dq.options[1].label))
-        : dq.kind === "strength" ? t("q_strength") : t("q_company");
+        : dq.kind === "strength" ? t("q_strength") : dq.kind === "suffix" ? t("q_suffix") : t("q_company");
       html += `<div class="question" id="dq"><div class="label">${esc(t("ask"))}</div><h3>${esc(qtext)}</h3>
         <div class="muted small" style="color:#d9d6f2;margin-bottom:10px">${esc(t("pick"))}</div>
         <div class="answers">${dq.options.map((o, i) => `<button class="answer" data-i="${i}"><b>${esc(dq.kind === "form" ? cap(formLabel(o.label)) : o.label)}</b><span>${esc(useLabel(o.group))}</span></button>`).join("")}</div>
@@ -114,7 +118,7 @@ async function runQuery(text) {
   html += `<div class="twins" id="cards">${shown.map((g, i) => card(g, i)).join("")}</div>`;
   if (gs.length > 4) html += `<p class="muted small">${esc(t("and_more", gs.length - 4))}</p>`;
 
-  const near = hits.slice(1).filter((h) => (h.score >= 0.88 || h.how === "sounds") && h.root.replace(/ /g, "").length >= 4).slice(0, 5);
+  const near = hits.slice(1).filter((h) => h.score >= 0.25 && h.root.replace(/ /g, "").length >= 4).slice(0, 5);
   if (near.length) {
     const rows = await Promise.all(near.map(async (h) => {
       const g2 = meanings(await productsFor(h.root));
