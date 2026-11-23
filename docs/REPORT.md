@@ -91,7 +91,7 @@ Static site (HTML, CSS, ES modules) on GitHub Pages:
 - **Photo:** Tesseract.js reads the photo, and every word found is looked up.
 - **Language:** English and Tamil interface, plus read-aloud.
 
-There is no server and no analytics; prescriptions never leave the device. End-to-end Playwright checks pass 9 of 9: Acetam, Olip, Adnil, Biopam, Dolo, the misspelling "acetum", a no-twin control (Crocin), an unknown name (Saridon, which is shown as not found rather than guessed) and a generic name (Metformin). The median warm lookup is 54 ms (p95 70 ms).
+There is no server and no analytics; prescriptions never leave the device. End-to-end Playwright checks pass 9 of 9: Acetam, Olip, Adnil, Biopam, Dolo, the misspelling "acetum", a no-twin control (Crocin), an unknown name (Saridon, which is shown as not found rather than guessed) and a generic name (Metformin). The median warm lookup is 49 ms (p95 68 ms).
 
 ## 5 Limitations and future work
 - **Old snapshot:** the catalogue dates from around 2021–22. Some products have since changed, and published cases such as Linamac and Medzole are not in it. A current catalogue would change the counts.
