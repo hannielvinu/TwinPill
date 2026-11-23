@@ -57,9 +57,9 @@ def main() -> None:
     for k, v in shards.items():
         (WEB_DATA / "p" / f"{k}.json").write_text(json.dumps(v, ensure_ascii=False, separators=(",", ":")))
 
-    # atlas: worst twin per root, top 400 by harm then by product count
+    # atlas: worst twin per root; cross-company twins first, then by harm, then by product count
     best = tw.sort_values(["harm"], ascending=False).drop_duplicates("root")
-    best = best.assign(n=best["root"].map(counts)).sort_values(["harm", "n"], ascending=[False, False])
+    best = best.assign(n=best["root"].map(counts), cross=(best["kind"] == "cross").astype(int)).sort_values(["cross", "harm", "n"], ascending=[False, False, False])
     atlas = []
     for r in best.head(400).itertuples(index=False):
         atlas.append({
