@@ -214,7 +214,7 @@ async function onPhoto(e) {
     const { readNames } = await import("./ocr.js");
     const found = await readNames(file, (p) => setStatus(`<span class="spinner"></span>${esc(t("reading"))} ${Math.round(p * 100)}%`));
     if (!found.length) { setStatus(esc(t("read_none"))); return; }
-    setStatus(esc(t("read_ok", found.map((f) => f.text).join(", "))));
+    setStatus(esc(t("read_ok", found[0].text)));
     document.getElementById("q").value = found[0].text;
     runQuery(found[0].text);
   } catch (err) { setStatus(esc(String(err.message || err))); }

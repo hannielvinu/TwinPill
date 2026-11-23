@@ -26,7 +26,7 @@ export async function readNames(file, onProgress) {
     if (seen.has(w.w)) continue;
     seen.add(w.w);
     const hit = findRoots(w.w, 1)[0];
-    if (hit && (hit.score >= 1.9 || hit.score >= 0.7)) {
+    if (hit && (hit.score >= 1.9 || (hit.score >= 0.85 && w.h > 0))) {
       const after = data.text.slice(data.text.toLowerCase().indexOf(w.raw.toLowerCase()) + w.raw.length).match(/\d+(?:\.\d+)?/);
       found.push({ text: `${hit.root}${after ? " " + after[0] : ""}`, root: hit.root, size: w.h, score: hit.score + (hit.twin ? 0.2 : 0) });
     }
