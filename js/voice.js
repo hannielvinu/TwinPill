@@ -1,34 +1,40 @@
-// On-device speech-to-text with Whisper (base.en) via Transformers.js. Audio never leaves the browser.
-const LIB = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2";
-const MODEL = "Xenova/whisper-base.en";
-let pipe = null;
+// Voice input through the browser's speech recognition (Web Speech API).
+// In Chrome/Android this is Google's speech service, the same engine as Google voice typing, with Indian
+// English, Tamil and Kannada. We ask for several alternatives and let the catalogue pick the best one.
+let current = null;
 
-async function getPipe(onMsg) {
-  if (pipe) return pipe;
-  const { pipeline } = await import(LIB);
-  onMsg?.("Downloading speech model (about 80 MB, first time only)…");
-  pipe = await pipeline("automatic-speech-recognition", MODEL, {
-    dtype: "q8",
-    progress_callback: (p) => {
-      if (p.status === "progress" && p.total) onMsg?.(`Loading speech model… ${Math.round((100 * p.loaded) / p.total)}%`);
-    },
+export function speechSupported() {
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+}
+
+export function stopListening() {
+  try { current?.stop(); } catch { /* already stopped */ }
+}
+
+/** Resolve with up to 5 transcript alternatives for one utterance in the given language (en-IN, ta-IN, kn-IN). */
+export function listen(langCode) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  return new Promise((resolve, reject) => {
+    const rec = new SR();
+    current = rec;
+    rec.lang = langCode;
+    rec.interimResults = false;
+    rec.continuous = false;
+    rec.maxAlternatives = 5;
+    let done = false;
+    rec.onresult = (e) => {
+      const res = e.results[0];
+      const alts = [];
+      for (let i = 0; i < res.length; i++) {
+        const tx = String(res[i].transcript || "").trim();
+        if (tx && !alts.includes(tx)) alts.push(tx);
+      }
+      done = true;
+      alts.length ? resolve(alts) : reject(new Error("no-speech"));
+    };
+    rec.onerror = (e) => { if (!done) { done = true; reject(new Error(e.error || "error")); } };
+    rec.onend = () => { current = null; if (!done) { done = true; reject(new Error("no-speech")); } };
+    rec.start();
+    setTimeout(() => { if (!done) rec.stop(); }, 8000);
   });
-  return pipe;
-}
-
-async function toMono16k(blob) {
-  const buf = await blob.arrayBuffer();
-  const ctx = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
-  const audio = await ctx.decodeAudioData(buf);
-  const data = audio.getChannelData(0);
-  ctx.close();
-  return data;
-}
-
-export async function transcribe(blob, onMsg) {
-  const asr = await getPipe(onMsg);
-  onMsg?.("Listening back…");
-  const audio = await toMono16k(blob);
-  const out = await asr(audio, { chunk_length_s: 10 });
-  return String(out.text || "").replace(/[.,!?]/g, " ").replace(/\s+/g, " ").trim();
 }
