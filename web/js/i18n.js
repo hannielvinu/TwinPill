@@ -15,7 +15,7 @@ export const T = {
     used_for: "Used for", contains: "Contains", made_by: "Made by", forms: "Comes as", strengths: "Strengths",
     products: (n) => `${n} product${n === 1 ? "" : "s"}`, and_more: (n) => `+${n} more`,
     ask: "Ask this one question first",
-    q_form: "Is it a {a} or a {b}?", q_strength: "What number is printed right after the name?",
+    q_form: "Is it {a} or {b}?", q_strength: "What number is printed right after the name?",
     q_company: "Which company name is printed on the strip?",
     q_suffix: "Which letters are printed right after the name? (— means none)",
     pick: "Tap the answer that matches the strip:",

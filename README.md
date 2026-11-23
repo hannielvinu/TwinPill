@@ -87,7 +87,7 @@ flowchart LR
 ## AI / ML methods
 
 - **Brand-key extraction:** the name a person would actually say ("New Triglucored", not "New"), using word-frequency filtering of generic first words.
-- **Ingredient → class:** 1,643 ingredients mapped to WHO ATC codes via Wikidata plus a curated gap list (98.9% of products covered), then to plain-language uses in English and Tamil.
+- **Ingredient → class:** 1,643 ingredients mapped to WHO ATC codes via Wikidata plus a curated gap list (99.0% of products covered), then to plain-language uses in English and Tamil.
 - **Twin detection + harm score:** two products under one brand key with no shared ingredient. A transparent 0–100 harm score adds points for a different purpose, a different body system, a high-alert medicine, the same route and form, and the same printed strength.
 - **Indian-English phonetic key:** collapses spellings that sound identical at a chemist counter (ph/f, c/k/s, z/s/j, v/w, aspirated pairs, vowel drift). Identical in Python and JavaScript, and tested.
 - **Confusability model:** logistic regression over 21 sound, spelling and handwriting features. It is trained on 440 real confused pairs from the ISMP List of Confused Drug Names against 1,320 never-reported pairs, and validated with name-grouped 5-fold cross-validation.
@@ -102,7 +102,7 @@ See the live [Evidence page](https://hannielvinu.github.io/twinpill/#/evidence) 
 
 | Method | ROC-AUC | PR-AUC | Recall at 90% precision |
 |---|---|---|---|
-| Edit distance (what fuzzy search uses) | 0.906 | 0.802 | 43.6% |
+| Edit distance (what fuzzy search uses) | 0.906 | 0.801 | 43.6% |
 | POCA-style sound + spelling score | 0.912 | 0.814 | 37.1% |
 | Gradient boosting, 21 features | 0.922 | 0.838 | 49.1% |
 | **Twinpill model** | **0.929** | **0.848** | **57.5%** |
@@ -123,7 +123,7 @@ PR-AUC 95% bootstrap CI: Twinpill 0.815–0.876 vs edit distance 0.768–0.833.
 
 **Does one question separate the twins?** For all 8,050 twin names: 2,241 are settled by the form, 956 by the printed number, and 3,065 by the letters after the name, so **77.8% are settled without needing the company name**. The rest are flagged plainly as "only the company name tells them apart".
 
-**App checks:** 7/7 end-to-end browser checks pass on known names (`tests/e2e_app.cjs`), with no page errors. The median lookup takes **46 ms** on the device (p95 66 ms). 9 unit tests cover parsing and Python↔JavaScript parity of the phonetic key and the ranker.
+**App checks:** 7/7 end-to-end browser checks pass on known names (`tests/e2e_app.cjs`), with no page errors. The median lookup takes **45 ms** on the device (p95 58 ms). 9 unit tests cover parsing and Python↔JavaScript parity of the phonetic key and the ranker.
 
 ## Run it
 

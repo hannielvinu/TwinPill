@@ -101,7 +101,7 @@ def plot_heard(h: dict, path):
         ax.text(b_.get_width() + 1, b_.get_y() + b_.get_height() / 2, f"{100 * v:.0f}%", va="center", color=INK, fontweight="bold")
     ax.set_xlim(0, 110)
     ax.set_xlabel("Spoken names recovered correctly (top-1)")
-    ax.set_title("A name spoken aloud, written down by speech AI, then looked up", loc="left", fontsize=11, color=INK)
+    ax.set_title("Spoken name → speech AI → lookup (held-out voice)", loc="left", fontsize=11, color=INK)
     fig.tight_layout(); fig.savefig(path); plt.close(fig)
 
 

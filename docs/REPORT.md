@@ -5,7 +5,7 @@
 ## Abstract
 One brand name in India can refer to medicines with no active ingredient in common. We cleaned a public catalogue of 253,973 Indian medicine listings into 242,924 products and found **3,633 brand names that different companies use for unrelated medicines**, plus 5,047 names that one company reuses for unrelated products through suffixes. 758 of these twin names involve a high-alert medicine.
 
-We also measured a risk that had not been quantified before. When 300 Indian brand names were spoken to Whisper large-v3, it spelled only **48.8%** correctly, and **7.0%** of its transcripts were a *different real Indian brand*. A learned candidate ranker recovers the intended name 75.5% of the time at top-1 and 89.0% within the top 3, on a voice it never saw; exact search manages 48.8%. A confusability model trained on 440 real confused-name pairs (ISMP) reaches PR-AUC 0.848, against 0.802 for edit distance and 0.814 for a POCA-style score.
+We also measured a risk that had not been quantified before. When 300 Indian brand names were spoken to Whisper large-v3, it spelled only **48.8%** correctly, and **7.0%** of its transcripts were a *different real Indian brand*. A learned candidate ranker recovers the intended name 75.5% of the time at top-1 and 89.0% within the top 3, on a voice it never saw; exact search manages 48.8%. A confusability model trained on 440 real confused-name pairs (ISMP) reaches PR-AUC 0.848, against 0.801 for edit distance and 0.814 for a POCA-style score.
 
 These pieces power Twinpill, an offline web app that lists every medicine a name could be and asks the single question that separates them.
 
@@ -31,7 +31,7 @@ Indian prescriptions are mostly handwritten lists of brand names, with no diagno
 - **Brand key:** the name a person would say. This is the first word, or the first two words when the first is an everyday English word (word-frequency Zipf ≥ 3, e.g. "New Triglucored") or 3 letters or fewer. Without this step, generic prefixes such as "New", "Mega" and "All" created false twins.
 - **Parsing:** strength (first numeric group with unit, e.g. `650mg`, `37.5mg/325mg`), dosage form (50 patterns, longest first), route group (oral, eye, ear, skin, injection…) and suffix letters (e.g. `DSR`, `SR`, `MR`).
 - **Ingredients:** strengths removed, lower-cased, and synonyms unified (acetaminophen→paracetamol, amoxycillin→amoxicillin…). The source lists at most two ingredients per product.
-- **Classes:** 1,643 ingredients are matched to WHO ATC codes using Wikidata labels and aliases, with salt-word stripping and a curated list for 40 common gaps. That covers 1,312 ingredients and 98.9% of products. ATC level-3 groups are mapped to plain English and Tamil ("fits (epilepsy)" / "வலிப்பு நோய்"). A 49-molecule high-alert list follows ISMP-style categories.
+- **Classes:** 1,643 ingredients are matched to WHO ATC codes using Wikidata labels and aliases, with salt-word stripping and a curated list for 40 common gaps. That covers 1,313 ingredients and 99.0% of products. ATC level-3 groups are mapped to plain English and Tamil ("fits (epilepsy)" / "வலிப்பு நோய்"). A 49-molecule high-alert list follows ISMP-style categories.
 
 ## 3 Method
 ### 3.1 Twin detection and harm
@@ -59,7 +59,7 @@ Ordered rewrite rules: ph→f, gh/kh/bh/dh/th→g/k/b/d/t, ck/q→k, x→ks, sof
 
 | Method | ROC-AUC | PR-AUC (95% CI) | Recall @ 90% precision |
 |---|---|---|---|
-| Edit distance | 0.906 | 0.802 (0.768–0.833) | 43.6% |
+| Edit distance | 0.906 | 0.801 (0.768–0.833) | 43.6% |
 | POCA-style (mean of spelling and Metaphone similarity) | 0.912 | 0.814 (0.780–0.846) | 37.1% |
 | LightGBM, 21 features | 0.922 | 0.838 (0.810–0.868) | 49.1% |
 | **Logistic regression, 21 features (chosen)** | **0.929** | **0.848 (0.815–0.876)** | **57.5%** |
@@ -89,7 +89,7 @@ Static site (HTML, CSS, ES modules) on GitHub Pages:
 - **Photo:** Tesseract.js reads the photo, and every word found is looked up.
 - **Language:** English and Tamil interface, plus read-aloud.
 
-There is no server and no analytics; prescriptions never leave the device. End-to-end Playwright checks pass 7 of 7 (Acetam, Olip, Adnil, Biopam, Dolo, the misspelling "acetum", and a single-meaning control, Crocin), with a median warm lookup of 46 ms (p95 66 ms).
+There is no server and no analytics; prescriptions never leave the device. End-to-end Playwright checks pass 7 of 7 (Acetam, Olip, Adnil, Biopam, Dolo, the misspelling "acetum", and a single-meaning control, Crocin), with a median warm lookup of 45 ms (p95 58 ms).
 
 ## 5 Limitations and future work
 - **Old snapshot:** the catalogue dates from around 2021–22. Some products have since changed, and published cases such as Linamac and Medzole are not in it. A current catalogue would change the counts.

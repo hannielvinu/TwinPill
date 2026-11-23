@@ -104,7 +104,8 @@ async function runQuery(text) {
   if (twin) {
     const dq = decidingQuestion([head, ...unrel].slice(0, 4).length > 1 ? [head, ...unrel].slice(0, 4) : shown);
     if (dq) {
-      let qtext = dq.kind === "form" ? t("q_form").replace("{a}", formLabel(dq.options[0].label)).replace("{b}", formLabel(dq.options[1].label))
+      const art = (x) => (lang === "en" ? (/^[aeiou]/i.test(x) ? "an " : "a ") + x : x);
+      let qtext = dq.kind === "form" ? t("q_form").replace("{a}", art(formLabel(dq.options[0].label))).replace("{b}", art(formLabel(dq.options[1].label)))
         : dq.kind === "strength" ? t("q_strength") : dq.kind === "suffix" ? t("q_suffix") : t("q_company");
       html += `<div class="question" id="dq"><div class="label">${esc(t("ask"))}</div><h3>${esc(qtext)}</h3>
         <div class="muted small" style="color:#d9d6f2;margin-bottom:10px">${esc(t("pick"))}</div>
@@ -285,7 +286,7 @@ function renderHow() {
     <ol class="steps">
       <li><b>Clean the catalogue.</b> 246,068 active Indian listings → 242,924 products after removing duplicates; brand name, strength, form and ingredients parsed from each.</li>
       <li><b>Find the twins.</b> Products are grouped by the name a person would say. Any two products under one name with no shared ingredient form a twin pair (different companies or one company's suffix variants).</li>
-      <li><b>Know what each medicine is for.</b> 1,643 ingredients mapped to WHO ATC classes (98.9% of products) and rewritten in plain English and Tamil (“fits (epilepsy)”, not “antiepileptic”).</li>
+      <li><b>Know what each medicine is for.</b> 1,643 ingredients mapped to WHO ATC classes (99.0% of products) and rewritten in plain English and Tamil (“fits (epilepsy)”, not “antiepileptic”).</li>
       <li><b>Score the danger.</b> Different purpose, different body system, a high-alert medicine, the same form and route, and whether the printed number or the company is the only clue.</li>
       <li><b>Catch near-names.</b> An Indian-English sound key plus a learned confusability model (trained on ISMP's published confused-name pairs and on speech-AI mishearings) finds names a listener or a voice app could land on instead.</li>
       <li><b>Ask the one question.</b> For each name the app picks the single question that splits the unrelated meanings: the form first, then the printed number, then the company.</li>
