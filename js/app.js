@@ -1,5 +1,5 @@
 import { T, FORM_TA } from "./i18n.js";
-import { loadRoots, findRoots, parseQuery, productsFor, meanings, isTwin, matchNumber, decidingQuestion } from "./search.js";
+import { loadRoots, findRoots, parseQuery, productsFor, meanings, isTwin, matchNumber, decidingQuestion, confident, loadIngredients, findIngredient, commonIngredient } from "./search.js";
 
 let lang = "en";
 try { lang = localStorage.getItem("tp_lang") || "en"; } catch { /* private mode */ }
@@ -56,7 +56,7 @@ function countUp(el, target) {
   const start = performance.now();
   const step = (now) => {
     const k = Math.min(1, (now - start) / 1100);
-    el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3))).toLocaleString("en-IN");
+    el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3))).toLocaleString("en-US");
     if (k < 1) requestAnimationFrame(step);
   };
   requestAnimationFrame(step);
@@ -70,9 +70,30 @@ async function runQuery(text) {
   if (!box) return;
   const { name, number } = parseQuery(text);
   if (!name) { box.innerHTML = ""; return; }
-  await loadRoots();
+  await Promise.all([loadRoots(), loadIngredients()]);
   const hits = findRoots(name, 8);
-  if (!hits.length) { box.innerHTML = `<div class="verdict safe"><div><h2>${esc(t("not_found"))}</h2></div></div>`; return; }
+  const exact = hits[0] && hits[0].how === "exact";
+  const chip = (r) => `<button class="chip" data-q="${esc(r)}">${esc(cap(r))}</button>`;
+  const wireChips = () => box.querySelectorAll("button.chip[data-q]").forEach((b) => b.addEventListener("click", () => { document.getElementById("q").value = b.dataset.q; runQuery(b.dataset.q); }));
+
+  // A generic (molecule) name: explain it instead of guessing a brand.
+  const ing = !exact ? findIngredient(name) : null;
+  if (ing) {
+    box.innerHTML = `<div class="verdict info"><span class="badge">GENERIC</span><div><h2>${esc(t("generic_title", cap(ing.name)))}</h2>
+      <p>${esc(t("used_for"))}: <b>${esc(lang === "ta" ? ing.useTa || ing.use : ing.use)}</b>. ${esc(t("generic_sub", ing.brands.toLocaleString("en-US")))}</p></div></div>
+      <div class="sounds"><h4>${esc(t("generic_brands"))}</h4><div class="chips" style="margin-top:10px">${ing.top.map(chip).join("")}</div></div>
+      <p class="disclaimer">${esc(t("disclaimer"))}</p>`;
+    wireChips();
+    return;
+  }
+  // Not in the catalogue, or only a weak look-alike: say so plainly, never present a guess as the answer.
+  if (!hits.length || !confident(name, hits[0])) {
+    const near = hits.filter((h) => h.score >= 0.2).slice(0, 5);
+    box.innerHTML = `<div class="verdict unknown"><span class="badge">NOT FOUND</span><div><h2>${esc(t("nf_title", text.trim()))}</h2><p>${esc(t("nf_sub"))}</p></div></div>
+      ${near.length ? `<div class="sounds"><h4>${esc(t("nf_closest"))}</h4><p class="muted small">${esc(t("nf_closest_sub"))}</p><div class="chips" style="margin-top:10px">${near.map((h) => chip(h.root)).join("")}</div></div>` : ""}`;
+    wireChips();
+    return;
+  }
   const main = hits[0];
   const prods = await productsFor(main.root);
   const gs = meanings(prods);
@@ -80,24 +101,33 @@ async function runQuery(text) {
   const display = cap(main.root);
 
   let html = "";
+  if (!exact) {
+    const others = hits.slice(1, 4).filter((h) => confident(name, h));
+    html += `<div class="didyou">${esc(t("dym", text.trim()))} <b>${esc(display)}</b>${others.length ? ` ${esc(t("dym_others"))} ${others.map((h) => chip(h.root)).join(" ")}` : ""}</div>`;
+  }
   if (twin) {
     const unrelated = gs.filter((g) => g.unrelated > 0);
     const kindNote = new Set(gs.flatMap((g) => g.makers)).size > 1 && main.twin === 2 ? t("cross_note") : t("family_note");
     html += `<div class="verdict twin"><span class="badge">TWIN</span><div><h2>${esc(t("twin_title", unrelated.length, display))}</h2><p>${esc(kindNote)}</p></div></div>`;
   } else {
-    html += `<div class="verdict safe"><span class="badge">ONE</span><div><h2>${esc(t("safe_title", display))}</h2><p>${esc(t("safe_sub"))}</p></div></div>`;
+    const common = commonIngredient(gs);
+    const title = gs.length === 1 ? t("safe_title", display) : common ? t("family_title", display, cap(common)) : t("related_title", display);
+    html += `<div class="verdict safe"><span class="badge">NO TWIN</span><div><h2>${esc(title)}</h2><p>${esc(t("safe_sub"))}</p></div></div>`;
   }
 
   // Always show the unrelated meanings first: the biggest group, then whatever shares nothing with it.
-  const head = gs[0];
-  const unrel = gs.filter((g) => g !== head && !g.ings.some((i) => head.ings.includes(i)));
+  const head = gs.find((g) => !g.incomplete) || gs[0];
+  const unrel = gs.filter((g) => g !== head && !g.incomplete && !head.incomplete && !g.ings.some((i) => head.ings.includes(i)));
   const rest = gs.filter((g) => g !== head && !unrel.includes(g));
   let shown = [head, ...unrel, ...rest].slice(0, 4);
   let autoPick = -1;
+  if (number && !matchNumber(gs, number).length) {
+    html += `<div class="didyou">${esc(t("no_number", display, number))}</div>`;
+  }
   if (twin && number) {
     const hit = matchNumber(gs, number);
     if (hit.length === 1) autoPick = shown.indexOf(hit[0]);
-    if (hit.length < gs.length) {
+    if (hit.length && hit.length < gs.length) {
       html += `<div class="question"><div class="label">${esc(t("number_hit", number))}</div><h3>${hit.map((g) => esc(cap(g.ings.join(" + "))) + " · " + esc(useLabel(g))).join("<br>")}</h3></div>`;
     }
   }
@@ -106,7 +136,7 @@ async function runQuery(text) {
     if (dq) {
       const art = (x) => (lang === "en" ? (/^[aeiou]/i.test(x) ? "an " : "a ") + x : x);
       let qtext = dq.kind === "form" ? t("q_form").replace("{a}", art(formLabel(dq.options[0].label))).replace("{b}", art(formLabel(dq.options[1].label)))
-        : dq.kind === "strength" ? t("q_strength") : dq.kind === "suffix" ? t("q_suffix") : t("q_company");
+        : dq.kind === "strength" ? t("q_strength") : dq.kind === "suffix" ? t("q_suffix") : dq.kind === "fullname" ? t("q_fullname") : t("q_company");
       html += `<div class="question" id="dq"><div class="label">${esc(t("ask"))}</div><h3>${esc(qtext)}</h3>
         <div class="muted small" style="color:#d9d6f2;margin-bottom:10px">${esc(t("pick"))}</div>
         <div class="answers">${dq.options.map((o, i) => `<button class="answer" data-i="${i}"><b>${esc(dq.kind === "form" ? cap(formLabel(o.label)) : o.label)}</b><span>${esc(useLabel(o.group))}</span></button>`).join("")}</div>
@@ -119,7 +149,7 @@ async function runQuery(text) {
   html += `<div class="twins" id="cards">${shown.map((g, i) => card(g, i)).join("")}</div>`;
   if (gs.length > 4) html += `<p class="muted small">${esc(t("and_more", gs.length - 4))}</p>`;
 
-  const near = hits.slice(1).filter((h) => h.score >= 0.25 && h.root.replace(/ /g, "").length >= 4).slice(0, 5);
+  const near = hits.slice(1).filter((h) => h.score >= 0.25 && h.root.replace(/ /g, "").length >= 4 && confident(main.root, { ...h, score: 1 })).slice(0, 5);
   if (near.length) {
     const rows = await Promise.all(near.map(async (h) => {
       const g2 = meanings(await productsFor(h.root));
@@ -133,13 +163,14 @@ async function runQuery(text) {
   html += `<p class="disclaimer">${esc(t("disclaimer"))}</p>`;
   box.innerHTML = html;
   box.querySelectorAll(".sounds button").forEach((b) => b.addEventListener("click", () => { document.getElementById("q").value = b.dataset.q; runQuery(b.dataset.q); }));
+  wireChips();
   if (window.innerWidth < 760) box.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function card(g, i) {
   const names = [...new Set(g.products.map((p) => p.name))];
   return `<article class="mcard" data-i="${i}">
-    <span class="tag">${esc(t("used_for"))}</span>${g.highAlert ? `<span class="ha">${esc(t("high_alert"))}</span>` : ""}
+    <span class="tag">${esc(t("used_for"))}</span>${g.highAlert ? `<span class="ha">${esc(t("high_alert"))}</span>` : ""}${g.incomplete ? `<span class="partial" title="${esc(t("partial_tip"))}">${esc(t("partial"))}</span>` : ""}
     <div class="use">${esc(sent(useLabel(g)))}</div>
     <dl>
       <dt>${esc(t("contains"))}</dt><dd>${esc(cap(g.ings.join(" + ")))}</dd>
@@ -224,7 +255,7 @@ async function onPhoto(e) {
 /* ---------- atlas ---------- */
 async function renderAtlas() {
   const [atlas, stats] = await Promise.all([fetch("data/atlas.json").then((r) => r.json()), fetch("data/stats.json").then((r) => r.json())]);
-  const n = (x) => Number(x).toLocaleString("en-IN");
+  const n = (x) => Number(x).toLocaleString("en-US");
   view.innerHTML = `<section class="page-head"><p class="kicker">Twin Atlas</p><h1>India's medicine name clashes, mapped.</h1>
     <p>Every brand name in ${n(stats.products)} active Indian listings, checked against every other product with the same name. A <b>twin</b> is a name that covers medicines sharing no active ingredient at all.</p></section>
     <div class="tiles">
@@ -257,22 +288,23 @@ async function renderEvidence() {
   try { m = await fetch("data/metrics.json").then((r) => (r.ok ? r.json() : null)); } catch { /* not built yet */ }
   const stats = await fetch("data/stats.json").then((r) => r.json());
   const pct = (x) => (x == null ? "–" : (100 * x).toFixed(1) + "%");
+  const fmtCell = (v, f) => (typeof v !== "number" ? esc(v) : f === "num" ? v.toFixed(3) : f === "int" || v > 1 ? v.toLocaleString("en-US") : pct(v));
   let html = `<section class="page-head"><p class="kicker">Evidence</p><h1>Tested, with numbers.</h1>
     <p>Every result below comes from held-out data the system never saw while being built, compared against the simple method a pharmacy app would use today. Reproduce all of it with <code>make all</code> from the repository.</p></section>`;
   if (m) {
     for (const sec of m.sections) {
       html += `<div class="card"><h3>${esc(sec.title)}</h3><p class="muted">${esc(sec.what)}</p><table><thead><tr><th>Method</th>${sec.cols.map((c) => `<th class="num">${esc(c)}</th>`).join("")}</tr></thead><tbody>
-        ${sec.rows.map((r) => `<tr class="${r.ours ? "ours" : ""}"><td>${esc(r.name)}</td>${r.vals.map((v) => `<td class="num">${typeof v === "number" ? (v <= 1 ? pct(v) : v.toLocaleString("en-IN")) : esc(v)}</td>`).join("")}</tr>`).join("")}
+        ${sec.rows.map((r) => `<tr class="${r.ours ? "ours" : ""}"><td>${esc(r.name)}</td>${r.vals.map((v, i) => `<td class="num">${fmtCell(v, (sec.fmt || [])[i])}</td>`).join("")}</tr>`).join("")}
         </tbody></table>${sec.note ? `<p class="muted small">${esc(sec.note)}</p>` : ""}${sec.plot ? `<img src="${esc(sec.plot)}" alt="${esc(sec.title)}" style="width:100%;max-width:760px;margin-top:12px;border-radius:12px">` : ""}</div>`;
     }
   } else {
     html += `<div class="card"><p>Evaluation results are being generated.</p></div>`;
   }
   html += `<div class="card"><h3>Data quality</h3><table><tbody>
-    <tr><td>Listings in source snapshot</td><td class="num">${stats.rows_raw.toLocaleString("en-IN")}</td></tr>
-    <tr><td>Active (not discontinued)</td><td class="num">${stats.rows_active.toLocaleString("en-IN")}</td></tr>
-    <tr><td>After de-duplication and cleaning</td><td class="num">${stats.products.toLocaleString("en-IN")}</td></tr>
-    <tr><td>Distinct brand names</td><td class="num">${stats.roots.toLocaleString("en-IN")}</td></tr>
+    <tr><td>Listings in source snapshot</td><td class="num">${stats.rows_raw.toLocaleString("en-US")}</td></tr>
+    <tr><td>Active (not discontinued)</td><td class="num">${stats.rows_active.toLocaleString("en-US")}</td></tr>
+    <tr><td>After de-duplication and cleaning</td><td class="num">${stats.products.toLocaleString("en-US")}</td></tr>
+    <tr><td>Distinct brand names</td><td class="num">${stats.roots.toLocaleString("en-US")}</td></tr>
     <tr><td>Distinct ingredients · mapped to WHO ATC class</td><td class="num">${stats.ingredient_ingredients} · ${stats.ingredient_with_atc}</td></tr>
     <tr><td>Share of products with a mapped class</td><td class="num">${pct(stats.ingredient_product_weighted_atc_coverage)}</td></tr>
     </tbody></table></div>`;
@@ -285,7 +317,7 @@ function renderHow() {
     <p>Twinpill runs entirely in your browser. The catalogue, the matching and the speech and photo readers all run on your device, so a prescription never leaves your phone.</p></section>
     <ol class="steps">
       <li><b>Clean the catalogue.</b> 246,068 active Indian listings → 242,924 products after removing duplicates; brand name, strength, form and ingredients parsed from each.</li>
-      <li><b>Find the twins.</b> Products are grouped by the name a person would say. Any two products under one name with no shared ingredient form a twin pair (different companies or one company's suffix variants).</li>
+      <li><b>Find the twins.</b> Products are grouped by the name a person would say. Any two products under one name with no shared ingredient form a twin pair (different companies or one company's suffix variants). Products whose ingredient list may be cut short by the source are left out, so every twin is checkable.</li>
       <li><b>Know what each medicine is for.</b> 1,643 ingredients mapped to WHO ATC classes (99.0% of products) and rewritten in plain English and Tamil (“fits (epilepsy)”, not “antiepileptic”).</li>
       <li><b>Score the danger.</b> Different purpose, different body system, a high-alert medicine, the same form and route, and whether the printed number or the company is the only clue.</li>
       <li><b>Catch near-names.</b> An Indian-English sound key plus a learned confusability model (trained on ISMP's published confused-name pairs and on speech-AI mishearings) finds names a listener or a voice app could land on instead.</li>
@@ -293,7 +325,7 @@ function renderHow() {
     </ol>
     <div class="card" style="margin-top:18px"><h3>Limits we state openly</h3><ul>
       <li>The catalogue is a public snapshot (scraped around 2021–22); some products have since changed or stopped. Counts describe that snapshot.</li>
-      <li>Only the first two listed ingredients of each product are in the source data; rare three-ingredient overlaps can be missed.</li>
+      <li>The source lists at most two ingredients per product. Products that may be missing one (8,863) are never used to declare a twin, so the counts are conservative.</li>
       <li>Twinpill never names the right medicine. It shows what a name could mean so a person asks the pharmacist or doctor.</li>
     </ul></div>`;
 }
