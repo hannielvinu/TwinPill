@@ -9,7 +9,7 @@
 **In India, one medicine name can mean two completely different drugs.**
 Type, say or photograph a name: Twinpill shows every medicine it could be, and the one question that tells them apart.
 
-[**Live app**](https://hannielvinu.github.io/TwinPill/) · [Twin Atlas](https://hannielvinu.github.io/TwinPill/#/atlas) · [Evidence](https://hannielvinu.github.io/TwinPill/#/evidence) · [Technical report](docs/REPORT.md)
+[**Live app**](https://hannielvinu.github.io/TwinPill/) · [**Demo video**](https://youtu.be/L40GxcFT6XU) · [Twin Atlas](https://hannielvinu.github.io/TwinPill/#/atlas) · [Evidence](https://hannielvinu.github.io/TwinPill/#/evidence) · [Technical report](docs/REPORT.md)
 
 </div>
 
