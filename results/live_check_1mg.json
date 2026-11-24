@@ -1,0 +1,411 @@
+{
+ "source": "1mg.com",
+ "checked_at": "2026-11-24T23:48:12.337Z",
+ "names": [
+  {
+   "root": "adnil",
+   "products": [
+    {
+     "name": "Adnil 2.5mg Tablet",
+     "composition": "Glibenclamide (2.5mg)",
+     "marketer": "Globela Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/adnil-2.5mg-tablet-754568",
+     "discontinued": false
+    },
+    {
+     "name": "Adnil 0.5mg Tablet",
+     "composition": "Clonazepam (0.5mg)",
+     "marketer": "Medinova Labs",
+     "url": "https://www.1mg.com/drugs/adnil-0.5mg-tablet-254553",
+     "discontinued": false
+    },
+    {
+     "name": "Adnil 5mg Tablet",
+     "composition": "Glibenclamide (5mg)",
+     "marketer": "Globela Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/adnil-5mg-tablet-761368",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Adnil 2.5mg Tablet",
+     "composition": "Glibenclamide (2.5mg)",
+     "marketer": "Globela Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/adnil-2.5mg-tablet-754568",
+     "discontinued": false
+    },
+    {
+     "name": "Adnil 0.5mg Tablet",
+     "composition": "Clonazepam (0.5mg)",
+     "marketer": "Medinova Labs",
+     "url": "https://www.1mg.com/drugs/adnil-0.5mg-tablet-254553",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "olip",
+   "products": [
+    {
+     "name": "Olip 0.1% Eye Drop",
+     "composition": "Olopatadine (0.1% w/v)",
+     "marketer": "Synovia Life Sciences Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olip-0.1-eye-drop-761469",
+     "discontinued": false
+    },
+    {
+     "name": "Olip 10mg Tablet",
+     "composition": "Olanzapine (10mg)",
+     "marketer": "PJ Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/olip-10mg-tablet-481653",
+     "discontinued": false
+    },
+    {
+     "name": "Olip 20mg Tablet",
+     "composition": "Olanzapine (20mg)",
+     "marketer": "PJ Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/olip-20mg-tablet-553228",
+     "discontinued": false
+    },
+    {
+     "name": "Olip 10mg Tablet",
+     "composition": "Olanzapine (10mg)",
+     "marketer": "Godetia Healthcare",
+     "url": "https://www.1mg.com/drugs/olip-10mg-tablet-614180",
+     "discontinued": false
+    },
+    {
+     "name": "Olip 2.5mg Tablet",
+     "composition": "Olanzapine (2.5mg)",
+     "marketer": "PJ Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/olip-2.5mg-tablet-481656",
+     "discontinued": false
+    },
+    {
+     "name": "Olip 5mg Tablet",
+     "composition": "Olanzapine (5mg)",
+     "marketer": "Godetia Healthcare",
+     "url": "https://www.1mg.com/drugs/olip-5mg-tablet-614181",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Olip 0.1% Eye Drop",
+     "composition": "Olopatadine (0.1% w/v)",
+     "marketer": "Synovia Life Sciences Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olip-0.1-eye-drop-761469",
+     "discontinued": false
+    },
+    {
+     "name": "Olip 10mg Tablet",
+     "composition": "Olanzapine (10mg)",
+     "marketer": "PJ Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/olip-10mg-tablet-481653",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "acetam",
+   "products": [
+    {
+     "name": "Acetam 100mg Injection",
+     "composition": "Levetiracetam (100mg)",
+     "marketer": "Ambreyo Lifesciences",
+     "url": "https://www.1mg.com/drugs/acetam-100mg-injection-668024",
+     "discontinued": false
+    },
+    {
+     "name": "Acetam 200mg Injection",
+     "composition": "Piracetam (200mg)",
+     "marketer": "Garwyn Remedies",
+     "url": "https://www.1mg.com/drugs/acetam-200mg-injection-621018",
+     "discontinued": false
+    },
+    {
+     "name": "Acetam 500mg Tablet",
+     "composition": "Levetiracetam (500mg)",
+     "marketer": "Ambreyo Lifesciences",
+     "url": "https://www.1mg.com/drugs/acetam-500mg-tablet-667791",
+     "discontinued": false
+    },
+    {
+     "name": "Acetam SR 1000 Tablet",
+     "composition": "Paracetamol (1000mg)",
+     "marketer": "Hippocrat Biotech Private Limited",
+     "url": "https://www.1mg.com/drugs/acetam-sr-1000-tablet-897714",
+     "discontinued": false
+    },
+    {
+     "name": "Acetam 800mg Tablet",
+     "composition": "Piracetam (800mg)",
+     "marketer": "Garwychem Healthcare",
+     "url": "https://www.1mg.com/drugs/acetam-800mg-tablet-1047548",
+     "discontinued": false
+    },
+    {
+     "name": "Acetam 200mg Injection",
+     "composition": "Piracetam (200mg)",
+     "marketer": "Gadin Biotech",
+     "url": "https://www.1mg.com/drugs/acetam-200mg-injection-1039357",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Acetam 100mg Injection",
+     "composition": "Levetiracetam (100mg)",
+     "marketer": "Ambreyo Lifesciences",
+     "url": "https://www.1mg.com/drugs/acetam-100mg-injection-668024",
+     "discontinued": false
+    },
+    {
+     "name": "Acetam 200mg Injection",
+     "composition": "Piracetam (200mg)",
+     "marketer": "Garwyn Remedies",
+     "url": "https://www.1mg.com/drugs/acetam-200mg-injection-621018",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "biopam",
+   "products": [
+    {
+     "name": "Biopam 0.5mg Tablet",
+     "composition": "Clonazepam (0.5mg)",
+     "marketer": "Biomax Laboratories",
+     "url": "https://www.1mg.com/drugs/biopam-0.5mg-tablet-455691",
+     "discontinued": false
+    }
+   ],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "zentra",
+   "products": [
+    {
+     "name": "Zentra 100mg Capsule",
+     "composition": "Itraconazole (100mg)",
+     "marketer": "Zenexa Healthcare",
+     "url": "https://www.1mg.com/drugs/zentra-100mg-capsule-683307",
+     "discontinued": false
+    },
+    {
+     "name": "Zentra 100mg Injection",
+     "composition": "Tramadol (100mg)",
+     "marketer": "Zentis Drugs Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/zentra-100mg-injection-411695",
+     "discontinued": false
+    },
+    {
+     "name": "Zentra-OZ Cream",
+     "composition": "Ofloxacin (0.75% w/w) + Ornidazole (2% w/w) + Itraconazole (1% w/w) + Clobetasol (0.05% w/w)",
+     "marketer": "Zenexa Healthcare",
+     "url": "https://www.1mg.com/drugs/zentra-oz-cream-683316",
+     "discontinued": false
+    },
+    {
+     "name": "Zentra 100mg Capsule SR",
+     "composition": "Tramadol (100mg)",
+     "marketer": "Zentis Drugs Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/zentra-100mg-capsule-sr-411699",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Zentra 100mg Capsule",
+     "composition": "Itraconazole (100mg)",
+     "marketer": "Zenexa Healthcare",
+     "url": "https://www.1mg.com/drugs/zentra-100mg-capsule-683307",
+     "discontinued": false
+    },
+    {
+     "name": "Zentra 100mg Injection",
+     "composition": "Tramadol (100mg)",
+     "marketer": "Zentis Drugs Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/zentra-100mg-injection-411695",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "dolo",
+   "products": [
+    {
+     "name": "Dolo 650 Tablet",
+     "composition": "Paracetamol (650mg)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/dolo-650-tablet-74467",
+     "discontinued": false
+    },
+    {
+     "name": "Dolo 500 Tablet",
+     "composition": "Paracetamol (500mg)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/dolo-500-tablet-26676",
+     "discontinued": false
+    },
+    {
+     "name": "Dolo 250 Oral Suspension",
+     "composition": "Paracetamol (250mg/5ml)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/dolo-250-oral-suspension-26912",
+     "discontinued": false
+    },
+    {
+     "name": "Dolo 1000mg Tablet",
+     "composition": "Paracetamol (1000mg)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/dolo-1000mg-tablet-565999",
+     "discontinued": false
+    },
+    {
+     "name": "Dolo Drops",
+     "composition": "Paracetamol (100mg/ml)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/dolo-drops-141012",
+     "discontinued": false
+    }
+   ],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "medol",
+   "products": [
+    {
+     "name": "Medol-Plus Tablet",
+     "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+     "marketer": "Mediez Pharma",
+     "url": "https://www.1mg.com/drugs/medol-plus-tablet-506695",
+     "discontinued": false
+    },
+    {
+     "name": "Medol 200 CR Tablet",
+     "composition": "Tramadol (200mg)",
+     "marketer": "Mediez Pharma",
+     "url": "https://www.1mg.com/drugs/medol-200-cr-tablet-506966",
+     "discontinued": false
+    },
+    {
+     "name": "Medol P 100mg/325mg Tablet",
+     "composition": "Aceclofenac (100mg) + Paracetamol (325mg)",
+     "marketer": "Medbionic Healthcare",
+     "url": "https://www.1mg.com/drugs/medol-p-100mg-325mg-tablet-794022",
+     "discontinued": false
+    },
+    {
+     "name": "MEDOL 100MG INJECTION",
+     "composition": "Tramadol (100mg)",
+     "marketer": "Mediez Pharma",
+     "url": "https://www.1mg.com/drugs/medol-100mg-injection-353569",
+     "discontinued": false
+    },
+    {
+     "name": "Medol Gel",
+     "composition": "Tramadol (NA)",
+     "marketer": "View Laboratories",
+     "url": "https://www.1mg.com/drugs/medol-gel-276714",
+     "discontinued": false
+    },
+    {
+     "name": "Medol 100 SR Tablet",
+     "composition": "Tramadol (100mg)",
+     "marketer": "Mediez Pharma",
+     "url": "https://www.1mg.com/drugs/medol-100-sr-tablet-506704",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Medol 200 CR Tablet",
+     "composition": "Tramadol (200mg)",
+     "marketer": "Mediez Pharma",
+     "url": "https://www.1mg.com/drugs/medol-200-cr-tablet-506966",
+     "discontinued": false
+    },
+    {
+     "name": "Medol P 100mg/325mg Tablet",
+     "composition": "Aceclofenac (100mg) + Paracetamol (325mg)",
+     "marketer": "Medbionic Healthcare",
+     "url": "https://www.1mg.com/drugs/medol-p-100mg-325mg-tablet-794022",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "avil",
+   "products": [
+    {
+     "name": "AVil Injection",
+     "composition": "Pheniramine (22.75mg/ml)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/avil-injection-344388",
+     "discontinued": false
+    },
+    {
+     "name": "AVil Injection",
+     "composition": "Pheniramine (22.75mg/ml)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/avil-injection-241707",
+     "discontinued": false
+    },
+    {
+     "name": "Avil 25 Tablet",
+     "composition": "Pheniramine (25mg)",
+     "marketer": "Sanofi Consumer Healthcare India Limited",
+     "url": "https://www.1mg.com/drugs/avil-25-tablet-69629",
+     "discontinued": false
+    },
+    {
+     "name": "Avil 50mg Tablet",
+     "composition": "Pheniramine (50mg)",
+     "marketer": "Sanofi Consumer Healthcare India Limited",
+     "url": "https://www.1mg.com/drugs/avil-50mg-tablet-27410",
+     "discontinued": false
+    },
+    {
+     "name": "Avil 50mg Tablet",
+     "composition": "Pheniramine (50mg)",
+     "marketer": "Sanofi Consumer Healthcare India Limited",
+     "url": "https://www.1mg.com/drugs/avil-50mg-tablet-1113986",
+     "discontinued": false
+    },
+    {
+     "name": "Avil NU 10mg Tablet",
+     "composition": "Cetirizine (10mg)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/avil-nu-10mg-tablet-690632",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "AVil Injection",
+     "composition": "Pheniramine (22.75mg/ml)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/avil-injection-344388",
+     "discontinued": false
+    },
+    {
+     "name": "Avil NU 10mg Tablet",
+     "composition": "Cetirizine (10mg)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/avil-nu-10mg-tablet-690632",
+     "discontinued": false
+    }
+   ]
+  }
+ ]
+}

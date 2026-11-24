@@ -178,6 +178,16 @@ def main() -> None:
         "note": "When only the company differs, Twinpill says so plainly and asks the person to read the company name on the strip.",
         "plot": "data/plots/twin_counts.png"})
 
+    live_path = RESULTS / "live_check_summary.json"
+    if live_path.exists():
+        lv = json.loads(live_path.read_text())
+        sections.insert(0, {
+            "title": "0 · Still sold today? Re-checked on a live pharmacy",
+            "what": f"Our top twin names, searched on 1mg on {lv['summary']['date']}; each product page's composition and marketer read directly. "
+                    f"{lv['summary']['still_twins']} of {lv['summary']['with_2plus_listings']} names with 2+ live listings are still twins.",
+            "cols": ["Listing A", "Listing B"],
+            "rows": [{"name": r["root"].capitalize(), "vals": [r["a"], r["b"]], "ours": False} for r in lv["rows"][:12]],
+            "note": "Full list with product links: results/live_check_1mg.json (re-run: make live)."})
     metrics = {"sections": sections, "published_cases": pub, "question_coverage": cov, "confusability": conf,
                "heard_alike": heard, "atlas": stats}
     (RESULTS / "metrics.json").write_text(json.dumps(metrics, indent=2))

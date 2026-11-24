@@ -51,6 +51,9 @@ Real examples from the catalogue (click any of them in the app):
 3. It groups everything sold under that name by active ingredient, in plain words ("fits (epilepsy)", not "antiepileptic"), in **English, Tamil or Kannada**.
 4. It asks **the one question that splits the unrelated medicines**: the form, then the printed number, then the letters after the name, then the company. Tap the answer that matches the strip and the right medicine lights up.
 5. The **Twin Atlas** ranks India's most dangerous name clashes for pharmacists, hospitals and the regulator.
+6. When you speak, it shows **what the speech AI heard and what Twinpill found** ("add nil" → Adnil), so the correction is visible.
+7. **Warn my family on WhatsApp:** one tap sends the warning and the deciding question in English, Tamil or Kannada.
+8. **Works offline** after the first visit (a service worker caches the app and data), so it still works at a chemist with poor signal.
 
 Twinpill never names the "right" drug. It shows what a name could mean so a person asks before they swallow.
 

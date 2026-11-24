@@ -1,6 +1,6 @@
 PY ?= python3
 
-.PHONY: all data model heard evaluate test serve
+.PHONY: all data model heard live evaluate test serve
 
 all: data model evaluate test
 
@@ -12,6 +12,9 @@ model:           ## train + cross-validate the name-confusability model
 
 heard:           ## heard-alike audit (needs Gemini TTS + Groq Whisper access; cached after first run)
 	cd pipeline && $(PY) s6_heard_alike.py
+
+live:            ## re-check the top twin names on a live online pharmacy (1mg), then publish
+	node pipeline/s8_live_check.cjs data/processed/live_check_roots.json results/live_check_1mg.json && cd pipeline && $(PY) s9_live_export.py
 
 evaluate:        ## collect all metrics + plots into results/ and the app's Evidence page
 	cd pipeline && $(PY) s7_evaluate.py
