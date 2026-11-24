@@ -193,3 +193,20 @@ tr.ours td { font-weight: 700; background: var(--a-soft); }
 /* letter-spacing and upper-casing break Tamil/Kannada conjuncts */
 html[lang="ta"] .kicker, html[lang="kn"] .kicker, html[lang="ta"] .question .label, html[lang="kn"] .question .label,
 html[lang="ta"] .tag, html[lang="kn"] .tag, html[lang="ta"] .how, html[lang="kn"] .how { letter-spacing: 0; text-transform: none; font-size: .85rem; }
+
+/* voice: what the speech AI heard vs what Twinpill found */
+.heardcard { display: flex; align-items: center; gap: 16px; background: var(--a-soft); border-radius: 18px; padding: 14px 18px; margin-bottom: 12px; flex-wrap: wrap; }
+.heardcard b { display: block; font: 800 1.3rem var(--head); }
+.heardcard .hl-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.heardcard .arrow { font: 800 1.6rem var(--head); color: var(--a); }
+html[lang="ta"] .heardcard .hl-label, html[lang="kn"] .heardcard .hl-label { letter-spacing: 0; text-transform: none; }
+.verdict .live { margin-top: 10px; font-size: .88rem; background: #ffffff26; border-radius: 10px; padding: 8px 10px; }
+.verdict .live a { color: #fff; font-weight: 700; }
+.qactions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+.qactions .speak { margin-top: 0; }
+.share { display: inline-flex; align-items: center; gap: 8px; background: #25d366; color: #073b1d; font-weight: 800; text-decoration: none; border-radius: 999px; padding: 10px 16px; }
+.share::before { content: "💬"; }
+
+.livebar { background: var(--safe-soft); border-left: 6px solid var(--safe); border-radius: 14px; padding: 12px 16px; margin: 0 0 16px; }
+.livetag { display: inline-block; background: var(--safe); color: #fff; font: 800 .62rem var(--head); letter-spacing: .08em; border-radius: 6px; padding: 2px 6px; vertical-align: middle; }
+td.txt { font-size: .85rem; }
