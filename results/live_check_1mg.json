@@ -406,6 +406,70 @@
      "discontinued": false
     }
    ]
+  },
+  {
+   "root": "rantac",
+   "products": [
+    {
+     "name": "Rantac 150 Tablet",
+     "composition": "Ranitidine (150mg)",
+     "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/rantac-150-tablet-30363",
+     "discontinued": false
+    },
+    {
+     "name": "Rantac 300 Tablet",
+     "composition": "Ranitidine (300mg)",
+     "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/rantac-300-tablet-571685",
+     "discontinued": false
+    },
+    {
+     "name": "Rantac Syrup Mint",
+     "composition": "Ranitidine (75mg/5ml)",
+     "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/rantac-syrup-mint-301547",
+     "discontinued": false
+    },
+    {
+     "name": "Rantac-Dom Tablet",
+     "composition": "Domperidone (10mg) + Ranitidine (150mg)",
+     "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/rantac-dom-tablet-1154703",
+     "discontinued": false
+    },
+    {
+     "name": "Rantac OD 300 Tablet CR",
+     "composition": "Ranitidine (300mg)",
+     "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/rantac-od-300-tablet-cr-323690",
+     "discontinued": false
+    },
+    {
+     "name": "Rantac Mps Oral Suspension Elaichi Sugar Free",
+     "composition": "Magaldrate (400mg) + Dimethicone (20mg)",
+     "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/rantac-mps-oral-suspension-elaichi-sugar-free-793585",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Rantac 150 Tablet",
+     "composition": "Ranitidine (150mg)",
+     "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/rantac-150-tablet-30363",
+     "discontinued": false
+    },
+    {
+     "name": "Rantac Mps Oral Suspension Elaichi Sugar Free",
+     "composition": "Magaldrate (400mg) + Dimethicone (20mg)",
+     "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/rantac-mps-oral-suspension-elaichi-sugar-free-793585",
+     "discontinued": false
+    }
+   ]
   }
  ]
 }
