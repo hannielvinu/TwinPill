@@ -125,7 +125,7 @@ async function runQuery(text) {
     const unrelated = gs.filter((g) => g.unrelated > 0);
     const kindNote = new Set(gs.flatMap((g) => g.makers)).size > 1 && main.twin === 2 ? t("cross_note") : t("family_note");
     const live = LIVE?.names?.[main.root];
-    const liveLine = live ? `<p class="live">✓ ${esc(t("live_ok", LIVE.date))}: ${live.map((p) => `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a> = ${esc(p.composition)}`).join(" · ")}</p>` : "";
+    const liveLine = live ? `<p class="live">${esc(t("live_ok", LIVE.date))}: ${live.map((p) => `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.name)}</a> = ${esc(p.composition)}`).join(" · ")}</p>` : "";
     html += `<div class="verdict twin"><span class="badge">TWIN</span><div><h2>${esc(t("twin_title", unrelated.length, display))}</h2><p>${esc(kindNote)}</p>${liveLine}</div></div>`;
   } else {
     const common = commonIngredient(gs);
@@ -158,8 +158,8 @@ async function runQuery(text) {
       html += `<div class="question" id="dq"><div class="label">${esc(t("ask"))}</div><h3>${esc(qtext)}</h3>
         <div class="muted small" style="color:#d9d6f2;margin-bottom:10px">${esc(t("pick"))}</div>
         <div class="answers">${dq.options.map((o, i) => `<button class="answer" data-i="${i}"><b>${esc(dq.kind === "form" ? cap(formLabel(o.label)) : o.label)}</b><span>${esc(useLabel(o.group))}</span></button>`).join("")}</div>
-        <div class="qactions"><button class="speak" id="speakBtn">🔊 ${esc(t("speak"))}</button>
-        <a class="share" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText(display, main.root, qtext, dq))}">${esc(t("share"))}</a></div></div>`;
+        <div class="qactions"><button class="speak" id="speakBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>${esc(t("speak"))}</button>
+        <a class="share" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText(display, main.root, qtext, dq))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg>${esc(t("share"))}</a></div></div>`;
       setTimeout(() => wireQuestion(dq, qtext, autoPick), 0);
     }
   }
@@ -304,7 +304,7 @@ async function renderAtlas() {
       <div class="tile red"><b>${n(stats.twin_roots_high_alert)}</b><span>twin names involving a <b>high-alert</b> medicine (sedatives, epilepsy, diabetes, opioids, blood thinners…)</span></div>
       <div class="tile"><b>${n(stats.roots_where_strength_is_only_clue_and_high_alert)}</b><span>high-alert twins where the <b>printed number</b> is the only clue on the strip</span></div>
     </div>
-    ${live ? `<div class="livebar">✓ <b>Still on sale today.</b> We re-checked ${live.summary.with_2plus_listings} of the most dangerous twin names on a live online pharmacy (1mg, ${esc(live.summary.date)}): <b>${live.summary.still_twins}</b> are still sold as different medicines under one name. Rows marked <span class="livetag">LIVE</span> were verified.</div>` : ""}
+    ${live ? `<div class="livebar"><b>Still on sale today.</b> We re-checked ${live.summary.with_2plus_listings} of the most dangerous twin names on a live online pharmacy (1mg, ${esc(live.summary.date)}): <b>${live.summary.still_twins}</b> are still sold as different medicines under one name. Rows marked <span class="livetag">LIVE</span> were verified.</div>` : ""}
     <div class="filters" id="flt"><button class="on" data-f="all">All top 400</button><button data-f="cross">Different companies</button><button data-f="family">Same company</button><button data-f="strength">Number is the only clue</button><button data-f="company">Only the company differs</button></div>
     <div class="atlas" id="atlasList"></div>`;
   const list = document.getElementById("atlasList");
