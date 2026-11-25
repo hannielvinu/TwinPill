@@ -102,6 +102,8 @@ flowchart LR
 
 See the live [Evidence page](https://hannielvinu.github.io/TwinPill/#/evidence) and [`results/metrics.json`](results/metrics.json).
 
+**Still sold today?** On 24 Nov 2026 we re-checked 40 of the most dangerous twin names live on 1mg (`make live`). 36 still had two or more listings, and **30 are still twins today**, for example Adnil 2.5mg = glibenclamide (diabetes, Globela Pharma) vs Adnil 0.5mg = clonazepam (sedative, Medinova Labs), and Olip eye drop = olopatadine vs Olip 10mg = olanzapine (antipsychotic). Rows tagged LIVE in the Twin Atlas link to those pages ([`results/live_check_summary.json`](results/live_check_summary.json)).
+
 **1. Which name pairs get confused?** (held-out ISMP pairs, no name shared between train and test)
 
 | Method | ROC-AUC | PR-AUC | Recall at 90% precision |

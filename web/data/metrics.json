@@ -1,6 +1,113 @@
 {
  "sections": [
   {
+   "title": "0 \u00b7 Still sold today? Re-checked on a live pharmacy",
+   "what": "Our top twin names, searched on 1mg on 2026-11-24; each product page's composition and marketer read directly. 30 of 36 names with 2+ live listings are still twins.",
+   "cols": [
+    "Listing A",
+    "Listing B"
+   ],
+   "rows": [
+    {
+     "name": "Adnil",
+     "vals": [
+      "Adnil 2.5mg Tablet = Glibenclamide (2.5mg) (Globela Pharma Pvt Ltd)",
+      "Adnil 0.5mg Tablet = Clonazepam (0.5mg) (Medinova Labs)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Olip",
+     "vals": [
+      "Olip 0.1% Eye Drop = Olopatadine (0.1% w/v) (Synovia Life Sciences Pvt Ltd)",
+      "Olip 10mg Tablet = Olanzapine (10mg) (PJ Pharmaceuticals)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Acetam",
+     "vals": [
+      "Acetam 100mg Injection = Levetiracetam (100mg) (Ambreyo Lifesciences)",
+      "Acetam 200mg Injection = Piracetam (200mg) (Garwyn Remedies)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Zentra",
+     "vals": [
+      "Zentra 100mg Capsule = Itraconazole (100mg) (Zenexa Healthcare)",
+      "Zentra 100mg Injection = Tramadol (100mg) (Zentis Drugs Pvt Ltd)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Medol",
+     "vals": [
+      "Medol 200 CR Tablet = Tramadol (200mg) (Mediez Pharma)",
+      "Medol P 100mg/325mg Tablet = Aceclofenac (100mg) + Paracetamol (325mg) (Medbionic Healthcare)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Avil",
+     "vals": [
+      "AVil Injection = Pheniramine (22.75mg/ml) (Sanofi India Ltd)",
+      "Avil NU 10mg Tablet = Cetirizine (10mg) (Sanofi India Ltd)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Rantac",
+     "vals": [
+      "Rantac 150 Tablet = Ranitidine (150mg) (J B Chemicals and Pharmaceuticals Ltd)",
+      "Rantac Mps Oral Suspension Elaichi Sugar Free = Magaldrate (400mg) + Dimethicone (20mg) (J B Chemicals and Pharmaceuticals Ltd)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Allegra",
+     "vals": [
+      "Allegra 120mg Tablet = Fexofenadine (120mg) (Sanofi India Ltd)",
+      "Allegra Nasal Spray = Fluticasone Furoate (27.5mcg) (Sanofi Consumer Healthcare India Limited)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Tamrik",
+     "vals": [
+      "Tamrik-D Tablet = Tamsulosin (0.4mg) + Dutasteride (0.5mg) (Rikaltis Healthcare)",
+      "Tamrik 50mg Injection = Tramadol (50mg) (Erika Remedies)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Mectin",
+     "vals": [
+      "Mectin 6mg Tablet = Ivermectin (6mg) (Meridian Medicare Ltd)",
+      "Mectin Plus Tablet = Glimepiride (1mg) + Metformin (1000mg) (Biorhythms Health Care)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Maxpride",
+     "vals": [
+      "Maxpride 50 Tablet = Amisulpride (50mg) (Micro Labs Ltd)",
+      "Maxpride M 2mg/500mg Tablet SR = Glimepiride (2mg) + Metformin (500mg) (Maxcare Lifesciences)"
+     ],
+     "ours": false
+    },
+    {
+     "name": "Lozin",
+     "vals": [
+      "Lozin 100mg Tablet = Clozapine (100mg) (Pifer Pharmaceuticals Pvt Ltd)",
+      "Lozin CL 200mg/600mg Tablet = Cefixime (200mg) + Linezolid (600mg) (Protech Telelinks)"
+     ],
+     "ours": false
+    }
+   ],
+   "note": "Full list with product links: results/live_check_1mg.json (re-run: make live)."
+  },
+  {
    "title": "1 \u00b7 Which name pairs get confused?",
    "what": "440 real confused pairs from the ISMP list vs 1320 never-reported pairs; 5-fold cross-validation with no name shared between train and test.",
    "cols": [

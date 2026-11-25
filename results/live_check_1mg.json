@@ -470,6 +470,1488 @@
      "discontinued": false
     }
    ]
+  },
+  {
+   "root": "allegra",
+   "products": [
+    {
+     "name": "Allegra 120mg Tablet",
+     "composition": "Fexofenadine (120mg)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/allegra-120mg-tablet-68763",
+     "discontinued": false
+    },
+    {
+     "name": "Allegra 180mg Tablet",
+     "composition": "Fexofenadine (180mg)",
+     "marketer": "Sanofi Consumer Healthcare India Limited",
+     "url": "https://www.1mg.com/drugs/allegra-180mg-tablet-9187",
+     "discontinued": false
+    },
+    {
+     "name": "Allegra-M Tablet",
+     "composition": "Montelukast (10mg) + Fexofenadine (120mg)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/allegra-m-tablet-9172",
+     "discontinued": false
+    },
+    {
+     "name": "Allegra Suspension Raspberry & Vanilla",
+     "composition": "Fexofenadine (30mg/5ml)",
+     "marketer": "Sanofi Consumer Healthcare India Limited",
+     "url": "https://www.1mg.com/drugs/allegra-suspension-raspberry-vanilla-114550",
+     "discontinued": false
+    },
+    {
+     "name": "Allegra Nasal Spray",
+     "composition": "Fluticasone Furoate (27.5mcg)",
+     "marketer": "Sanofi Consumer Healthcare India Limited",
+     "url": "https://www.1mg.com/drugs/allegra-nasal-spray-551613",
+     "discontinued": false
+    },
+    {
+     "name": "Allegra-D Tablet ER",
+     "composition": "Fexofenadine (60mg) + Pseudoephedrine (120mg)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/allegra-d-tablet-er-1098466",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Allegra 120mg Tablet",
+     "composition": "Fexofenadine (120mg)",
+     "marketer": "Sanofi India Ltd",
+     "url": "https://www.1mg.com/drugs/allegra-120mg-tablet-68763",
+     "discontinued": false
+    },
+    {
+     "name": "Allegra Nasal Spray",
+     "composition": "Fluticasone Furoate (27.5mcg)",
+     "marketer": "Sanofi Consumer Healthcare India Limited",
+     "url": "https://www.1mg.com/drugs/allegra-nasal-spray-551613",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "tamrik",
+   "products": [
+    {
+     "name": "Tamrik-D Tablet",
+     "composition": "Tamsulosin (0.4mg) + Dutasteride (0.5mg)",
+     "marketer": "Rikaltis Healthcare",
+     "url": "https://www.1mg.com/drugs/tamrik-d-tablet-687378",
+     "discontinued": false
+    },
+    {
+     "name": "Tamrik 50mg Injection",
+     "composition": "Tramadol (50mg)",
+     "marketer": "Erika Remedies",
+     "url": "https://www.1mg.com/drugs/tamrik-50mg-injection-529527",
+     "discontinued": false
+    },
+    {
+     "name": "Tamrik Tablet",
+     "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+     "marketer": "Erika Remedies",
+     "url": "https://www.1mg.com/drugs/tamrik-tablet-545885",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Tamrik-D Tablet",
+     "composition": "Tamsulosin (0.4mg) + Dutasteride (0.5mg)",
+     "marketer": "Rikaltis Healthcare",
+     "url": "https://www.1mg.com/drugs/tamrik-d-tablet-687378",
+     "discontinued": false
+    },
+    {
+     "name": "Tamrik 50mg Injection",
+     "composition": "Tramadol (50mg)",
+     "marketer": "Erika Remedies",
+     "url": "https://www.1mg.com/drugs/tamrik-50mg-injection-529527",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "mectin",
+   "products": [
+    {
+     "name": "Mectin 6mg Tablet",
+     "composition": "Ivermectin (6mg)",
+     "marketer": "Meridian Medicare Ltd",
+     "url": "https://www.1mg.com/drugs/mectin-6mg-tablet-226088",
+     "discontinued": false
+    },
+    {
+     "name": "Mectin 3mg Tablet",
+     "composition": "Ivermectin (3mg)",
+     "marketer": "Meridian Medicare Ltd",
+     "url": "https://www.1mg.com/drugs/mectin-3mg-tablet-227363",
+     "discontinued": false
+    },
+    {
+     "name": "Mectin Plus Tablet",
+     "composition": "Ivermectin (6mg) + Albendazole (400mg)",
+     "marketer": "Focus Healthcare",
+     "url": "https://www.1mg.com/drugs/mectin-plus-tablet-651341",
+     "discontinued": false
+    },
+    {
+     "name": "Mectin 12mg Tablet",
+     "composition": "Ivermectin (12mg)",
+     "marketer": "Meridian Medicare Ltd",
+     "url": "https://www.1mg.com/drugs/mectin-12mg-tablet-33355",
+     "discontinued": false
+    },
+    {
+     "name": "Mectin Plus Tablet",
+     "composition": "Glimepiride (1mg) + Metformin (1000mg)",
+     "marketer": "Biorhythms Health Care",
+     "url": "https://www.1mg.com/drugs/mectin-plus-tablet-440314",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Mectin 6mg Tablet",
+     "composition": "Ivermectin (6mg)",
+     "marketer": "Meridian Medicare Ltd",
+     "url": "https://www.1mg.com/drugs/mectin-6mg-tablet-226088",
+     "discontinued": false
+    },
+    {
+     "name": "Mectin Plus Tablet",
+     "composition": "Glimepiride (1mg) + Metformin (1000mg)",
+     "marketer": "Biorhythms Health Care",
+     "url": "https://www.1mg.com/drugs/mectin-plus-tablet-440314",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "maxpride",
+   "products": [
+    {
+     "name": "Maxpride 50 Tablet",
+     "composition": "Amisulpride (50mg)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/maxpride-50-tablet-257078",
+     "discontinued": false
+    },
+    {
+     "name": "Maxpride 100 Tablet",
+     "composition": "Amisulpride (100mg)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/maxpride-100-tablet-321940",
+     "discontinued": false
+    },
+    {
+     "name": "Maxpride 200 Tablet",
+     "composition": "Amisulpride (200mg)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/maxpride-200-tablet-120611",
+     "discontinued": false
+    },
+    {
+     "name": "Maxpride M 2mg/500mg Tablet SR",
+     "composition": "Glimepiride (2mg) + Metformin (500mg)",
+     "marketer": "Maxcare Lifesciences",
+     "url": "https://www.1mg.com/drugs/maxpride-m-2mg-500mg-tablet-sr-697295",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Maxpride 50 Tablet",
+     "composition": "Amisulpride (50mg)",
+     "marketer": "Micro Labs Ltd",
+     "url": "https://www.1mg.com/drugs/maxpride-50-tablet-257078",
+     "discontinued": false
+    },
+    {
+     "name": "Maxpride M 2mg/500mg Tablet SR",
+     "composition": "Glimepiride (2mg) + Metformin (500mg)",
+     "marketer": "Maxcare Lifesciences",
+     "url": "https://www.1mg.com/drugs/maxpride-m-2mg-500mg-tablet-sr-697295",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "lozin",
+   "products": [
+    {
+     "name": "Lozin 100mg Tablet",
+     "composition": "Clozapine (100mg)",
+     "marketer": "Pifer Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/lozin-100mg-tablet-447757",
+     "discontinued": false
+    },
+    {
+     "name": "Lozin 50mg Tablet",
+     "composition": "Clozapine (50mg)",
+     "marketer": "Pifer Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/lozin-50mg-tablet-447759",
+     "discontinued": false
+    },
+    {
+     "name": "Lozin 25mg Tablet",
+     "composition": "Clozapine (25mg)",
+     "marketer": "Pifer Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/lozin-25mg-tablet-447755",
+     "discontinued": false
+    },
+    {
+     "name": "Lozin CL 200mg/600mg Tablet",
+     "composition": "Cefixime (200mg) + Linezolid (600mg)",
+     "marketer": "Protech Telelinks",
+     "url": "https://www.1mg.com/drugs/lozin-cl-200mg-600mg-tablet-756280",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Lozin 100mg Tablet",
+     "composition": "Clozapine (100mg)",
+     "marketer": "Pifer Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/lozin-100mg-tablet-447757",
+     "discontinued": false
+    },
+    {
+     "name": "Lozin CL 200mg/600mg Tablet",
+     "composition": "Cefixime (200mg) + Linezolid (600mg)",
+     "marketer": "Protech Telelinks",
+     "url": "https://www.1mg.com/drugs/lozin-cl-200mg-600mg-tablet-756280",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "medizole",
+   "products": [
+    {
+     "name": "Medizole O 200mg/500mg Tablet",
+     "composition": "Ofloxacin (200mg) + Ornidazole (500mg)",
+     "marketer": "Medizova Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/medizole-o-200mg-500mg-tablet-672979",
+     "discontinued": false
+    },
+    {
+     "name": "Medizole 0.25mg Tablet",
+     "composition": "Alprazolam (0.25mg)",
+     "marketer": "Medicross Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/medizole-0.25mg-tablet-488739",
+     "discontinued": false
+    },
+    {
+     "name": "Medizole P 0.25mg/20mg Tablet",
+     "composition": "Alprazolam (0.25mg) + Propranolol (20mg)",
+     "marketer": "Medicross Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/medizole-p-0.25mg-20mg-tablet-488774",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Medizole O 200mg/500mg Tablet",
+     "composition": "Ofloxacin (200mg) + Ornidazole (500mg)",
+     "marketer": "Medizova Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/medizole-o-200mg-500mg-tablet-672979",
+     "discontinued": false
+    },
+    {
+     "name": "Medizole 0.25mg Tablet",
+     "composition": "Alprazolam (0.25mg)",
+     "marketer": "Medicross Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/medizole-0.25mg-tablet-488739",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "mepin",
+   "products": [
+    {
+     "name": "Mepin 100mg Tablet",
+     "composition": "Quetiapine (100mg)",
+     "marketer": "Micron Biotech",
+     "url": "https://www.1mg.com/drugs/mepin-100mg-tablet-356178",
+     "discontinued": false
+    },
+    {
+     "name": "Mepin AT 5mg/50mg Tablet",
+     "composition": "Amlodipine (5mg) + Atenolol (50mg)",
+     "marketer": "Mepro Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/mepin-at-5mg-50mg-tablet-488621",
+     "discontinued": false
+    },
+    {
+     "name": "Mepin 50mg Tablet",
+     "composition": "Quetiapine (50mg)",
+     "marketer": "Micron Biotech",
+     "url": "https://www.1mg.com/drugs/mepin-50mg-tablet-356177",
+     "discontinued": false
+    },
+    {
+     "name": "Mepin 200mg Tablet",
+     "composition": "Quetiapine (200mg)",
+     "marketer": "Micron Biotech",
+     "url": "https://www.1mg.com/drugs/mepin-200mg-tablet-356181",
+     "discontinued": false
+    },
+    {
+     "name": "Mepin Spas 10mg/250mg Tablet",
+     "composition": "Dicyclomine (10mg) + Mefenamic Acid (250mg)",
+     "marketer": "Pinamed Drugs Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/mepin-spas-10mg-250mg-tablet-997418",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Mepin 100mg Tablet",
+     "composition": "Quetiapine (100mg)",
+     "marketer": "Micron Biotech",
+     "url": "https://www.1mg.com/drugs/mepin-100mg-tablet-356178",
+     "discontinued": false
+    },
+    {
+     "name": "Mepin AT 5mg/50mg Tablet",
+     "composition": "Amlodipine (5mg) + Atenolol (50mg)",
+     "marketer": "Mepro Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/mepin-at-5mg-50mg-tablet-488621",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "metpil",
+   "products": [
+    {
+     "name": "Metpil XR 25 Tablet",
+     "composition": "Metoprolol Succinate (23.75mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metpil-xr-25-tablet-630127",
+     "discontinued": false
+    },
+    {
+     "name": "Metpil XR 50 Tablet",
+     "composition": "Metoprolol Succinate (50mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metpil-xr-50-tablet-728880",
+     "discontinued": false
+    },
+    {
+     "name": "Metpil T 25 Tablet ER",
+     "composition": "Telmisartan (40mg) + Metoprolol Succinate (25mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metpil-t-25-tablet-er-678403",
+     "discontinued": false
+    },
+    {
+     "name": "Metpil T 50 Tablet ER",
+     "composition": "Telmisartan (40mg) + Metoprolol Succinate (50mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metpil-t-50-tablet-er-660039",
+     "discontinued": false
+    },
+    {
+     "name": "Metpil A 25 Tablet SR",
+     "composition": "Amlodipine (25mg) + Metoprolol Succinate (5mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metpil-a-25-tablet-sr-678445",
+     "discontinued": false
+    },
+    {
+     "name": "Metpil 12.5mg Tablet XR",
+     "composition": "Metoprolol Succinate (12.5mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metpil-12.5mg-tablet-xr-956055",
+     "discontinued": false
+    }
+   ],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "metshine",
+   "products": [
+    {
+     "name": "Metshine-XL 50 Tablet",
+     "composition": "Metoprolol Succinate (47.5mg)",
+     "marketer": "Bencure Life Sciences Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metshine-xl-50-tablet-400872",
+     "discontinued": false
+    },
+    {
+     "name": "Metshine-XL 25 Tablet",
+     "composition": "Metoprolol Succinate (25mg)",
+     "marketer": "Bencure Life Sciences Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metshine-xl-25-tablet-422414",
+     "discontinued": false
+    },
+    {
+     "name": "Metshine-XL 100 Tablet",
+     "composition": "Metoprolol Succinate (100mg)",
+     "marketer": "Bencure Life Sciences Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metshine-xl-100-tablet-422423",
+     "discontinued": false
+    },
+    {
+     "name": "Metshine-Plus Tablet",
+     "composition": "Metformin (500mg) + Voglibose (0.2mg)",
+     "marketer": "Alexa Organics Private Limited",
+     "url": "https://www.1mg.com/drugs/metshine-plus-tablet-685783",
+     "discontinued": false
+    },
+    {
+     "name": "Metshine P 750mcg/75mg Capsule",
+     "composition": "Methylcobalamin (750mcg) + Pregabalin (75mg)",
+     "marketer": "Maxnova Healthcare",
+     "url": "https://www.1mg.com/drugs/metshine-p-750mcg-75mg-capsule-527322",
+     "discontinued": false
+    },
+    {
+     "name": "Metshine 2mg/500mg Tablet",
+     "composition": "Glimepiride (2mg) + Metformin (500mg)",
+     "marketer": "Alexa Organics Private Limited",
+     "url": "https://www.1mg.com/drugs/metshine-2mg-500mg-tablet-685786",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Metshine-XL 50 Tablet",
+     "composition": "Metoprolol Succinate (47.5mg)",
+     "marketer": "Bencure Life Sciences Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/metshine-xl-50-tablet-400872",
+     "discontinued": false
+    },
+    {
+     "name": "Metshine-Plus Tablet",
+     "composition": "Metformin (500mg) + Voglibose (0.2mg)",
+     "marketer": "Alexa Organics Private Limited",
+     "url": "https://www.1mg.com/drugs/metshine-plus-tablet-685783",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "metwin",
+   "products": [
+    {
+     "name": "Metwin XL 25 Tablet",
+     "composition": "Metoprolol Tartrate (25mg)",
+     "marketer": "Concur Pharmaceuticals Pvt.Ltd",
+     "url": "https://www.1mg.com/drugs/metwin-xl-25-tablet-491022",
+     "discontinued": false
+    }
+   ],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "clomid",
+   "products": [
+    {
+     "name": "Clomid 0.25 Tablet",
+     "composition": "Clonazepam (0.25mg)",
+     "marketer": "Midas Healthcare Ltd",
+     "url": "https://www.1mg.com/drugs/clomid-0.25-tablet-330187",
+     "discontinued": false
+    },
+    {
+     "name": "Clomid 100mg Tablet",
+     "composition": "Cefixime (100mg)",
+     "marketer": "Scoshia Remedy Inc",
+     "url": "https://www.1mg.com/drugs/clomid-100mg-tablet-418564",
+     "discontinued": false
+    },
+    {
+     "name": "Clomid 0.50 Tablet",
+     "composition": "Clonazepam (0.5mg)",
+     "marketer": "Midas Healthcare Ltd",
+     "url": "https://www.1mg.com/drugs/clomid-0.50-tablet-330186",
+     "discontinued": false
+    },
+    {
+     "name": "Clomid-LB Dry Syrup",
+     "composition": "Cefixime (50mg) + Lactobacillus (20Million cells)",
+     "marketer": "Scoshia Remedy Inc",
+     "url": "https://www.1mg.com/drugs/clomid-lb-dry-syrup-418573",
+     "discontinued": false
+    },
+    {
+     "name": "Clomid-CL 200mg/125mg Tablet",
+     "composition": "Cefixime (200mg) + Potassium Clavulanate (125mg)",
+     "marketer": "Scoshia Remedy Inc",
+     "url": "https://www.1mg.com/drugs/clomid-cl-200mg-125mg-tablet-418571",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Clomid 0.25 Tablet",
+     "composition": "Clonazepam (0.25mg)",
+     "marketer": "Midas Healthcare Ltd",
+     "url": "https://www.1mg.com/drugs/clomid-0.25-tablet-330187",
+     "discontinued": false
+    },
+    {
+     "name": "Clomid 100mg Tablet",
+     "composition": "Cefixime (100mg)",
+     "marketer": "Scoshia Remedy Inc",
+     "url": "https://www.1mg.com/drugs/clomid-100mg-tablet-418564",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "clon",
+   "products": [],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "mepril",
+   "products": [
+    {
+     "name": "Mepril 2.5mg Tablet",
+     "composition": "Ramipril (2.5mg)",
+     "marketer": "Globus Remedies Ltd",
+     "url": "https://www.1mg.com/drugs/mepril-2.5mg-tablet-352794",
+     "discontinued": false
+    },
+    {
+     "name": "Mepril 5mg Tablet",
+     "composition": "Ramipril (5mg)",
+     "marketer": "Globus Remedies Ltd",
+     "url": "https://www.1mg.com/drugs/mepril-5mg-tablet-352795",
+     "discontinued": false
+    }
+   ],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "clotrin",
+   "products": [
+    {
+     "name": "Clotrin-AC Ear Drop",
+     "composition": "Lidocaine (2% w/v) + Clotrimazole (1% w/v)",
+     "marketer": "NuLife Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/clotrin-ac-ear-drop-502983",
+     "discontinued": false
+    },
+    {
+     "name": "Clotrin Mouth Paint",
+     "composition": "Clotrimazole (1% w/v)",
+     "marketer": "NuLife Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/clotrin-mouth-paint-302259",
+     "discontinued": false
+    },
+    {
+     "name": "Clotrin Ear Drop",
+     "composition": "Lidocaine (2% w/v) + Clotrimazole (1% w/v)",
+     "marketer": "NuLife Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/clotrin-ear-drop-301461",
+     "discontinued": false
+    },
+    {
+     "name": "Clotrin-B Lotion",
+     "composition": "Beclometasone (0.025% w/v) + Clotrimazole (1% w/v)",
+     "marketer": "NuLife Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/clotrin-b-lotion-129377",
+     "discontinued": false
+    },
+    {
+     "name": "Clotrin-B Cream",
+     "composition": "Beclometasone (0.025% w/v) + Clotrimazole (1% w/v)",
+     "marketer": "NuLife Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/clotrin-b-cream-155780",
+     "discontinued": false
+    },
+    {
+     "name": "Clotrin Lotion",
+     "composition": "Clotrimazole (1% w/v)",
+     "marketer": "NuLife Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/clotrin-lotion-732837",
+     "discontinued": false
+    }
+   ],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "loract",
+   "products": [
+    {
+     "name": "Loract Tablet",
+     "composition": "Loratadine (10mg)",
+     "marketer": "Organic Laboratories",
+     "url": "https://www.1mg.com/drugs/loract-tablet-226325",
+     "discontinued": false
+    },
+    {
+     "name": "Loract D Tablet",
+     "composition": "Loratadine (5mg) + Pseudoephedrine (60mg) + Nimesulide (100mg)",
+     "marketer": "Organic Laboratories",
+     "url": "https://www.1mg.com/drugs/loract-d-tablet-232409",
+     "discontinued": false
+    },
+    {
+     "name": "Loract PF 8mg/500mg Tablet",
+     "composition": "Lornoxicam (8mg) + Paracetamol (500mg)",
+     "marketer": "Medicraft Group",
+     "url": "https://www.1mg.com/drugs/loract-pf-8mg-500mg-tablet-599799",
+     "discontinued": false
+    },
+    {
+     "name": "Loract 2mg Tablet",
+     "composition": "Lorazepam (2mg)",
+     "marketer": "Suraksha Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/loract-2mg-tablet-446378",
+     "discontinued": false
+    },
+    {
+     "name": "Loract 1mg Tablet",
+     "composition": "Lorazepam (1mg)",
+     "marketer": "Suraksha Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/loract-1mg-tablet-446020",
+     "discontinued": false
+    },
+    {
+     "name": "Loract D Syrup",
+     "composition": "Chlorpheniramine Maleate (0.5mg/5ml) + Paracetamol (125mg/5ml) + Phenylephrine (5mg/5ml) + Sodium Citrate (60mg/5ml) + Menthol (1mg/5ml)",
+     "marketer": "Organic Laboratories",
+     "url": "https://www.1mg.com/drugs/loract-d-syrup-232210",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Loract Tablet",
+     "composition": "Loratadine (10mg)",
+     "marketer": "Organic Laboratories",
+     "url": "https://www.1mg.com/drugs/loract-tablet-226325",
+     "discontinued": false
+    },
+    {
+     "name": "Loract PF 8mg/500mg Tablet",
+     "composition": "Lornoxicam (8mg) + Paracetamol (500mg)",
+     "marketer": "Medicraft Group",
+     "url": "https://www.1mg.com/drugs/loract-pf-8mg-500mg-tablet-599799",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "lipi",
+   "products": [
+    {
+     "name": "Lipi EZ 40 Tablet",
+     "composition": "Atorvastatin (40mg) + Ezetimibe (10mg)",
+     "marketer": "Intas Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/lipi-ez-40-tablet-233556",
+     "discontinued": false
+    },
+    {
+     "name": "Lipi EZ 20 Tablet",
+     "composition": "Atorvastatin (20mg) + Ezetimibe (10mg)",
+     "marketer": "Intas Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/lipi-ez-20-tablet-232068",
+     "discontinued": false
+    },
+    {
+     "name": "Lipi EZ 10 Tablet",
+     "composition": "Atorvastatin (10mg) + Ezetimibe (10mg)",
+     "marketer": "Intas Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/lipi-ez-10-tablet-325391",
+     "discontinued": false
+    },
+    {
+     "name": "Lipi EZ 80 Tablet",
+     "composition": "Atorvastatin (80mg) + Ezetimibe (10mg)",
+     "marketer": "Intas Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/lipi-ez-80-tablet-1102142",
+     "discontinued": false
+    }
+   ],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "loram",
+   "products": [
+    {
+     "name": "Loram 5 Tablet",
+     "composition": "Ramipril (5mg) + Losartan (50mg)",
+     "marketer": "Torrent Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/loram-5-tablet-115450",
+     "discontinued": false
+    },
+    {
+     "name": "Loram 2.5 Tablet",
+     "composition": "Ramipril (2.5mg) + Losartan (50mg)",
+     "marketer": "Torrent Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/loram-2.5-tablet-166917",
+     "discontinued": false
+    },
+    {
+     "name": "Loram 1mg Tablet",
+     "composition": "Lorazepam (1mg)",
+     "marketer": "Tuttsan Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/loram-1mg-tablet-452000",
+     "discontinued": false
+    },
+    {
+     "name": "Loram 2mg Tablet",
+     "composition": "Lorazepam (2mg)",
+     "marketer": "Tuttsan Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/loram-2mg-tablet-452005",
+     "discontinued": false
+    },
+    {
+     "name": "Loram-H 2.5 Tablet",
+     "composition": "Ramipril (2.5mg) + Losartan (50mg) + Hydrochlorothiazide (12.5mg)",
+     "marketer": "Torrent Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/loram-h-2.5-tablet-123595",
+     "discontinued": false
+    },
+    {
+     "name": "Loram-H 5 Tablet",
+     "composition": "Ramipril (5mg) + Losartan (50mg) + Hydrochlorothiazide (12.5mg)",
+     "marketer": "Torrent Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/loram-h-5-tablet-161220",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Loram 5 Tablet",
+     "composition": "Ramipril (5mg) + Losartan (50mg)",
+     "marketer": "Torrent Pharmaceuticals Ltd",
+     "url": "https://www.1mg.com/drugs/loram-5-tablet-115450",
+     "discontinued": false
+    },
+    {
+     "name": "Loram 1mg Tablet",
+     "composition": "Lorazepam (1mg)",
+     "marketer": "Tuttsan Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/loram-1mg-tablet-452000",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "medistat",
+   "products": [
+    {
+     "name": "Medistat MF 500mg/250mg Tablet",
+     "composition": "Tranexamic Acid (500mg) + Mefenamic Acid (250mg)",
+     "marketer": "Medikind Lifesciences Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/medistat-mf-500mg-250mg-tablet-563808",
+     "discontinued": false
+    },
+    {
+     "name": "Medistat 0.5mg Tablet",
+     "composition": "Midazolam (0.5mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/medistat-0.5mg-tablet-334448",
+     "discontinued": false
+    },
+    {
+     "name": "Medistat 1.25 Nasal Spray",
+     "composition": "Midazolam (1.25mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/medistat-1.25-nasal-spray-484840",
+     "discontinued": false
+    },
+    {
+     "name": "Medistat 0.5mg Nasal Spray",
+     "composition": "Midazolam (0.5mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/medistat-0.5mg-nasal-spray-334447",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Medistat MF 500mg/250mg Tablet",
+     "composition": "Tranexamic Acid (500mg) + Mefenamic Acid (250mg)",
+     "marketer": "Medikind Lifesciences Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/medistat-mf-500mg-250mg-tablet-563808",
+     "discontinued": false
+    },
+    {
+     "name": "Medistat 0.5mg Tablet",
+     "composition": "Midazolam (0.5mg)",
+     "marketer": "Alteus Biogenics Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/medistat-0.5mg-tablet-334448",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "metafin",
+   "products": [
+    {
+     "name": "Metafin Forte 0.2 Tablet SR",
+     "composition": "Glimepiride (1mg) + Metformin (500mg) + Voglibose (0.2mg)",
+     "marketer": "Medford Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/metafin-forte-0.2-tablet-sr-687754",
+     "discontinued": false
+    },
+    {
+     "name": "Metafin 25mg/500mg Tablet",
+     "composition": "Pyrimethamine (25mg) + Sulphadoxine (500mg)",
+     "marketer": "Advik Laboratories Ltd",
+     "url": "https://www.1mg.com/drugs/metafin-25mg-500mg-tablet-420616",
+     "discontinued": false
+    },
+    {
+     "name": "Metafin-G 2 Tablet PR",
+     "composition": "Glimepiride (2mg) + Metformin (500mg)",
+     "marketer": "Medford Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/metafin-g-2-tablet-pr-687752",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Metafin Forte 0.2 Tablet SR",
+     "composition": "Glimepiride (1mg) + Metformin (500mg) + Voglibose (0.2mg)",
+     "marketer": "Medford Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/metafin-forte-0.2-tablet-sr-687754",
+     "discontinued": false
+    },
+    {
+     "name": "Metafin 25mg/500mg Tablet",
+     "composition": "Pyrimethamine (25mg) + Sulphadoxine (500mg)",
+     "marketer": "Advik Laboratories Ltd",
+     "url": "https://www.1mg.com/drugs/metafin-25mg-500mg-tablet-420616",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "meth",
+   "products": [],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "methotin",
+   "products": [
+    {
+     "name": "Methotin 16mg Tablet",
+     "composition": "Methylprednisolone (16mg)",
+     "marketer": "Astonea Labs Private Limited",
+     "url": "https://www.1mg.com/drugs/methotin-16mg-tablet-790604",
+     "discontinued": false
+    },
+    {
+     "name": "Methotin 8mg Tablet",
+     "composition": "Methylprednisolone (8mg)",
+     "marketer": "Astonea Labs Private Limited",
+     "url": "https://www.1mg.com/drugs/methotin-8mg-tablet-790616",
+     "discontinued": false
+    },
+    {
+     "name": "Methotin 4mg Tablet",
+     "composition": "Methylprednisolone (4mg)",
+     "marketer": "Astonea Labs Private Limited",
+     "url": "https://www.1mg.com/drugs/methotin-4mg-tablet-790610",
+     "discontinued": false
+    },
+    {
+     "name": "Methotin 5mg Tablet",
+     "composition": "Methotrexate (5mg)",
+     "marketer": "TNT Lifesciences",
+     "url": "https://www.1mg.com/drugs/methotin-5mg-tablet-793136",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Methotin 16mg Tablet",
+     "composition": "Methylprednisolone (16mg)",
+     "marketer": "Astonea Labs Private Limited",
+     "url": "https://www.1mg.com/drugs/methotin-16mg-tablet-790604",
+     "discontinued": false
+    },
+    {
+     "name": "Methotin 5mg Tablet",
+     "composition": "Methotrexate (5mg)",
+     "marketer": "TNT Lifesciences",
+     "url": "https://www.1mg.com/drugs/methotin-5mg-tablet-793136",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "claz",
+   "products": [
+    {
+     "name": "Claz OD 30mg Tablet",
+     "composition": "Gliclazide (30mg)",
+     "marketer": "Franco-Indian Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/claz-od-30mg-tablet-396450",
+     "discontinued": false
+    },
+    {
+     "name": "Claz 250mg Tablet",
+     "composition": "Clarithromycin (250mg)",
+     "marketer": "Scortis Lab Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/claz-250mg-tablet-312428",
+     "discontinued": false
+    },
+    {
+     "name": "Claz M OD 60mg/500mg Tablet",
+     "composition": "Gliclazide (60mg) + Metformin (500mg)",
+     "marketer": "Franco-Indian Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/claz-m-od-60mg-500mg-tablet-396475",
+     "discontinued": false
+    },
+    {
+     "name": "Claz OD 60mg Tablet",
+     "composition": "Gliclazide (60mg)",
+     "marketer": "Franco-Indian Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/claz-od-60mg-tablet-396451",
+     "discontinued": false
+    },
+    {
+     "name": "Claz M 80mg/500mg Tablet",
+     "composition": "Gliclazide (80mg) + Metformin (500mg)",
+     "marketer": "Franco-Indian Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/claz-m-80mg-500mg-tablet-347002",
+     "discontinued": false
+    },
+    {
+     "name": "Claz M OD 30mg/500mg Tablet",
+     "composition": "Gliclazide (30mg) + Metformin (500mg)",
+     "marketer": "Franco-Indian Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/claz-m-od-30mg-500mg-tablet-396474",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Claz OD 30mg Tablet",
+     "composition": "Gliclazide (30mg)",
+     "marketer": "Franco-Indian Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/claz-od-30mg-tablet-396450",
+     "discontinued": false
+    },
+    {
+     "name": "Claz 250mg Tablet",
+     "composition": "Clarithromycin (250mg)",
+     "marketer": "Scortis Lab Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/claz-250mg-tablet-312428",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "migrid",
+   "products": [
+    {
+     "name": "Migrid 10mg Tablet",
+     "composition": "Flurbiprofen (10mg)",
+     "marketer": "Crescent Therapeutics Ltd",
+     "url": "https://www.1mg.com/drugs/migrid-10mg-tablet-237862",
+     "discontinued": false
+    },
+    {
+     "name": "Migrid 5mg Tablet",
+     "composition": "Flurbiprofen (5mg)",
+     "marketer": "Crescent Therapeutics Ltd",
+     "url": "https://www.1mg.com/drugs/migrid-5mg-tablet-238074",
+     "discontinued": false
+    }
+   ],
+   "live_twin": false,
+   "pair": null
+  },
+  {
+   "root": "clonec",
+   "products": [
+    {
+     "name": "Clonec MR 100mg/325mg/250mg Tablet",
+     "composition": "Aceclofenac (100mg) + Chlorzoxazone (250mg) + Paracetamol (325mg)",
+     "marketer": "Amplec Healthcare Pvt. Ltd.",
+     "url": "https://www.1mg.com/drugs/clonec-mr-100mg-325mg-250mg-tablet-555262",
+     "discontinued": false
+    },
+    {
+     "name": "Clonec 0.25 MD Tablet",
+     "composition": "Clonazepam (0.25mg)",
+     "marketer": "Nectar Pharma",
+     "url": "https://www.1mg.com/drugs/clonec-0.25-md-tablet-507300",
+     "discontinued": false
+    },
+    {
+     "name": "Clonec 1 MD Tablet",
+     "composition": "Clonazepam (1mg)",
+     "marketer": "Nectar Pharma",
+     "url": "https://www.1mg.com/drugs/clonec-1-md-tablet-1054064",
+     "discontinued": false
+    },
+    {
+     "name": "Clonec 0.5 MD Tablet",
+     "composition": "Clonazepam (0.5mg)",
+     "marketer": "Nectar Pharma",
+     "url": "https://www.1mg.com/drugs/clonec-0.5-md-tablet-506677",
+     "discontinued": false
+    },
+    {
+     "name": "Clonec D 75mg Injection",
+     "composition": "Diclofenac (75mg)",
+     "marketer": "Reticine Pharmaids Limited",
+     "url": "https://www.1mg.com/drugs/clonec-d-75mg-injection-908793",
+     "discontinued": false
+    },
+    {
+     "name": "Clonec P 100mg/325mg Tablet",
+     "composition": "Aceclofenac (100mg) + Paracetamol (325mg)",
+     "marketer": "Amplec Healthcare Pvt. Ltd.",
+     "url": "https://www.1mg.com/drugs/clonec-p-100mg-325mg-tablet-555260",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Clonec MR 100mg/325mg/250mg Tablet",
+     "composition": "Aceclofenac (100mg) + Chlorzoxazone (250mg) + Paracetamol (325mg)",
+     "marketer": "Amplec Healthcare Pvt. Ltd.",
+     "url": "https://www.1mg.com/drugs/clonec-mr-100mg-325mg-250mg-tablet-555262",
+     "discontinued": false
+    },
+    {
+     "name": "Clonec 0.25 MD Tablet",
+     "composition": "Clonazepam (0.25mg)",
+     "marketer": "Nectar Pharma",
+     "url": "https://www.1mg.com/drugs/clonec-0.25-md-tablet-507300",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "odep",
+   "products": [
+    {
+     "name": "Odep 10mg Tablet",
+     "composition": "Amitriptyline (10mg)",
+     "marketer": "Crescent Therapeutics Ltd",
+     "url": "https://www.1mg.com/drugs/odep-10mg-tablet-278795",
+     "discontinued": false
+    },
+    {
+     "name": "Odep 25mg Tablet",
+     "composition": "Amitriptyline (25mg)",
+     "marketer": "Crescent Therapeutics Ltd",
+     "url": "https://www.1mg.com/drugs/odep-25mg-tablet-284148",
+     "discontinued": false
+    },
+    {
+     "name": "Odep 2.5mg Tablet",
+     "composition": "Olanzapine (2.5mg)",
+     "marketer": "Micron Biotech",
+     "url": "https://www.1mg.com/drugs/odep-2.5mg-tablet-355967",
+     "discontinued": false
+    },
+    {
+     "name": "Odep 4mg Tablet",
+     "composition": "Ondansetron (4mg)",
+     "marketer": "Plenus Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/odep-4mg-tablet-447348",
+     "discontinued": false
+    },
+    {
+     "name": "Odep 50mg Tablet",
+     "composition": "Amitriptyline (50mg)",
+     "marketer": "Crescent Therapeutics Ltd",
+     "url": "https://www.1mg.com/drugs/odep-50mg-tablet-298415",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Odep 10mg Tablet",
+     "composition": "Amitriptyline (10mg)",
+     "marketer": "Crescent Therapeutics Ltd",
+     "url": "https://www.1mg.com/drugs/odep-10mg-tablet-278795",
+     "discontinued": false
+    },
+    {
+     "name": "Odep 2.5mg Tablet",
+     "composition": "Olanzapine (2.5mg)",
+     "marketer": "Micron Biotech",
+     "url": "https://www.1mg.com/drugs/odep-2.5mg-tablet-355967",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "nimdol",
+   "products": [
+    {
+     "name": "Nimdol 100mg Tablet",
+     "composition": "Nimesulide (100mg)",
+     "marketer": "Mefro Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/nimdol-100mg-tablet-447775",
+     "discontinued": false
+    },
+    {
+     "name": "Nimdol T 37.5mg/325mg Tablet",
+     "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+     "marketer": "Chemross Lifesciences",
+     "url": "https://www.1mg.com/drugs/nimdol-t-37.5mg-325mg-tablet-605608",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Nimdol 100mg Tablet",
+     "composition": "Nimesulide (100mg)",
+     "marketer": "Mefro Pharmaceuticals Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/nimdol-100mg-tablet-447775",
+     "discontinued": false
+    },
+    {
+     "name": "Nimdol T 37.5mg/325mg Tablet",
+     "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+     "marketer": "Chemross Lifesciences",
+     "url": "https://www.1mg.com/drugs/nimdol-t-37.5mg-325mg-tablet-605608",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "mobiya",
+   "products": [
+    {
+     "name": "Mobiya 50mg Injection",
+     "composition": "Tramadol (50mg/ml)",
+     "marketer": "Health Care Formulations Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/mobiya-50mg-injection-518588",
+     "discontinued": false
+    },
+    {
+     "name": "Mobiya T 37.5mg/325mg Tablet",
+     "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+     "marketer": "Health Care Formulations Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/mobiya-t-37.5mg-325mg-tablet-518598",
+     "discontinued": false
+    },
+    {
+     "name": "Mobiya S 50mg/10mg Tablet",
+     "composition": "Diclofenac (50mg) + Serratiopeptidase (10mg)",
+     "marketer": "United Formulations Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/mobiya-s-50mg-10mg-tablet-472865",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Mobiya 50mg Injection",
+     "composition": "Tramadol (50mg/ml)",
+     "marketer": "Health Care Formulations Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/mobiya-50mg-injection-518588",
+     "discontinued": false
+    },
+    {
+     "name": "Mobiya S 50mg/10mg Tablet",
+     "composition": "Diclofenac (50mg) + Serratiopeptidase (10mg)",
+     "marketer": "United Formulations Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/mobiya-s-50mg-10mg-tablet-472865",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "cipin",
+   "products": [
+    {
+     "name": "CIpin 50mg Tablet",
+     "composition": "Clozapine (50mg)",
+     "marketer": "D D Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/cipin-50mg-tablet-258022",
+     "discontinued": false
+    },
+    {
+     "name": "CIpin 25mg Tablet",
+     "composition": "Clozapine (25mg)",
+     "marketer": "D D Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/cipin-25mg-tablet-258220",
+     "discontinued": false
+    },
+    {
+     "name": "CIpin 100mg Tablet",
+     "composition": "Clozapine (100mg)",
+     "marketer": "D D Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/cipin-100mg-tablet-255781",
+     "discontinued": false
+    },
+    {
+     "name": "CIpin 12.5mg Tablet",
+     "composition": "Clozapine (12.5mg)",
+     "marketer": "D D Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/cipin-12.5mg-tablet-708298",
+     "discontinued": false
+    },
+    {
+     "name": "Cipin TZ 500mg/600mg Tablet",
+     "composition": "Ciprofloxacin (500mg) + Tinidazole (600mg)",
+     "marketer": "Vision Biotech",
+     "url": "https://www.1mg.com/drugs/cipin-tz-500mg-600mg-tablet-401155",
+     "discontinued": false
+    },
+    {
+     "name": "CIpin 200mg Tablet",
+     "composition": "Clozapine (200mg)",
+     "marketer": "D D Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/cipin-200mg-tablet-258722",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "CIpin 50mg Tablet",
+     "composition": "Clozapine (50mg)",
+     "marketer": "D D Pharmaceuticals",
+     "url": "https://www.1mg.com/drugs/cipin-50mg-tablet-258022",
+     "discontinued": false
+    },
+    {
+     "name": "Cipin TZ 500mg/600mg Tablet",
+     "composition": "Ciprofloxacin (500mg) + Tinidazole (600mg)",
+     "marketer": "Vision Biotech",
+     "url": "https://www.1mg.com/drugs/cipin-tz-500mg-600mg-tablet-401155",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "olpine",
+   "products": [
+    {
+     "name": "Olpine 10mg Tablet",
+     "composition": "Olanzapine (10mg)",
+     "marketer": "Tas Med India Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olpine-10mg-tablet-268754",
+     "discontinued": false
+    },
+    {
+     "name": "Olpine-AT 5mg/50mg Tablet",
+     "composition": "Amlodipine (5mg) + Atenolol (50mg)",
+     "marketer": "Uniroyal Biotech",
+     "url": "https://www.1mg.com/drugs/olpine-at-5mg-50mg-tablet-417316",
+     "discontinued": false
+    },
+    {
+     "name": "Olpine 2.5mg Tablet MD",
+     "composition": "Olanzapine (2.5mg)",
+     "marketer": "Tas Med India Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olpine-2.5mg-tablet-md-529854",
+     "discontinued": false
+    },
+    {
+     "name": "Olpine 5mg Tablet MD",
+     "composition": "Olanzapine (5mg)",
+     "marketer": "Tas Med India Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olpine-5mg-tablet-md-266339",
+     "discontinued": false
+    },
+    {
+     "name": "Olpine 5mg Tablet",
+     "composition": "Olanzapine (5mg)",
+     "marketer": "Tas Med India Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olpine-5mg-tablet-264045",
+     "discontinued": false
+    },
+    {
+     "name": "Olpine 7.5mg Tablet",
+     "composition": "Olanzapine (7.5mg)",
+     "marketer": "Tas Med India Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olpine-7.5mg-tablet-259255",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Olpine 10mg Tablet",
+     "composition": "Olanzapine (10mg)",
+     "marketer": "Tas Med India Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olpine-10mg-tablet-268754",
+     "discontinued": false
+    },
+    {
+     "name": "Olpine-AT 5mg/50mg Tablet",
+     "composition": "Amlodipine (5mg) + Atenolol (50mg)",
+     "marketer": "Uniroyal Biotech",
+     "url": "https://www.1mg.com/drugs/olpine-at-5mg-50mg-tablet-417316",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "olsa",
+   "products": [
+    {
+     "name": "Olsa 200 Tablet",
+     "composition": "Ofloxacin (200mg)",
+     "marketer": "Integral Lifesciences",
+     "url": "https://www.1mg.com/drugs/olsa-200-tablet-578982",
+     "discontinued": false
+    },
+    {
+     "name": "Olsa-OZ Tablet",
+     "composition": "Ofloxacin (200mg) + Ornidazole (500mg)",
+     "marketer": "Integral Lifesciences",
+     "url": "https://www.1mg.com/drugs/olsa-oz-tablet-578999",
+     "discontinued": false
+    },
+    {
+     "name": "Olsa OR Oral Suspension",
+     "composition": "Ofloxacin (50mg) + Ornidazole (125mg) + Racecadotril (15mg)",
+     "marketer": "Integral Lifesciences",
+     "url": "https://www.1mg.com/drugs/olsa-or-oral-suspension-579037",
+     "discontinued": false
+    },
+    {
+     "name": "Olsa 2.5mg Tablet",
+     "composition": "Olanzapine (2.5mg)",
+     "marketer": "Suraksha Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olsa-2.5mg-tablet-502483",
+     "discontinued": false
+    },
+    {
+     "name": "Olsa 10mg Tablet",
+     "composition": "Olanzapine (10mg)",
+     "marketer": "Suraksha Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olsa-10mg-tablet-502481",
+     "discontinued": false
+    },
+    {
+     "name": "Olsa 5mg Tablet",
+     "composition": "Olanzapine (5mg)",
+     "marketer": "Suraksha Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olsa-5mg-tablet-502485",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Olsa 200 Tablet",
+     "composition": "Ofloxacin (200mg)",
+     "marketer": "Integral Lifesciences",
+     "url": "https://www.1mg.com/drugs/olsa-200-tablet-578982",
+     "discontinued": false
+    },
+    {
+     "name": "Olsa 2.5mg Tablet",
+     "composition": "Olanzapine (2.5mg)",
+     "marketer": "Suraksha Pharma Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olsa-2.5mg-tablet-502483",
+     "discontinued": false
+    }
+   ]
+  },
+  {
+   "root": "olez",
+   "products": [
+    {
+     "name": "Olez-DSR Capsule",
+     "composition": "Domperidone (30mg) + Rabeprazole (20mg)",
+     "marketer": "Dr. Johns Laboratories Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olez-dsr-capsule-162809",
+     "discontinued": false
+    },
+    {
+     "name": "Olez-D Capsule",
+     "composition": "Domperidone (10mg) + Omeprazole (20mg)",
+     "marketer": "Mediquest Inc.",
+     "url": "https://www.1mg.com/drugs/olez-d-capsule-597149",
+     "discontinued": false
+    },
+    {
+     "name": "Olez 200mg/500mg Tablet",
+     "composition": "Ofloxacin (200mg) + Ornidazole (500mg)",
+     "marketer": "Stallion Laboratories Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olez-200mg-500mg-tablet-350334",
+     "discontinued": false
+    },
+    {
+     "name": "Olez 30mg Capsule",
+     "composition": "Lansoprazole (30mg)",
+     "marketer": "Dr. Johns Laboratories Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olez-30mg-capsule-271895",
+     "discontinued": false
+    },
+    {
+     "name": "Olez 5mg Tablet",
+     "composition": "Olanzapine (5mg)",
+     "marketer": "Dr. Johns Laboratories Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olez-5mg-tablet-298563",
+     "discontinued": false
+    },
+    {
+     "name": "Olez 10mg Tablet",
+     "composition": "Olanzapine (10mg)",
+     "marketer": "Dr. Johns Laboratories Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olez-10mg-tablet-298310",
+     "discontinued": false
+    }
+   ],
+   "live_twin": true,
+   "pair": [
+    {
+     "name": "Olez-DSR Capsule",
+     "composition": "Domperidone (30mg) + Rabeprazole (20mg)",
+     "marketer": "Dr. Johns Laboratories Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olez-dsr-capsule-162809",
+     "discontinued": false
+    },
+    {
+     "name": "Olez 200mg/500mg Tablet",
+     "composition": "Ofloxacin (200mg) + Ornidazole (500mg)",
+     "marketer": "Stallion Laboratories Pvt Ltd",
+     "url": "https://www.1mg.com/drugs/olez-200mg-500mg-tablet-350334",
+     "discontinued": false
+    }
+   ]
   }
- ]
+ ],
+ "summary": {
+  "names_checked": 40,
+  "names_with_2plus_listings": 36,
+  "still_live_twins": 30
+ }
 }

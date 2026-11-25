@@ -1,0 +1,160 @@
+{
+ "summary": {
+  "date": "2026-11-24",
+  "checked": 40,
+  "with_2plus_listings": 36,
+  "still_twins": 30
+ },
+ "rows": [
+  {
+   "root": "adnil",
+   "a": "Adnil 2.5mg Tablet = Glibenclamide (2.5mg) (Globela Pharma Pvt Ltd)",
+   "b": "Adnil 0.5mg Tablet = Clonazepam (0.5mg) (Medinova Labs)"
+  },
+  {
+   "root": "olip",
+   "a": "Olip 0.1% Eye Drop = Olopatadine (0.1% w/v) (Synovia Life Sciences Pvt Ltd)",
+   "b": "Olip 10mg Tablet = Olanzapine (10mg) (PJ Pharmaceuticals)"
+  },
+  {
+   "root": "acetam",
+   "a": "Acetam 100mg Injection = Levetiracetam (100mg) (Ambreyo Lifesciences)",
+   "b": "Acetam 200mg Injection = Piracetam (200mg) (Garwyn Remedies)"
+  },
+  {
+   "root": "zentra",
+   "a": "Zentra 100mg Capsule = Itraconazole (100mg) (Zenexa Healthcare)",
+   "b": "Zentra 100mg Injection = Tramadol (100mg) (Zentis Drugs Pvt Ltd)"
+  },
+  {
+   "root": "medol",
+   "a": "Medol 200 CR Tablet = Tramadol (200mg) (Mediez Pharma)",
+   "b": "Medol P 100mg/325mg Tablet = Aceclofenac (100mg) + Paracetamol (325mg) (Medbionic Healthcare)"
+  },
+  {
+   "root": "avil",
+   "a": "AVil Injection = Pheniramine (22.75mg/ml) (Sanofi India Ltd)",
+   "b": "Avil NU 10mg Tablet = Cetirizine (10mg) (Sanofi India Ltd)"
+  },
+  {
+   "root": "rantac",
+   "a": "Rantac 150 Tablet = Ranitidine (150mg) (J B Chemicals and Pharmaceuticals Ltd)",
+   "b": "Rantac Mps Oral Suspension Elaichi Sugar Free = Magaldrate (400mg) + Dimethicone (20mg) (J B Chemicals and Pharmaceuticals Ltd)"
+  },
+  {
+   "root": "allegra",
+   "a": "Allegra 120mg Tablet = Fexofenadine (120mg) (Sanofi India Ltd)",
+   "b": "Allegra Nasal Spray = Fluticasone Furoate (27.5mcg) (Sanofi Consumer Healthcare India Limited)"
+  },
+  {
+   "root": "tamrik",
+   "a": "Tamrik-D Tablet = Tamsulosin (0.4mg) + Dutasteride (0.5mg) (Rikaltis Healthcare)",
+   "b": "Tamrik 50mg Injection = Tramadol (50mg) (Erika Remedies)"
+  },
+  {
+   "root": "mectin",
+   "a": "Mectin 6mg Tablet = Ivermectin (6mg) (Meridian Medicare Ltd)",
+   "b": "Mectin Plus Tablet = Glimepiride (1mg) + Metformin (1000mg) (Biorhythms Health Care)"
+  },
+  {
+   "root": "maxpride",
+   "a": "Maxpride 50 Tablet = Amisulpride (50mg) (Micro Labs Ltd)",
+   "b": "Maxpride M 2mg/500mg Tablet SR = Glimepiride (2mg) + Metformin (500mg) (Maxcare Lifesciences)"
+  },
+  {
+   "root": "lozin",
+   "a": "Lozin 100mg Tablet = Clozapine (100mg) (Pifer Pharmaceuticals Pvt Ltd)",
+   "b": "Lozin CL 200mg/600mg Tablet = Cefixime (200mg) + Linezolid (600mg) (Protech Telelinks)"
+  },
+  {
+   "root": "medizole",
+   "a": "Medizole O 200mg/500mg Tablet = Ofloxacin (200mg) + Ornidazole (500mg) (Medizova Pharmaceuticals)",
+   "b": "Medizole 0.25mg Tablet = Alprazolam (0.25mg) (Medicross Pharmaceuticals)"
+  },
+  {
+   "root": "mepin",
+   "a": "Mepin 100mg Tablet = Quetiapine (100mg) (Micron Biotech)",
+   "b": "Mepin AT 5mg/50mg Tablet = Amlodipine (5mg) + Atenolol (50mg) (Mepro Pharmaceuticals)"
+  },
+  {
+   "root": "metshine",
+   "a": "Metshine-XL 50 Tablet = Metoprolol Succinate (47.5mg) (Bencure Life Sciences Pvt Ltd)",
+   "b": "Metshine-Plus Tablet = Metformin (500mg) + Voglibose (0.2mg) (Alexa Organics Private Limited)"
+  },
+  {
+   "root": "clomid",
+   "a": "Clomid 0.25 Tablet = Clonazepam (0.25mg) (Midas Healthcare Ltd)",
+   "b": "Clomid 100mg Tablet = Cefixime (100mg) (Scoshia Remedy Inc)"
+  },
+  {
+   "root": "loract",
+   "a": "Loract Tablet = Loratadine (10mg) (Organic Laboratories)",
+   "b": "Loract PF 8mg/500mg Tablet = Lornoxicam (8mg) + Paracetamol (500mg) (Medicraft Group)"
+  },
+  {
+   "root": "loram",
+   "a": "Loram 5 Tablet = Ramipril (5mg) + Losartan (50mg) (Torrent Pharmaceuticals Ltd)",
+   "b": "Loram 1mg Tablet = Lorazepam (1mg) (Tuttsan Pharma Pvt Ltd)"
+  },
+  {
+   "root": "medistat",
+   "a": "Medistat MF 500mg/250mg Tablet = Tranexamic Acid (500mg) + Mefenamic Acid (250mg) (Medikind Lifesciences Pvt Ltd)",
+   "b": "Medistat 0.5mg Tablet = Midazolam (0.5mg) (Alteus Biogenics Pvt Ltd)"
+  },
+  {
+   "root": "metafin",
+   "a": "Metafin Forte 0.2 Tablet SR = Glimepiride (1mg) + Metformin (500mg) + Voglibose (0.2mg) (Medford Pharmaceuticals)",
+   "b": "Metafin 25mg/500mg Tablet = Pyrimethamine (25mg) + Sulphadoxine (500mg) (Advik Laboratories Ltd)"
+  },
+  {
+   "root": "methotin",
+   "a": "Methotin 16mg Tablet = Methylprednisolone (16mg) (Astonea Labs Private Limited)",
+   "b": "Methotin 5mg Tablet = Methotrexate (5mg) (TNT Lifesciences)"
+  },
+  {
+   "root": "claz",
+   "a": "Claz OD 30mg Tablet = Gliclazide (30mg) (Franco-Indian Pharmaceuticals Pvt Ltd)",
+   "b": "Claz 250mg Tablet = Clarithromycin (250mg) (Scortis Lab Pvt Ltd)"
+  },
+  {
+   "root": "clonec",
+   "a": "Clonec MR 100mg/325mg/250mg Tablet = Aceclofenac (100mg) + Chlorzoxazone (250mg) + Paracetamol (325mg) (Amplec Healthcare Pvt. Ltd.)",
+   "b": "Clonec 0.25 MD Tablet = Clonazepam (0.25mg) (Nectar Pharma)"
+  },
+  {
+   "root": "odep",
+   "a": "Odep 10mg Tablet = Amitriptyline (10mg) (Crescent Therapeutics Ltd)",
+   "b": "Odep 2.5mg Tablet = Olanzapine (2.5mg) (Micron Biotech)"
+  },
+  {
+   "root": "nimdol",
+   "a": "Nimdol 100mg Tablet = Nimesulide (100mg) (Mefro Pharmaceuticals Pvt Ltd)",
+   "b": "Nimdol T 37.5mg/325mg Tablet = Tramadol (37.5mg) + Paracetamol (325mg) (Chemross Lifesciences)"
+  },
+  {
+   "root": "mobiya",
+   "a": "Mobiya 50mg Injection = Tramadol (50mg/ml) (Health Care Formulations Pvt Ltd)",
+   "b": "Mobiya S 50mg/10mg Tablet = Diclofenac (50mg) + Serratiopeptidase (10mg) (United Formulations Pvt Ltd)"
+  },
+  {
+   "root": "cipin",
+   "a": "CIpin 50mg Tablet = Clozapine (50mg) (D D Pharmaceuticals)",
+   "b": "Cipin TZ 500mg/600mg Tablet = Ciprofloxacin (500mg) + Tinidazole (600mg) (Vision Biotech)"
+  },
+  {
+   "root": "olpine",
+   "a": "Olpine 10mg Tablet = Olanzapine (10mg) (Tas Med India Pvt Ltd)",
+   "b": "Olpine-AT 5mg/50mg Tablet = Amlodipine (5mg) + Atenolol (50mg) (Uniroyal Biotech)"
+  },
+  {
+   "root": "olsa",
+   "a": "Olsa 200 Tablet = Ofloxacin (200mg) (Integral Lifesciences)",
+   "b": "Olsa 2.5mg Tablet = Olanzapine (2.5mg) (Suraksha Pharma Pvt Ltd)"
+  },
+  {
+   "root": "olez",
+   "a": "Olez-DSR Capsule = Domperidone (30mg) + Rabeprazole (20mg) (Dr. Johns Laboratories Pvt Ltd)",
+   "b": "Olez 200mg/500mg Tablet = Ofloxacin (200mg) + Ornidazole (500mg) (Stallion Laboratories Pvt Ltd)"
+  }
+ ]
+}
