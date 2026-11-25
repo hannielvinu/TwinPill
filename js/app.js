@@ -287,7 +287,7 @@ function photoCard(ph, root) {
       <div class="pc-brand">${esc(brand)}</div>
       <dl><dt>${esc(P("kind"))}</dt><dd><span class="kindtag">${esc(kind)}</span></dd>
       ${ph.ings?.length ? `<dt>${esc(P("printed"))}</dt><dd>${esc(cap(ph.ings.join(" + ")))}</dd>` : ""}
-      ${ph.expiry ? `<dt>${esc(K("expires", "", "").replace(/[:.\s]+$/, ""))}</dt><dd>${esc(MONTH_NAMES[lang][ph.expiry.month - 1])} ${ph.expiry.year}${expiryLines(ph.expiry).past ? ` <span class="ha">${esc(K("expired").split(/[:.]/)[0])}</span>` : ""}</dd>` : ""}
+      ${ph.expiry ? `<dt>${esc(K("expires", "", "").replace(/[:.\s]+$/, ""))}</dt><dd>${esc(MONTH_NAMES[lang][ph.expiry.month - 1])} ${ph.expiry.year}${expiryLines(ph.expiry).past ? ` <span class="ha">${esc({ en: "Expired", ta: "காலாவதி", kn: "ಅವಧಿ ಮುಗಿದಿದೆ" }[lang] || "Expired")}</span>` : ""}</dd>` : ""}
       ${ph.group ? `<dt>${esc(P("this_one"))}</dt><dd><b class="pc-use">${esc(sent(useLabel(ph.group)))}</b>${ph.group.highAlert ? ` <span class="ha">${esc(t("high_alert"))}</span>` : ""}</dd>` : ""}</dl></div></div>`;
 }
 
