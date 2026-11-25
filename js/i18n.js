@@ -248,3 +248,54 @@ export const PHOTO = {
   ta: { read_from: "உங்கள் படத்திலிருந்து படித்தது", kind: "மருந்து வகை", printed: "அட்டையில் அச்சிடப்பட்டது", this_one: "இந்த அட்டை", loading: "பட வாசிப்பான் தயாராகிறது (முதல் முறை மட்டும்)…", reading: "அட்டை உங்கள் சாதனத்திலேயே படிக்கப்படுகிறது…", rotate: "படத்தைத் திருப்பி முயற்சிக்கிறது…", no_brand: "பிராண்ட் பெயர் தெளிவாக இல்லை", unknown_kind: "அச்சிடப்படவில்லை" },
   kn: { read_from: "ನಿಮ್ಮ ಫೋಟೋದಿಂದ ಓದಿದ್ದು", kind: "ಔಷಧಿಯ ವಿಧ", printed: "ಪ್ಯಾಕ್ ಮೇಲೆ ಮುದ್ರಿತ", this_one: "ಈ ಪ್ಯಾಕ್", loading: "ಫೋಟೋ ಓದುವಿಕೆ ಸಿದ್ಧವಾಗುತ್ತಿದೆ (ಮೊದಲ ಬಾರಿ ಮಾತ್ರ)…", reading: "ಪ್ಯಾಕ್ ಅನ್ನು ನಿಮ್ಮ ಸಾಧನದಲ್ಲೇ ಓದಲಾಗುತ್ತಿದೆ…", rotate: "ಫೋಟೋವನ್ನು ತಿರುಗಿಸಿ ಪ್ರಯತ್ನಿಸುತ್ತಿದೆ…", no_brand: "ಬ್ರ್ಯಾಂಡ್ ಹೆಸರು ಸ್ಪಷ್ಟವಿಲ್ಲ", unknown_kind: "ಮುದ್ರಿತವಾಗಿಲ್ಲ" },
 };
+
+// Talk mode: for people who cannot read the strip (low vision, blind, elderly, or no glasses at hand).
+export const TALK = {
+  en: {
+    nav: "Talk mode", title: "Hold up any medicine. Twinpill tells you what it is.",
+    sub: "For anyone who cannot read the strip: no reading, no typing. Point the camera, and Twinpill keeps looking and speaks.",
+    scan: "Scan a medicine", stop: "Stop scanning", say: "Say a medicine name", again: "Say it again",
+    intro: "Talk mode. Tap the big button at the top to scan a medicine with the camera, or the second button to say a name.",
+    starting: "Camera on. Hold the medicine about one hand's length from the phone.",
+    no_text: "I can't see any writing yet. Hold the medicine in front of the camera, a hand's length away, in good light.",
+    text_no_name: "I can see writing, but not the name. Slowly turn the medicine to show the front.",
+    found: "Found it.", no_camera: "I could not open the camera. Use the photo button instead.",
+    pick_photo: "Take a photo instead", loading: "Getting the reader ready. This happens only the first time.",
+    expires: (m, y) => `Expiry date: ${m} ${y}.`, expired: "Warning: this medicine has expired. Do not use it.",
+    unsure_strength: "Check the number printed after the name, or ask the pharmacist.",
+    link: "Can't read the strip? Use Talk mode",
+  },
+  ta: {
+    nav: "பேச்சு முறை", title: "எந்த மருந்தையும் காட்டுங்கள். அது என்ன என்று Twinpill சொல்லும்.",
+    sub: "அட்டையைப் படிக்க முடியாதவர்களுக்கு: படிக்கவோ தட்டச்சு செய்யவோ வேண்டாம். கேமராவைக் காட்டுங்கள், Twinpill பார்த்துக்கொண்டே பேசும்.",
+    scan: "மருந்தை ஸ்கேன் செய்", stop: "ஸ்கேனை நிறுத்து", say: "மருந்தின் பெயரைச் சொல்", again: "மீண்டும் சொல்",
+    intro: "பேச்சு முறை. கேமராவால் மருந்தை ஸ்கேன் செய்ய மேலே உள்ள பெரிய பொத்தானைத் தொடுங்கள். பெயரைச் சொல்ல இரண்டாவது பொத்தான்.",
+    starting: "கேமரா இயங்குகிறது. மருந்தை போனிலிருந்து ஒரு கை நீளத்தில் பிடியுங்கள்.",
+    no_text: "இன்னும் எழுத்து தெரியவில்லை. மருந்தை கேமராவுக்கு முன், ஒரு கை நீளத்தில், நல்ல வெளிச்சத்தில் பிடியுங்கள்.",
+    text_no_name: "எழுத்து தெரிகிறது, ஆனால் பெயர் தெரியவில்லை. முன்பக்கம் தெரியும்படி மெதுவாகத் திருப்புங்கள்.",
+    found: "கண்டுபிடித்தேன்.", no_camera: "கேமராவைத் திறக்க முடியவில்லை. புகைப்பட பொத்தானைப் பயன்படுத்துங்கள்.",
+    pick_photo: "புகைப்படம் எடு", loading: "வாசிப்பான் தயாராகிறது. இது முதல் முறை மட்டும்.",
+    expires: (m, y) => `காலாவதி தேதி: ${m} ${y}.`, expired: "எச்சரிக்கை: இந்த மருந்து காலாவதியாகிவிட்டது. பயன்படுத்த வேண்டாம்.",
+    unsure_strength: "பெயருக்குப் பிறகு உள்ள எண்ணைப் பாருங்கள், அல்லது மருந்தாளரிடம் கேளுங்கள்.",
+    link: "அட்டையைப் படிக்க முடியவில்லையா? பேச்சு முறை",
+  },
+  kn: {
+    nav: "ಮಾತು ಮೋಡ್", title: "ಯಾವುದೇ ಔಷಧಿಯನ್ನು ತೋರಿಸಿ. ಅದು ಏನು ಎಂದು Twinpill ಹೇಳುತ್ತದೆ.",
+    sub: "ಸ್ಟ್ರಿಪ್ ಓದಲಾಗದವರಿಗಾಗಿ: ಓದುವುದು ಬೇಡ, ಟೈಪ್ ಮಾಡುವುದು ಬೇಡ. ಕ್ಯಾಮೆರಾ ತೋರಿಸಿ, Twinpill ನೋಡುತ್ತಾ ಮಾತನಾಡುತ್ತದೆ.",
+    scan: "ಔಷಧಿಯನ್ನು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ", stop: "ಸ್ಕ್ಯಾನ್ ನಿಲ್ಲಿಸಿ", say: "ಔಷಧಿಯ ಹೆಸರು ಹೇಳಿ", again: "ಮತ್ತೆ ಹೇಳಿ",
+    intro: "ಮಾತು ಮೋಡ್. ಕ್ಯಾಮೆರಾದಿಂದ ಔಷಧಿ ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಮೇಲಿನ ದೊಡ್ಡ ಬಟನ್ ಒತ್ತಿ. ಹೆಸರು ಹೇಳಲು ಎರಡನೇ ಬಟನ್.",
+    starting: "ಕ್ಯಾಮೆರಾ ಆನ್ ಆಗಿದೆ. ಔಷಧಿಯನ್ನು ಫೋನಿನಿಂದ ಒಂದು ಕೈ ಉದ್ದದಲ್ಲಿ ಹಿಡಿಯಿರಿ.",
+    no_text: "ಇನ್ನೂ ಅಕ್ಷರಗಳು ಕಾಣುತ್ತಿಲ್ಲ. ಔಷಧಿಯನ್ನು ಕ್ಯಾಮೆರಾದ ಮುಂದೆ, ಒಂದು ಕೈ ಉದ್ದದಲ್ಲಿ, ಒಳ್ಳೆಯ ಬೆಳಕಿನಲ್ಲಿ ಹಿಡಿಯಿರಿ.",
+    text_no_name: "ಅಕ್ಷರಗಳು ಕಾಣುತ್ತಿವೆ, ಆದರೆ ಹೆಸರು ಕಾಣುತ್ತಿಲ್ಲ. ಮುಂಭಾಗ ಕಾಣುವಂತೆ ನಿಧಾನವಾಗಿ ತಿರುಗಿಸಿ.",
+    found: "ಸಿಕ್ಕಿತು.", no_camera: "ಕ್ಯಾಮೆರಾ ತೆರೆಯಲಾಗಲಿಲ್ಲ. ಫೋಟೋ ಬಟನ್ ಬಳಸಿ.",
+    pick_photo: "ಫೋಟೋ ತೆಗೆಯಿರಿ", loading: "ಓದುವಿಕೆ ಸಿದ್ಧವಾಗುತ್ತಿದೆ. ಇದು ಮೊದಲ ಬಾರಿ ಮಾತ್ರ.",
+    expires: (m, y) => `ಅವಧಿ ಮುಗಿಯುವ ದಿನಾಂಕ: ${m} ${y}.`, expired: "ಎಚ್ಚರಿಕೆ: ಈ ಔಷಧಿಯ ಅವಧಿ ಮುಗಿದಿದೆ. ಬಳಸಬೇಡಿ.",
+    unsure_strength: "ಹೆಸರಿನ ನಂತರದ ಸಂಖ್ಯೆ ನೋಡಿ, ಅಥವಾ ಫಾರ್ಮಸಿಸ್ಟ್‌ರನ್ನು ಕೇಳಿ.",
+    link: "ಸ್ಟ್ರಿಪ್ ಓದಲಾಗುತ್ತಿಲ್ಲವೇ? ಮಾತು ಮೋಡ್ ಬಳಸಿ",
+  },
+};
+export const MONTH_NAMES = {
+  en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  ta: ["ஜனவரி", "பிப்ரவரி", "மார்ச்", "ஏப்ரல்", "மே", "ஜூன்", "ஜூலை", "ஆகஸ்ட்", "செப்டம்பர்", "அக்டோபர்", "நவம்பர்", "டிசம்பர்"],
+  kn: ["ಜನವರಿ", "ಫೆಬ್ರವರಿ", "ಮಾರ್ಚ್", "ಏಪ್ರಿಲ್", "ಮೇ", "ಜೂನ್", "ಜುಲೈ", "ಆಗಸ್ಟ್", "ಸೆಪ್ಟೆಂಬರ್", "ಅಕ್ಟೋಬರ್", "ನವೆಂಬರ್", "ಡಿಸೆಂಬರ್"],
+};
