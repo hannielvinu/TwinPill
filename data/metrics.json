@@ -239,6 +239,58 @@
    ],
    "note": "When only the company differs, Twinpill says so plainly and asks the person to read the company name on the strip.",
    "plot": "data/plots/twin_counts.png"
+  },
+  {
+   "title": "4 \u00b7 Photo of a pack: which medicine is it?",
+   "what": "Real Indian pack photos from 1mg product pages. The app reads the printed ingredients and the kind of medicine, and accepts a brand only when the pack backs it up.",
+   "cols": [
+    "Right brand",
+    "Wrong brand",
+    "Kind of medicine right"
+   ],
+   "fmt": [
+    "pct",
+    "pct",
+    "pct"
+   ],
+   "rows": [
+    {
+     "name": "Tesseract.js (common browser OCR), 58 product photos",
+     "vals": [
+      0.5172413793103449,
+      0.017241379310344827,
+      "\u2014"
+     ]
+    },
+    {
+     "name": "PaddleOCR PP-OCRv4 in the browser, same 58 photos",
+     "vals": [
+      0.9827586206896551,
+      0.0,
+      "\u2014"
+     ],
+     "ours": true
+    },
+    {
+     "name": "Twinpill, 181 pack photos, all sides (front, back, strip)",
+     "vals": [
+      0.6353591160220995,
+      0.016574585635359115,
+      1.0
+     ],
+     "ours": true
+    },
+    {
+     "name": "Twinpill, 120 phone-style copies (tilted, blurred, dark, compressed)",
+     "vals": [
+      0.9,
+      0.0,
+      1.0
+     ],
+     "ours": true
+    }
+   ],
+   "note": "When the brand is readable on the photo, Twinpill never named a wrong one (118 + 107 photos). Back-of-pack photos without the brand give the ingredients instead. Re-run: node tests/test_photo.mjs."
   }
  ]
 }

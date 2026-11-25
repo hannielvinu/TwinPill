@@ -1,4 +1,5 @@
-import { T, FORM_TA, FORM_KN } from "./i18n.js";
+import { T, FORM_TA, FORM_KN, KIND, SAY, PHOTO } from "./i18n.js";
+import { say, hush } from "./speak.js";
 import { toLatin, hasIndic } from "./translit.js";
 import { loadRoots, findRoots, parseQuery, productsFor, meanings, isTwin, matchNumber, decidingQuestion, confident, loadIngredients, findIngredient, commonIngredient, findRootsIndic, bestFromSpeech, loadCommonWords } from "./search.js";
 
@@ -17,6 +18,14 @@ let lastQuery = "";
 let lastHeard = null; // { heard, root } when the query came from the microphone
 let LIVE = null;      // twins re-checked on a live pharmacy (results/live_check_1mg.json → data/live.json)
 let shownGroups = [];
+const sv = (v, a) => (typeof v === "function" ? v(...a) : v);
+const S = (k, ...a) => sv(SAY[lang][k] ?? SAY.en[k], a);
+const SE = (k, ...a) => sv(SAY.en[k], a);
+const P = (k) => PHOTO[lang][k] ?? PHOTO.en[k];
+const kindWord = (k, l = lang) => (k ? KIND[l][k] || KIND.en[k] : "");
+const sameGroup = (a, b) => a && b && a.ings.join("+") === b.ings.join("+");
+/** Speak in the chosen language; English is the fallback when the device has no Tamil/Kannada voice. */
+const speakOut = (local, en) => say(local, SPEECH[lang], en);
 
 /* ---------- language ---------- */
 function applyLang() {
@@ -49,6 +58,7 @@ function renderCheck(params) {
   document.querySelectorAll(".chip").forEach((c) => c.addEventListener("click", () => { q.value = c.dataset.q; runQuery(c.dataset.q); }));
   document.getElementById("micBtn").addEventListener("click", onMic);
   document.getElementById("photo").addEventListener("change", onPhoto);
+  warmPhotoReader();
   loadRoots().then(() => fetch("data/stats.json")).then((r) => r.json()).then((s) => {
     const el = document.getElementById("ctr");
     if (el) countUp(el, s.twin_roots_cross_company);
@@ -69,8 +79,9 @@ function countUp(el, target) {
 
 const setStatus = (html) => { const s = document.getElementById("status"); if (s) s.innerHTML = html; };
 
-async function runQuery(text) {
+async function runQuery(text, ctx = {}) {
   lastQuery = text;
+  hush();
   const box = document.getElementById("result");
   if (!box) return;
   const indic = hasIndic(text); // typed or spoken in Tamil/Kannada script: compare by sound in Latin letters
@@ -91,11 +102,19 @@ async function runQuery(text) {
   // A generic (molecule) name: explain it instead of guessing a brand.
   const ing = !exact ? findIngredient(name) : null;
   if (ing) {
-    box.innerHTML = `<div class="verdict info"><span class="badge">GENERIC</span><div><h2>${esc(t("generic_title", cap(ing.name)))}</h2>
+    box.innerHTML = photoCard(ctx.photo, null) + `<div class="verdict info"><span class="badge">GENERIC</span><div><h2>${esc(t("generic_title", cap(ing.name)))}</h2>
       <p>${esc(t("used_for"))}: <b>${esc(pickUse(ing))}</b>. ${esc(t("generic_sub", ing.brands.toLocaleString("en-US")))}</p></div></div>
       <div class="sounds"><h4>${esc(t("generic_brands"))}</h4><div class="chips" style="margin-top:10px">${ing.top.map(chip).join("")}</div></div>
       <p class="disclaimer">${esc(t("disclaimer"))}</p>`;
     wireChips();
+    if (ctx.speak) {
+      const k = ctx.photo?.kind;
+      const loc = ctx.photo ? (k ? S("looks_like", kindWord(k)) + " " : "") + S("ing_only", cap(ing.name), pickUse(ing))
+        : S("contains", cap(ing.name)) + " " + S("for_use", pickUse(ing));
+      const en = ctx.photo ? (k ? SE("looks_like", kindWord(k, "en")) + " " : "") + SE("ing_only", cap(ing.name), ing.use)
+        : SE("contains", cap(ing.name)) + " " + SE("for_use", ing.use);
+      speakOut(loc, en);
+    }
     return;
   }
   // Not in the catalogue, or only a weak look-alike: say so plainly, never present a guess as the answer.
@@ -104,6 +123,7 @@ async function runQuery(text) {
     box.innerHTML = `<div class="verdict unknown"><span class="badge">NOT FOUND</span><div><h2>${esc(t("nf_title", text.trim()))}</h2><p>${esc(t("nf_sub"))}</p></div></div>
       ${near.length ? `<div class="sounds"><h4>${esc(t("nf_closest"))}</h4><p class="muted small">${esc(t("nf_closest_sub"))}</p><div class="chips" style="margin-top:10px">${near.map((h) => chip(h.root)).join("")}</div></div>` : ""}`;
     wireChips();
+    if (ctx.speak) speakOut(S("not_found", text.trim()), SE("not_found", text.trim()));
     return;
   }
   const main = hits[0];
@@ -112,12 +132,13 @@ async function runQuery(text) {
   const twin = isTwin(gs);
   const display = cap(main.root);
 
-  let html = "";
+  let html = photoCard(ctx.photo, main.root);
+  let pendingDq = null;
   if (lastHeard && lastHeard.root === main.root) {
     html += `<div class="heardcard"><div><span class="hl-label">${esc(t("ai_heard"))}</span><b>“${esc(lastHeard.heard)}”</b></div><div class="arrow">→</div><div><span class="hl-label">${esc(t("we_found"))}</span><b>${esc(display)}</b></div></div>`;
   }
   lastHeard = null;
-  if (!exact && !html.includes("heardcard")) {
+  if (!exact && !html.includes("heardcard") && !ctx.photo) {
     const others = hits.slice(1, 4).filter((h) => (indic ? h.score >= 1.5 : confident(name, h, opts)));
     html += `<div class="didyou">${esc(t("dym", text.trim()))} <b>${esc(display)}</b>${others.length ? ` ${esc(t("dym_others"))} ${others.map((h) => chip(h.root)).join(" ")}` : ""}</div>`;
   }
@@ -137,14 +158,17 @@ async function runQuery(text) {
   const head = gs.find((g) => !g.incomplete) || gs[0];
   const unrel = gs.filter((g) => g !== head && !g.incomplete && !head.incomplete && !g.ings.some((i) => head.ings.includes(i)));
   const rest = gs.filter((g) => g !== head && !unrel.includes(g));
-  let shown = [head, ...unrel, ...rest].slice(0, 4);
-  let autoPick = -1;
+  let shown = [head, ...unrel, ...rest];
+  const photoGroup = ctx.photo?.group ? gs.find((g) => sameGroup(g, ctx.photo.group)) : null;
+  if (photoGroup) shown = [photoGroup, ...shown.filter((g) => g !== photoGroup)];
+  shown = shown.slice(0, 4);
+  let autoPick = photoGroup ? 0 : -1;
   if (number && !matchNumber(gs, number).length) {
     html += `<div class="didyou">${esc(t("no_number", display, number))}</div>`;
   }
   if (twin && number) {
     const hit = matchNumber(gs, number);
-    if (hit.length === 1) autoPick = shown.indexOf(hit[0]);
+    if (hit.length === 1 && autoPick < 0) autoPick = shown.indexOf(hit[0]);
     if (hit.length && hit.length < gs.length) {
       html += `<div class="question"><div class="label">${esc(t("number_hit", number))}</div><h3>${hit.map((g) => esc(cap(g.ings.join(" + "))) + " · " + esc(useLabel(g))).join("<br>")}</h3></div>`;
     }
@@ -158,9 +182,10 @@ async function runQuery(text) {
       html += `<div class="question" id="dq"><div class="label">${esc(t("ask"))}</div><h3>${esc(qtext)}</h3>
         <div class="muted small" style="color:#d9d6f2;margin-bottom:10px">${esc(t("pick"))}</div>
         <div class="answers">${dq.options.map((o, i) => `<button class="answer" data-i="${i}"><b>${esc(dq.kind === "form" ? cap(formLabel(o.label)) : o.label)}</b><span>${esc(useLabel(o.group))}</span></button>`).join("")}</div>
-        <div class="qactions"><button class="speak" id="speakBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>${esc(t("speak"))}</button>
+        <div class="chosen" aria-live="polite"></div>
+        <div class="qactions">
         <a class="share" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(shareText(display, main.root, qtext, dq))}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.7.9c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg>${esc(t("share"))}</a></div></div>`;
-      setTimeout(() => wireQuestion(dq, qtext, autoPick), 0);
+      pendingDq = { dq, qtext, autoPick };
     }
   }
 
@@ -181,6 +206,9 @@ async function runQuery(text) {
   }
   html += `<p class="disclaimer">${esc(t("disclaimer"))}</p>`;
   box.innerHTML = html;
+  // Wire the question only now that it is on the page (it used to be wired too early and taps did nothing).
+  if (pendingDq) { wireQuestion(pendingDq.dq, pendingDq.qtext, pendingDq.autoPick, display, !!ctx.speak); }
+  if (ctx.speak) speakResult({ display, number: ctx.photo?.number || number, kind: ctx.photo?.kind, twin, gs, shown, autoPick, photo: ctx.photo, qtext: pendingDq?.qtext });
   box.querySelectorAll(".sounds button").forEach((b) => b.addEventListener("click", () => { document.getElementById("q").value = b.dataset.q; runQuery(b.dataset.q); }));
   wireChips();
   if (window.innerWidth < 760) box.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -207,28 +235,72 @@ function card(g, i) {
   </article>`;
 }
 
-function wireQuestion(dq, qtext, autoPick = -1) {
+function wireQuestion(dq, qtext, autoPick = -1, display = "", silentAuto = false) {
   const root = document.getElementById("dq");
   if (!root) return;
-  setTimeout(() => { if (autoPick >= 0) { const i = dq.options.findIndex((o) => o.group === shownGroups[autoPick]); root.querySelectorAll(".answer")[i]?.click(); } }, 50);
-  root.querySelectorAll(".answer").forEach((b) => b.addEventListener("click", () => {
+  const labelOf = (o) => (dq.kind === "form" ? cap(formLabel(o.label)) : dq.kind === "company" ? o.label : `${display} ${o.label}`);
+  const choose = (b, speak) => {
     root.querySelectorAll(".answer").forEach((x) => x.classList.toggle("on", x === b));
-    const g = dq.options[Number(b.dataset.i)].group;
-    const ci = shownGroups.indexOf(g);
+    const o = dq.options[Number(b.dataset.i)];
+    const ci = shownGroups.findIndex((g) => sameGroup(g, o.group));
+    const cards = document.getElementById("cards");
     document.querySelectorAll(".mcard").forEach((c) => {
       const on = Number(c.dataset.i) === ci;
       c.classList.toggle("dim", !on);
       c.classList.toggle("pick", on);
+      if (on && cards) cards.prepend(c); // the chosen medicine moves to the top
     });
-  }));
-  const sp = document.getElementById("speakBtn");
-  sp?.addEventListener("click", () => {
-    const opts = dq.options.map((o) => `${dq.kind === "form" ? formLabel(o.label) : o.label}: ${useLabel(o.group)}`).join(". ");
-    const u = new SpeechSynthesisUtterance(`${qtext} ${opts}`);
-    u.lang = SPEECH[lang];
-    speechSynthesis.cancel();
-    speechSynthesis.speak(u);
-  });
+    const out = root.querySelector(".chosen");
+    if (out) out.innerHTML = `<span>${esc(labelOf(o))}</span> = <b>${esc(sent(useLabel(o.group)))}</b> · ${esc(cap(o.group.ings.join(" + ")))}`;
+    if (speak) {
+      speakOut(S("picked", labelOf(o), useLabel(o.group)), SE("picked", dq.kind === "form" ? o.label : labelOf(o), o.group.use || ""));
+      document.querySelector(".mcard.pick")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+  };
+  root.querySelectorAll(".answer").forEach((b) => b.addEventListener("click", () => choose(b, true)));
+  if (autoPick >= 0) {
+    const i = dq.options.findIndex((o) => sameGroup(o.group, shownGroups[autoPick]));
+    const b = root.querySelectorAll(".answer")[i];
+    if (b) choose(b, false); // chosen from the photo or the typed number: the spoken answer covers it
+  }
+}
+
+/** The card at the top of a photo result: what was read from the pack. */
+function photoCard(ph, root) {
+  if (!ph) return "";
+  const kind = ph.kind ? sent(kindWord(ph.kind)) : P("unknown_kind");
+  const brand = ph.root ? `${cap(ph.root)}${ph.number ? " " + ph.number : ""}` : P("no_brand");
+  return `<div class="photocard">${ph.thumb ? `<img src="${esc(ph.thumb)}" alt="">` : ""}
+    <div class="pc-body"><span class="hl-label">${esc(P("read_from"))}</span>
+      <div class="pc-brand">${esc(brand)}</div>
+      <dl><dt>${esc(P("kind"))}</dt><dd><span class="kindtag">${esc(kind)}</span></dd>
+      ${ph.ings?.length ? `<dt>${esc(P("printed"))}</dt><dd>${esc(cap(ph.ings.join(" + ")))}</dd>` : ""}
+      ${ph.group ? `<dt>${esc(P("this_one"))}</dt><dd><b class="pc-use">${esc(sent(useLabel(ph.group)))}</b>${ph.group.highAlert ? ` <span class="ha">${esc(t("high_alert"))}</span>` : ""}</dd>` : ""}</dl></div></div>`;
+}
+
+/** Say the answer out loud: which medicine this is, what it is for, and the twin warning. */
+function speakResult({ display, number, kind, twin, gs, shown, autoPick, photo }) {
+  const name = `${display}${number ? " " + number : ""}`;
+  const L = [], E = [];
+  const add = (k, ...a) => { L.push(S(k, ...a)); E.push(SE(k, ...a.map((x) => x))); };
+  const known = autoPick >= 0 ? shown[autoPick] : !twin ? gs[0] : null;
+  if (known) {
+    L.push(S("this_is", name, kindWord(kind))); E.push(SE("this_is", name, kindWord(kind, "en")));
+    L.push(S("for_use", useLabel(known))); E.push(SE("for_use", known.use || "an unlisted use"));
+    if (photo) { L.push(S("contains", cap(known.ings.join(", ")))); E.push(SE("contains", cap(known.ings.join(", ")))); }
+    if (twin) {
+      // warn only about a medicine for a different purpose (an antacid twin of an ulcer tablet is not news)
+      const other = gs.find((g) => g !== known && !g.ings.some((i) => known.ings.includes(i)) && useLabel(g) !== useLabel(known));
+      if (other) { L.push(S("careful", display, useLabel(other))); E.push(SE("careful", display, other.use || "another use")); }
+    } else { add("no_twin"); }
+  } else if (twin) {
+    const unrel = [shown[0], ...shown.slice(1).filter((g) => !g.ings.some((i) => shown[0].ings.includes(i)))].slice(0, 3);
+    if (kind) { L.push(S("looks_like", kindWord(kind))); E.push(SE("looks_like", kindWord(kind, "en"))); }
+    L.push(S("twin", display, unrel.length, unrel.map(useLabel).join(S("or", "")))); E.push(SE("twin", display, unrel.length, unrel.map((g) => g.use).join(" or ")));
+    const q = document.querySelector("#dq h3")?.textContent;
+    if (q) { L.push(q); if (lang === "en") E.push(q); }
+  }
+  speakOut(L.join(" "), E.join(" "));
 }
 
 /* ---------- voice (browser speech recognition: Google in Chrome/Android) ---------- */
@@ -260,7 +332,7 @@ async function onMic() {
     if (!pick) {
       setStatus(esc(t("heard", alts[0])) + (alts.length > 1 ? ` <span class="muted small">(${heardAll})</span>` : ""));
       document.getElementById("q").value = alts[0];
-      runQuery(alts[0]);
+      runQuery(alts[0], { speak: true });
       return;
     }
     const chips = (pick.others || []).map((r) => `<button class="chip" data-q="${esc(r)}">${esc(cap(r))}</button>`).join(" ");
@@ -268,27 +340,51 @@ async function onMic() {
     document.querySelectorAll("#status .chip").forEach((c) => c.addEventListener("click", () => { document.getElementById("q").value = c.dataset.q; runQuery(c.dataset.q); }));
     document.getElementById("q").value = pick.query;
     if (pick.root) lastHeard = { heard: pick.heard, root: pick.root };
-    runQuery(pick.query);
+    runQuery(pick.query, { speak: true });
   } catch (err) {
     btn.classList.remove("rec");
     setStatus(esc(t("voice_err", String(err.message || err))));
   }
 }
 
-/* ---------- photo (on-device OCR) ---------- */
+/* ---------- photo (on-device OCR: PaddleOCR in the browser) ---------- */
 async function onPhoto(e) {
   const file = e.target.files?.[0];
-  if (!file) return;
-  setStatus(`<span class="spinner"></span>${esc(t("reading"))}`);
-  try {
-    const { readNames } = await import("./ocr.js");
-    const found = await readNames(file, (p) => setStatus(`<span class="spinner"></span>${esc(t("reading"))} ${Math.round(p * 100)}%`));
-    if (!found.length) { setStatus(esc(t("read_none"))); return; }
-    setStatus(esc(t("read_ok", found[0].text)));
-    document.getElementById("q").value = found[0].text;
-    runQuery(found[0].text);
-  } catch (err) { setStatus(esc(String(err.message || err))); }
   e.target.value = "";
+  if (!file) return;
+  hush();
+  const thumb = URL.createObjectURL(file);
+  const box = document.getElementById("result");
+  if (box) box.innerHTML = `<div class="photocard reading"><img src="${esc(thumb)}" alt=""><div class="pc-body"><span class="hl-label">${esc(P("read_from"))}</span><div class="pc-brand"><span class="spinner"></span><span id="pcStage">${esc(P("reading"))}</span></div></div></div>`;
+  setStatus("");
+  const stage = (k) => { const el = document.getElementById("pcStage"); if (el) el.textContent = P(k === "load" ? "loading" : "reading"); };
+  try {
+    const { readPack } = await import("./ocr.js");
+    const r = await readPack(file, stage);
+    window.__lastPack = r; // for tests
+    const ph = { ...r, thumb };
+    if (r.root) {
+      const q = `${r.root}${r.number ? " " + r.number : ""}`;
+      document.getElementById("q").value = cap(q);
+      await runQuery(q, { photo: ph, speak: true });
+    } else if (r.ings.length) {
+      document.getElementById("q").value = cap(r.ings[0]);
+      await runQuery(r.ings[0], { photo: ph, speak: true });
+    } else {
+      if (box) box.innerHTML = photoCard(ph, null) + `<div class="verdict unknown"><span class="badge">NOT READ</span><div><h2>${esc(t("read_none"))}</h2></div></div>`;
+      speakOut(S("nothing"), SE("nothing"));
+    }
+  } catch (err) {
+    setStatus(esc(String(err.message || err)));
+  }
+}
+
+/** Fetch the photo reader in the background so the first photo is quick (skipped on data-saver). */
+function warmPhotoReader() {
+  const c = navigator.connection;
+  if (c && (c.saveData || /2g/.test(c.effectiveType || ""))) return;
+  const go = () => import("./ocr.js").then((m) => m.warmOcr()).catch(() => {});
+  (window.requestIdleCallback || ((f) => setTimeout(f, 2500)))(go, { timeout: 6000 });
 }
 
 /* ---------- atlas ---------- */
