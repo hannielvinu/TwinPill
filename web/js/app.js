@@ -1,4 +1,5 @@
-import { T, FORM_TA, FORM_KN, KIND, SAY, PHOTO } from "./i18n.js";
+import { T, FORM_TA, FORM_KN, KIND, SAY, PHOTO, TALK, MONTH_NAMES } from "./i18n.js";
+import { kindOfForm } from "./photo.js";
 import { say, hush } from "./speak.js";
 import { toLatin, hasIndic } from "./translit.js";
 import { loadRoots, findRoots, parseQuery, productsFor, meanings, isTwin, matchNumber, decidingQuestion, confident, loadIngredients, findIngredient, commonIngredient, findRootsIndic, bestFromSpeech, loadCommonWords } from "./search.js";
@@ -22,6 +23,8 @@ const sv = (v, a) => (typeof v === "function" ? v(...a) : v);
 const S = (k, ...a) => sv(SAY[lang][k] ?? SAY.en[k], a);
 const SE = (k, ...a) => sv(SAY.en[k], a);
 const P = (k) => PHOTO[lang][k] ?? PHOTO.en[k];
+const K = (k, ...a) => sv(TALK[lang][k] ?? TALK.en[k], a);
+const KE = (k, ...a) => sv(TALK.en[k], a);
 const kindWord = (k, l = lang) => (k ? KIND[l][k] || KIND.en[k] : "");
 const sameGroup = (a, b) => a && b && a.ings.join("+") === b.ings.join("+");
 /** Speak in the chosen language; English is the fallback when the device has no Tamil/Kannada voice. */
@@ -32,6 +35,7 @@ function applyLang() {
   document.documentElement.lang = lang;
   document.getElementById("langSel").value = lang;
   document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-talk]").forEach((el) => { el.textContent = K(el.dataset.i18nTalk); });
 }
 document.getElementById("langSel").addEventListener("change", (e) => {
   lang = e.target.value;
@@ -40,9 +44,10 @@ document.getElementById("langSel").addEventListener("change", (e) => {
 });
 
 /* ---------- router ---------- */
-const routes = { "": renderCheck, atlas: renderAtlas, evidence: renderEvidence, how: renderHow };
+const routes = { "": renderCheck, talk: renderTalk, atlas: renderAtlas, evidence: renderEvidence, how: renderHow };
 function route() {
   const [path, query] = location.hash.replace(/^#\/?/, "").split("?");
+  if (path !== "talk") stopScan();
   (routes[path] || renderCheck)(new URLSearchParams(query || ""));
   document.querySelectorAll(".nav a").forEach((a) => a.classList.toggle("on", (a.dataset.route === "check" ? "" : a.dataset.route) === path));
   applyLang();
@@ -58,6 +63,7 @@ function renderCheck(params) {
   document.querySelectorAll(".chip").forEach((c) => c.addEventListener("click", () => { q.value = c.dataset.q; runQuery(c.dataset.q); }));
   document.getElementById("micBtn").addEventListener("click", onMic);
   document.getElementById("photo").addEventListener("change", onPhoto);
+  document.getElementById("photoBtn").addEventListener("click", () => document.getElementById("photo").click());
   warmPhotoReader();
   loadRoots().then(() => fetch("data/stats.json")).then((r) => r.json()).then((s) => {
     const el = document.getElementById("ctr");
@@ -176,9 +182,7 @@ async function runQuery(text, ctx = {}) {
   if (twin) {
     const dq = decidingQuestion([head, ...unrel].slice(0, 4).length > 1 ? [head, ...unrel].slice(0, 4) : shown);
     if (dq) {
-      const art = (x) => (lang === "en" ? (/^[aeiou]/i.test(x) ? "an " : "a ") + x : x);
-      let qtext = dq.kind === "form" ? t("q_form").replace("{a}", art(formLabel(dq.options[0].label))).replace("{b}", art(formLabel(dq.options[1].label)))
-        : dq.kind === "strength" ? t("q_strength") : dq.kind === "suffix" ? t("q_suffix") : dq.kind === "fullname" ? t("q_fullname") : t("q_company");
+      const qtext = questionText(dq);
       html += `<div class="question" id="dq"><div class="label">${esc(t("ask"))}</div><h3>${esc(qtext)}</h3>
         <div class="muted small" style="color:#d9d6f2;margin-bottom:10px">${esc(t("pick"))}</div>
         <div class="answers">${dq.options.map((o, i) => `<button class="answer" data-i="${i}"><b>${esc(dq.kind === "form" ? cap(formLabel(o.label)) : o.label)}</b><span>${esc(useLabel(o.group))}</span></button>`).join("")}</div>
@@ -212,6 +216,14 @@ async function runQuery(text, ctx = {}) {
   box.querySelectorAll(".sounds button").forEach((b) => b.addEventListener("click", () => { document.getElementById("q").value = b.dataset.q; runQuery(b.dataset.q); }));
   wireChips();
   if (window.innerWidth < 760) box.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function questionText(dq, l = lang) {
+  const tl = (k) => T[l][k] ?? T.en[k];
+  const fl = (f) => (l === "ta" ? FORM_TA[f] || f : l === "kn" ? FORM_KN[f] || f : f);
+  const art = (x) => (l === "en" ? (/^[aeiou]/i.test(x) ? "an " : "a ") + x : x);
+  return dq.kind === "form" ? tl("q_form").replace("{a}", art(fl(dq.options[0].label))).replace("{b}", art(fl(dq.options[1].label)))
+    : dq.kind === "strength" ? tl("q_strength") : dq.kind === "suffix" ? tl("q_suffix") : dq.kind === "fullname" ? tl("q_fullname") : tl("q_company");
 }
 
 function shareText(display, root, qtext, dq) {
@@ -275,6 +287,7 @@ function photoCard(ph, root) {
       <div class="pc-brand">${esc(brand)}</div>
       <dl><dt>${esc(P("kind"))}</dt><dd><span class="kindtag">${esc(kind)}</span></dd>
       ${ph.ings?.length ? `<dt>${esc(P("printed"))}</dt><dd>${esc(cap(ph.ings.join(" + ")))}</dd>` : ""}
+      ${ph.expiry ? `<dt>${esc(K("expires", "", "").replace(/[:.\s]+$/, ""))}</dt><dd>${esc(MONTH_NAMES[lang][ph.expiry.month - 1])} ${ph.expiry.year}${expiryLines(ph.expiry).past ? ` <span class="ha">${esc(K("expired").split(/[:.]/)[0])}</span>` : ""}</dd>` : ""}
       ${ph.group ? `<dt>${esc(P("this_one"))}</dt><dd><b class="pc-use">${esc(sent(useLabel(ph.group)))}</b>${ph.group.highAlert ? ` <span class="ha">${esc(t("high_alert"))}</span>` : ""}</dd>` : ""}</dl></div></div>`;
 }
 
@@ -300,6 +313,8 @@ function speakResult({ display, number, kind, twin, gs, shown, autoPick, photo }
     const q = document.querySelector("#dq h3")?.textContent;
     if (q) { L.push(q); if (lang === "en") E.push(q); }
   }
+  const x = expiryLines(photo?.expiry);
+  L.push(...x.l); E.push(...x.e);
   speakOut(L.join(" "), E.join(" "));
 }
 
@@ -317,17 +332,7 @@ async function onMic() {
     btn.classList.remove("rec");
     // Google returns several guesses, and in English it often splits a brand into everyday words
     // ("a seat am 500"). Score every guess by the catalogue name it contains and keep the strongest.
-    await Promise.all([loadRoots(), loadIngredients(), loadCommonWords()]);
-    let pick = null;
-    for (const a of alts) {
-      const latin = hasIndic(a) ? toLatin(a) : a;
-      const ing = findIngredient(parseQuery(latin).name.replace(/ /g, ""));
-      if (ing && (!pick || pick.score < 3)) { pick = { heard: a, query: ing.name, score: 3, others: [] }; continue; }
-      const b = bestFromSpeech(latin);
-      const num = (latin.match(/\d+(?:\.\d+)?/) || [""])[0];
-      const sc = b ? b.score + (num ? 0.01 : 0) : 0;
-      if (b && (!pick || sc > pick.score)) pick = { heard: a, query: `${b.root}${num ? " " + num : ""}`, score: sc, root: b.root, others: b.others };
-    }
+    const pick = await pickFromSpeech(alts);
     const heardAll = alts.slice(0, 4).map(esc).join(" · ");
     if (!pick) {
       setStatus(esc(t("heard", alts[0])) + (alts.length > 1 ? ` <span class="muted small">(${heardAll})</span>` : ""));
@@ -345,6 +350,22 @@ async function onMic() {
     btn.classList.remove("rec");
     setStatus(esc(t("voice_err", String(err.message || err))));
   }
+}
+
+/** Google returns several guesses; score each by the catalogue name it contains and keep the strongest. */
+async function pickFromSpeech(alts) {
+    await Promise.all([loadRoots(), loadIngredients(), loadCommonWords()]);
+    let pick = null;
+    for (const a of alts) {
+      const latin = hasIndic(a) ? toLatin(a) : a;
+      const ing = findIngredient(parseQuery(latin).name.replace(/ /g, ""));
+      if (ing && (!pick || pick.score < 3)) { pick = { heard: a, query: ing.name, score: 3, others: [] }; continue; }
+      const b = bestFromSpeech(latin);
+      const num = (latin.match(/\d+(?:\.\d+)?/) || [""])[0];
+      const sc = b ? b.score + (num ? 0.01 : 0) : 0;
+      if (b && (!pick || sc > pick.score)) pick = { heard: a, query: `${b.root}${num ? " " + num : ""}`, score: sc, root: b.root, others: b.others };
+    }
+    return pick;
 }
 
 /* ---------- photo (on-device OCR: PaddleOCR in the browser) ---------- */
@@ -385,6 +406,205 @@ function warmPhotoReader() {
   if (c && (c.saveData || /2g/.test(c.effectiveType || ""))) return;
   const go = () => import("./ocr.js").then((m) => m.warmOcr()).catch(() => {});
   (window.requestIdleCallback || ((f) => setTimeout(f, 2500)))(go, { timeout: 6000 });
+}
+
+/* ---------- Talk mode: for people who cannot read the strip ---------- */
+// Point the phone at a medicine. Twinpill keeps looking, says what to do until it can read the name,
+// then says which medicine it is, what it is for, the twin warning and the expiry date.
+let talkStream = null, talkLoop = false, lastSaid = null, audioCtx = null;
+
+function beep(freq = 880, ms = 70, vol = 0.05) {
+  try {
+    audioCtx ||= new (window.AudioContext || window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.frequency.value = freq; g.gain.value = vol; o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + ms / 1000);
+  } catch { /* no audio */ }
+}
+const buzz = (p) => { try { navigator.vibrate?.(p); } catch { /* ignore */ } };
+
+function talkSay(l, e) {
+  lastSaid = { l, e };
+  const st = document.getElementById("talkStatus");
+  if (st) st.textContent = l;
+  return speakOut(l, e);
+}
+
+function expiryLines(x) {
+  if (!x) return { l: [], e: [] };
+  const now = new Date();
+  const past = x.year < now.getFullYear() || (x.year === now.getFullYear() && x.month < now.getMonth() + 1);
+  const l = [K("expires", MONTH_NAMES[lang][x.month - 1], x.year)], e = [KE("expires", MONTH_NAMES.en[x.month - 1], x.year)];
+  if (past) { l.push(K("expired")); e.push(KE("expired")); }
+  return { l, e, past };
+}
+
+/** Everything a person needs to hear about a medicine read from a pack or said aloud. */
+async function describe(r) {
+  const L = [], E = [];
+  const push = (l, e = l) => { L.push(l); E.push(e); };
+  let known = null, gs = [], twin = false, title = "";
+  await loadIngredients();
+  if (r.root) {
+    gs = meanings(await productsFor(r.root));
+    if (!gs.length) return null;
+    twin = isTwin(gs);
+    if (r.group) known = gs.find((g) => sameGroup(g, r.group)) || null;
+    if (!known && r.number) { const h = matchNumber(gs, r.number); if (h.length === 1) known = h[0]; }
+    if (!known && r.kind) { const h = gs.filter((g) => g.forms.some((f) => kindOfForm(f) === r.kind)); if (h.length === 1) known = h[0]; }
+    if (!known && !twin) known = gs[0];
+    const name = `${cap(r.root)}${r.number ? " " + r.number : ""}`;
+    title = name;
+    if (known) {
+      push(S("this_is", name, kindWord(r.kind)), SE("this_is", name, kindWord(r.kind, "en")));
+      push(S("for_use", useLabel(known)), SE("for_use", known.use || "an unlisted use"));
+      push(S("contains", cap(known.ings.join(", "))), SE("contains", cap(known.ings.join(", "))));
+      if (twin) {
+        const other = gs.find((g) => g !== known && !g.ings.some((i) => known.ings.includes(i)) && useLabel(g) !== useLabel(known));
+        if (other) push(S("careful", cap(r.root), useLabel(other)), SE("careful", cap(r.root), other.use || "another use"));
+      } else push(S("no_twin"), SE("no_twin"));
+    } else {
+      const head = gs.find((g) => !g.incomplete) || gs[0];
+      const unrel = [head, ...gs.filter((g) => g !== head && !g.ings.some((i) => head.ings.includes(i)))].slice(0, 3);
+      if (r.kind) push(S("looks_like", kindWord(r.kind)), SE("looks_like", kindWord(r.kind, "en")));
+      push(S("twin", cap(r.root), unrel.length, unrel.map(useLabel).join(S("or"))), SE("twin", cap(r.root), unrel.length, unrel.map((g) => g.use).join(" or ")));
+      const dq = decidingQuestion(unrel);
+      if (dq) push(questionText(dq), questionText(dq, "en"));
+      push(K("unsure_strength"), KE("unsure_strength"));
+    }
+  } else if (r.ings?.length) {
+    const ing = findIngredient(r.ings[0]);
+    if (!ing) return null;
+    title = cap(ing.name);
+    if (r.kind) push(S("looks_like", kindWord(r.kind)), SE("looks_like", kindWord(r.kind, "en")));
+    push(S("ing_only", cap(ing.name), pickUse(ing)), SE("ing_only", cap(ing.name), ing.use));
+  } else return null;
+  const x = expiryLines(r.expiry);
+  L.push(...x.l); E.push(...x.e);
+  return { l: L.join(" "), e: E.join(" "), title, known, twin, expired: x.past, root: r.root };
+}
+
+function showTalkResult(d) {
+  const box = document.getElementById("talkResult");
+  if (!box || !d) return;
+  box.innerHTML = `<div class="talk-card${d.twin ? " twin" : ""}${d.expired ? " expired" : ""}"><div class="tc-name">${esc(d.title)}</div>
+    <p>${esc(d.l)}</p>${d.root ? `<a href="#/?q=${encodeURIComponent(d.root)}">${esc(t("nav_check"))} →</a>` : ""}</div>`;
+}
+
+function renderTalk() {
+  const mic = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>';
+  const cam = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3 7.2 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 3H9Zm3 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>';
+  view.innerHTML = `<section class="talk">
+    <p class="kicker">${esc(K("nav"))}</p>
+    <h1>${esc(K("title"))}</h1>
+    <p class="talk-sub">${esc(K("sub"))}</p>
+    <button class="talk-btn primary" id="tScan" aria-pressed="false">${cam}<span>${esc(K("scan"))}</span></button>
+    <div class="talk-row">
+      <button class="talk-btn" id="tSay">${mic}<span>${esc(K("say"))}</span></button>
+      <button class="talk-btn" id="tAgain"><span>${esc(K("again"))}</span></button>
+    </div>
+    <button class="talk-link" id="tPhoto">${esc(K("pick_photo"))}</button>
+    <input id="tFile" type="file" accept="image/*" capture="environment" hidden aria-hidden="true" tabindex="-1">
+    <video id="tVideo" playsinline muted aria-hidden="true"></video>
+    <p id="talkStatus" class="talk-status"></p>
+    <div id="talkResult"></div>
+  </section>`;
+  applyLang();
+  document.getElementById("tScan").addEventListener("click", toggleScan);
+  document.getElementById("tSay").addEventListener("click", talkListen);
+  document.getElementById("tAgain").addEventListener("click", () => { if (lastSaid) speakOut(lastSaid.l, lastSaid.e); else talkSay(K("intro"), KE("intro")); });
+  document.getElementById("tPhoto").addEventListener("click", () => document.getElementById("tFile").click());
+  document.getElementById("tFile").addEventListener("change", async (e) => {
+    const f = e.target.files?.[0]; e.target.value = "";
+    if (!f) return;
+    stopScan();
+    beep(660);
+    const { readPack } = await import("./ocr.js");
+    const r = await readPack(f, (k) => { if (k === "load") document.getElementById("talkStatus").textContent = K("loading"); });
+    await announce(r, true);
+  });
+  document.getElementById("tScan").focus();
+  talkSay(K("intro"), KE("intro"));
+  warmPhotoReader();
+}
+
+async function announce(r, final) {
+  const d = await describe(r);
+  if (!d) { if (final) talkSay(S("nothing"), SE("nothing")); return false; }
+  buzz([90, 60, 90]); beep(1320, 120, 0.07);
+  showTalkResult(d);
+  talkSay(`${K("found")} ${d.l}`, `${KE("found")} ${d.e}`);
+  const st = document.getElementById("talkStatus");
+  if (st) st.textContent = K("found"); // the card below holds the full answer
+  return true;
+}
+
+function stopScan() {
+  talkLoop = false;
+  if (talkStream) { talkStream.getTracks().forEach((tr) => tr.stop()); talkStream = null; }
+  const v = document.getElementById("tVideo");
+  if (v) { v.srcObject = null; v.classList.remove("on"); }
+  const b = document.getElementById("tScan");
+  if (b) { b.setAttribute("aria-pressed", "false"); b.querySelector("span").textContent = K("scan"); }
+}
+
+async function frameBlob(video) {
+  const k = Math.min(1, 1280 / Math.max(video.videoWidth, video.videoHeight));
+  const c = document.createElement("canvas");
+  c.width = Math.round(video.videoWidth * k); c.height = Math.round(video.videoHeight * k);
+  c.getContext("2d").drawImage(video, 0, 0, c.width, c.height);
+  return new Promise((res) => c.toBlob(res, "image/jpeg", 0.9));
+}
+
+async function toggleScan() {
+  if (talkLoop) { stopScan(); hush(); return; }
+  const btn = document.getElementById("tScan"), video = document.getElementById("tVideo");
+  try {
+    talkStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false });
+  } catch { talkSay(K("no_camera"), KE("no_camera")); return; }
+  video.srcObject = talkStream; video.classList.add("on");
+  await video.play().catch(() => {});
+  talkLoop = true;
+  btn.setAttribute("aria-pressed", "true"); btn.querySelector("span").textContent = K("stop");
+  document.getElementById("talkResult").innerHTML = "";
+  talkSay(K("starting"), KE("starting"));
+  const ocr = await import("./ocr.js");
+  let ready = false;
+  const warm = ocr.warmOcr().then(() => { ready = true; });
+  setTimeout(() => { if (!ready && talkLoop) talkSay(K("loading"), KE("loading")); }, 3500);
+  await warm;
+  let tries = 0, ingOnly = 0, lastHint = Date.now();
+  while (talkLoop) {
+    if (!video.videoWidth) { await new Promise((r) => setTimeout(r, 200)); continue; }
+    beep(520, 40, 0.025); // a soft tick: still looking
+    const blob = await frameBlob(video);
+    const r = await ocr.readPack(blob, null, { rotate: false });
+    if (!talkLoop) break;
+    tries++;
+    if (r.root) { stopScan(); await announce(r, true); return; }
+    if (r.ings.length && ++ingOnly >= 3) { stopScan(); await announce(r, true); return; } // no brand side in view: say the medicine inside
+    if (Date.now() - lastHint > 6000 && !speechSynthesis.speaking) {
+      lastHint = Date.now();
+      r.textLines >= 2 ? talkSay(K("text_no_name"), KE("text_no_name")) : talkSay(K("no_text"), KE("no_text"));
+    }
+    if (tries > 60) { stopScan(); talkSay(S("nothing"), SE("nothing")); return; }
+  }
+}
+
+async function talkListen() {
+  stopScan();
+  const { speechSupported, listen } = await import("./voice.js");
+  if (!speechSupported()) { talkSay(t("voice_none"), T.en.voice_none); return; }
+  hush();
+  beep(880);
+  try {
+    const alts = await listen(SPEECH[lang], (live) => { const st = document.getElementById("talkStatus"); if (st) st.textContent = live; });
+    const pick = await pickFromSpeech(alts);
+    if (!pick) { talkSay(S("not_found", alts[0] || ""), SE("not_found", alts[0] || "")); return; }
+    const { name, number } = parseQuery(pick.query);
+    const r = pick.root ? { root: pick.root, number } : { ings: [name] };
+    if (!(await announce(r, false))) talkSay(S("not_found", pick.heard), SE("not_found", pick.heard));
+  } catch (err) { talkSay(t("voice_err", String(err.message || err))); }
 }
 
 /* ---------- atlas ---------- */
@@ -465,6 +685,7 @@ function renderHow() {
       <p><b>“Your catalogue is from 2021–22. Are these twins still sold?”</b><br>Yes. We re-checked our top twin names on a live online pharmacy (1mg). <span id="liveFaq">See the Evidence page for the list and links.</span></p>
       <p><b>“Where is the AI?”</b><br>Three trained or tested models: a confusability model learned from 440 real confused-name pairs; a ranker that recovers names speech AI mishears (75.5% vs 48.8% for plain search, on a voice it never saw); and on-screen speech and photo reading. Plus a measured finding nobody had published: speech AI spells half of Indian medicine names wrong.</p>
       <p><b>“Has a real mix-up ever happened?”</b><br>The Lancet (2024) documented brand-name clashes in India and warned that a pharmacist “has no way” to tell which drug a brand-only prescription means. India's drug regulator opened a consultation on it in July 2026. Twinpill gives both a tool and the evidence.</p>
+      <p><b>“Can someone who cannot see use it?”</b><br>Yes: open <a href="#/talk">Talk mode</a>. One huge button turns on the camera; Twinpill keeps looking, tells you how to hold the medicine, then says the name, what it is for, the twin warning and the expiry date, in English, Tamil or Kannada. Every button has a spoken label for TalkBack and VoiceOver, and the pages pass an automated WCAG 2 AA check (axe-core).</p>
       <p><b>“Is my data safe?”</b><br>Typing and photo reading run on your device. Voice uses your browser's speech service. Nothing is stored, there is no account and no tracking.</p>
     </div>
     <div class="card" style="margin-top:18px"><h3>Limits we state openly</h3><ul>

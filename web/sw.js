@@ -1,6 +1,6 @@
 // Offline support: the demo keeps working if the venue Wi-Fi drops.
 // Network first (always fresh when online), cache as fallback; the core files are cached on first visit.
-const CACHE = "twinpill-v2";
+const CACHE = "twinpill-v3";
 const CORE = ["./", "index.html", "css/style.css", "js/app.js", "js/search.js", "js/phonetic.js", "js/translit.js", "js/i18n.js",
   "js/voice.js", "js/ocr.js", "js/photo.js", "js/speak.js", "assets/icon.svg", "data/roots.json", "data/ingredients.json", "data/common_words.json",
   "data/stats.json", "data/atlas.json", "data/ranker.json", "data/metrics.json", "data/live.json",

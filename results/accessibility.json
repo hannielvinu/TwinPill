@@ -1,0 +1,14 @@
+{
+    "tool": "axe-core 4.10.2",
+    "standard": "WCAG 2 A + AA",
+    "checked": "2026-11-25",
+    "pages": {
+        "check": 0,
+        "result (Adnil)": 0,
+        "talk mode": 0,
+        "atlas": 0,
+        "evidence": 0,
+        "how": 0
+    },
+    "note": "violations per page after fixes; before: low-contrast grey text on every page"
+}

@@ -44,6 +44,15 @@ Real examples from the catalogue (click any of them in the app):
 | **Zentra 100** | capsule SR · opioid painkiller | capsule · antifungal | the company name (and the letters "SR") |
 | **Dolo** | Dolo 650 · paracetamol | Dolo Soft MR · nimesulide + tizanidine (other company) | the letters after the name |
 
+## For people who cannot read the strip
+
+Blind and low-vision people, elders without their glasses, anyone in a dim room: they cannot check the one number or word that separates two medicines with the same name. **Talk mode** (`#/talk`) is built for them:
+
+- **One huge button.** The camera keeps looking, with a soft tick so you know it is working. It tells you what to do ("I can see writing, but not the name. Slowly turn the medicine to show the front") until it can read the name. No aiming, no photo to take.
+- **It speaks the whole answer:** the medicine, its kind (tablet, injection, eye drops…), what it is for, what it contains, the twin warning, and the **expiry date, with a warning if it has expired**, in English, Tamil or Kannada. A vibration and a chime mark the moment it finds the medicine.
+- **Say a name** instead, and **Say it again** to repeat the answer.
+- Screen-reader friendly: every control has a spoken label for TalkBack and VoiceOver, there is a skip link straight to Talk mode, and all pages pass an automated **WCAG 2 A and AA** check (axe-core, 0 violations; [`results/accessibility.json`](results/accessibility.json)).
+
 ## What Twinpill does
 
 1. **Type, say or snap** a medicine name, in **English, Tamil or Kannada**. Voice uses the browser's speech recognition (Google's engine in Chrome and Android, the same as Google voice typing). A name said or typed in Tamil or Kannada script is converted to Latin letters and matched by sound. Photo reading (PaddleOCR, in the browser) and all matching run on the device.
@@ -54,8 +63,9 @@ Real examples from the catalogue (click any of them in the app):
 4. It asks **the one question that splits the unrelated medicines**: the form, then the printed number, then the letters after the name, then the company. Tap the answer that matches the strip: the right medicine moves to the top and is read out loud.
 5. The **Twin Atlas** ranks India's most dangerous name clashes for pharmacists, hospitals and the regulator.
 6. When you speak, it shows **what the speech AI heard and what Twinpill found** ("add nil" → Adnil), so the correction is visible.
-7. **Warn my family on WhatsApp:** one tap sends the warning and the deciding question in English, Tamil or Kannada.
-8. **Works offline** after the first visit (a service worker caches the app and data), so it still works at a chemist with poor signal.
+7. **Talk mode** for people who cannot read the strip (see above).
+8. **Warn my family on WhatsApp:** one tap sends the warning and the deciding question in English, Tamil or Kannada.
+9. **Works offline** after the first visit (a service worker caches the app and data), so it still works at a chemist with poor signal.
 
 Twinpill never names the "right" drug. It shows what a name could mean so a person asks before they swallow.
 

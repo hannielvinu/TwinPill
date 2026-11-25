@@ -5,8 +5,8 @@
   "right": 115,
   "wrong": 3,
   "wrong_when_visible": 0,
-  "kind_read": 137,
-  "kind_right": 137,
+  "kind_read": 141,
+  "kind_right": 141,
   "exact_medicine_right": 91,
   "exact_medicine_wrong": 1
  },
@@ -16,8 +16,8 @@
   "right": 108,
   "wrong": 0,
   "wrong_when_visible": 0,
-  "kind_read": 102,
-  "kind_right": 102,
+  "kind_read": 107,
+  "kind_right": 107,
   "exact_medicine_right": 83,
   "exact_medicine_wrong": 0
  }

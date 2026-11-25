@@ -49,7 +49,7 @@ async function readText(file, rotate) {
  * Read a pack photo. Returns { root, number, kind, ings, group, groupBy, lines } (root null when no brand
  * could be confirmed). A photo taken sideways is retried turned by 90 degrees.
  */
-export async function readPack(file, onStage) {
+export async function readPack(file, onStage, opts = {}) {
   await Promise.all([loadRoots(), loadCommonWords()]);
   const ingRows = await loadIngredients();
   const common = await loadCommonWords();
@@ -58,9 +58,10 @@ export async function readPack(file, onStage) {
   await warmOcr();
   onStage?.("read");
   let best = null;
-  for (const rot of [0, 90, 270]) {
+  for (const rot of opts.rotate === false ? [0] : [0, 90, 270]) {
     const lines = await readText(file, rot);
     const r = await interpretPack(lines, deps);
+    r.textLines = lines.length;
     if (!best || (r.root && !best.root) || (!best.root && r.ings.length > best.ings.length)) best = r;
     if (r.root) break;
     if (rot === 0 && lines.length >= 6 && r.ings.length) break; // upright text was read fine, there is just no brand on this side

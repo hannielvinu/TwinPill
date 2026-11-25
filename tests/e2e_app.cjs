@@ -75,7 +75,24 @@ const CASES = [
   const tapOk = tap.first && tap.said.length > 0;
   pass += tapOk;
   console.log(`${tapOk ? "PASS" : "FAIL"}  tap answer      -> moved to top, said: ${tap.said}`);
-  const TOTAL = CASES.length + PACKS.length + 1;
+  // Talk mode (for people who cannot read the strip): photo in, full answer spoken, expiry read
+  await shot.setContent(`<div id="p" style="width:820px;padding:40px;background:#fff;font-family:Arial"><div style="font-size:30px">Clonazepam Tablets IP</div>
+    <div style="font-size:78px;font-weight:700;color:#0b4ea2">Adnil 0.5</div><div style="font-size:30px;margin-top:12px">EXP. 08/2025</div></div>`);
+  const tfile = path.join(os.tmpdir(), "tp_talk.png");
+  await (await shot.$("#p")).screenshot({ path: tfile });
+  await page.goto(URL + "#/talk");
+  await page.waitForSelector("#tScan");
+  await page.evaluate(() => { window.__said = []; });
+  await page.setInputFiles("#tFile", tfile);
+  await page.waitForSelector(".talk-card", { timeout: 120000 });
+  await page.waitForFunction(() => /Found it/.test(window.__said.join(" ")), null, { timeout: 8000 }).catch(() => {});
+  const talk = await page.evaluate(() => window.__said.join(" "));
+  const talkOk = /Adnil 0\.5, a tablet/.test(talk) && /Clonazepam/.test(talk) && /August 2025/.test(talk) && /expired/.test(talk);
+  pass += talkOk;
+  console.log(`${talkOk ? "PASS" : "FAIL"}  talk mode       -> said: ${talk}`);
+  await page.goto(URL);
+  await page.waitForSelector("#q");
+  const TOTAL = CASES.length + PACKS.length + 2;
 
   // warm lookups (shards cached) for a latency figure
   const warm = [];

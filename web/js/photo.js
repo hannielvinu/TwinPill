@@ -16,8 +16,8 @@ export const KINDS = {
   inhaler: /inhaler|respules?|rotacaps?|inhalation/,
   cream: /\bcream\b|ointment|\bgel\b|lotion|\btopical\b|mouth\s*paint/,
   liquid: /syrup|suspension|oral\s*(solution|drops|liquid)|\bdrops\b|linctus|expectorant/,
-  capsule: /capsules?\b|\bcaps\b/,
-  tablet: /tablets?\b|\btabs?\b|film[-\s]?coated|mouth\s*dissolving|dispersible|chewable/,
+  capsule: /capsules?|\bcaps\b/,
+  tablet: /tablets?|\btabs?\b|film[-\s]?coated|mouth\s*dissolving|dispersible|chewable/,
 };
 const KIND_ORDER = ["injection", "eye", "ear", "spray", "inhaler", "cream", "liquid", "capsule", "tablet"];
 
@@ -137,6 +137,7 @@ export async function interpretPack(ocr, deps) {
   const lines = ocr.map((o) => o.t).filter(Boolean);
   const maxH = Math.max(1, ...ocr.map((o) => o.h || 0));
   const kind = readKind(lines.join(" \n "));
+  const expiry = readExpiry(lines);
   const ings = readIngredients(lines, ingNames, jaroWinkler);
   const ingWords = new Set(ings.flatMap((n) => n.split(/\s+/)));
   const ingSet = deps.ingSet || (deps.ingSet = new Set(ingNames));
@@ -234,7 +235,7 @@ export async function interpretPack(ocr, deps) {
   // A misread brand ("Allegray 180mg") counts when the printed number is one of its real strengths.
   const misread = (r) => !r.exact && r.lineBonus > 0 && big(r) && r.numberOk && !(ings.length && r.ingMatch === 0);
   const top = ranked.find((r) => backed(r) || standalone(r) || misread(r));
-  if (!top) return { root: null, kind, ings, candidates: ranked.slice(0, 3).map((r) => r.root), lines };
+  if (!top) return { root: null, kind, ings, expiry, candidates: ranked.slice(0, 3).map((r) => r.root), lines };
 
   // 3. which of the name's medicines is this one?
   const gs = top.gs;
@@ -252,5 +253,36 @@ export async function interpretPack(ocr, deps) {
     if (byKind.length === 1) { group = byKind[0]; groupBy = "kind"; }
   }
   if (!group && gs.length === 1) { group = gs[0]; groupBy = "only"; }
-  return { root: top.root, number: top.number, kind, ings, group, groupBy, candidates: ranked.slice(1, 4).map((r) => r.root), lines };
+  return { root: top.root, number: top.number, kind, ings, expiry, group, groupBy, candidates: ranked.slice(1, 4).map((r) => r.root), lines };
+}
+
+const MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, sept: 9, oct: 10, nov: 11, dec: 12 };
+/**
+ * Expiry date printed on the pack ("EXP. 12/2026", "Exp.Date: DEC.2026", "Use before 11-27").
+ * Only a date right after an expiry label counts, so the manufacturing date is never mistaken for it.
+ * Returns { month, year } or null.
+ */
+export function readExpiry(lines) {
+  const L = lines.map((l) => String(l).toLowerCase());
+  for (let i = 0; i < L.length; i++) {
+    const m = L[i].match(/\b(exp(?:iry|iration)?|use\s*before|best\s*before)\b\.?\s*(?:date)?\s*[:.\-]?/);
+    if (!m) continue;
+    // the value is on the same line after the label, or alone on the next line
+    const rest = [L[i].slice(m.index + m[0].length), L[i + 1] || ""];
+    for (const r of rest) {
+      const v = r.slice(0, 24);
+      let d = v.match(/^\s*(\d{1,2})\s*[\/\-.]\s*(\d{4}|\d{2})\b/);
+      if (d) {
+        const month = +d[1], year = d[2].length === 2 ? 2000 + +d[2] : +d[2];
+        if (month >= 1 && month <= 12 && year >= 2015 && year <= 2045) return { month, year };
+      }
+      d = v.match(/^\s*([a-z]{3,4})\.?\s*[\/\-.,]?\s*'?(\d{4}|\d{2})\b/);
+      if (d && MONTHS[d[1]]) {
+        const year = d[2].length === 2 ? 2000 + +d[2] : +d[2];
+        if (year >= 2015 && year <= 2045) return { month: MONTHS[d[1]], year };
+      }
+      if (/\d/.test(v.slice(0, 6))) break; // a number we cannot parse: do not look further
+    }
+  }
+  return null;
 }
