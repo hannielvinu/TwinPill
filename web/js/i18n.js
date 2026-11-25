@@ -185,3 +185,66 @@ export const FORM_KN = {
   lotion: "ಲೋಷನ್", powder: "ಪುಡಿ", spray: "ಸ್ಪ್ರೇ", "nasal spray": "ಮೂಗಿನ ಸ್ಪ್ರೇ", inhaler: "ಇನ್ಹೇಲರ್",
   "soft gelatin capsule": "ಮೃದು ಕ್ಯಾಪ್ಸೂಲ್", sachet: "ಸ್ಯಾಶೆ", solution: "ದ್ರಾವಣ",
 };
+
+// What the photo reader found, and what Twinpill says out loud. {n} = name, {k} = kind, {u} = use.
+export const KIND = {
+  en: { tablet: "tablet", capsule: "capsule", injection: "injection", eye: "eye drops", ear: "ear drops", spray: "spray",
+    inhaler: "inhaler", cream: "cream for the skin", liquid: "syrup or liquid medicine" },
+  ta: { tablet: "மாத்திரை", capsule: "கேப்சூல்", injection: "ஊசி மருந்து", eye: "கண் சொட்டு மருந்து", ear: "காது சொட்டு மருந்து",
+    spray: "ஸ்ப்ரே", inhaler: "இன்ஹேலர்", cream: "தோலில் தடவும் களிம்பு", liquid: "சிரப் அல்லது திரவ மருந்து" },
+  kn: { tablet: "ಮಾತ್ರೆ", capsule: "ಕ್ಯಾಪ್ಸೂಲ್", injection: "ಚುಚ್ಚುಮದ್ದು", eye: "ಕಣ್ಣಿನ ಹನಿ ಔಷಧಿ", ear: "ಕಿವಿಯ ಹನಿ ಔಷಧಿ",
+    spray: "ಸ್ಪ್ರೇ", inhaler: "ಇನ್ಹೇಲರ್", cream: "ಚರ್ಮಕ್ಕೆ ಹಚ್ಚುವ ಕ್ರೀಮ್", liquid: "ಸಿರಪ್ ಅಥವಾ ದ್ರವ ಔಷಧಿ" },
+};
+
+const art = (k) => (/s$/.test(k) ? k : `${/^[aeiou]/i.test(k) ? "an" : "a"} ${k}`); // "eye drops", "a tablet"
+export const SAY = {
+  en: {
+    this_is: (n, k) => `This is ${n}${k ? `, ${art(k)}` : ""}.`,
+    looks_like: (k) => `This is ${art(k)}.`,
+    for_use: (u) => `It is used for ${u}.`,
+    contains: (i) => `It contains ${i}.`,
+    careful: (n, u) => `Be careful. The name ${n} is also used for a completely different medicine, for ${u}.`,
+    twin: (n, c, uses) => `Careful. ${n} can be ${c} different medicines: ${uses}.`,
+    or: " or ",
+    no_twin: "No unrelated medicine shares this name.",
+    ing_only: (i, u) => `I could not read the brand name, but this pack contains ${i}. It is for ${u}.`,
+    nothing: "Sorry, I could not read a medicine name. Please take a closer photo of the front of the strip, in good light.",
+    picked: (lab, u) => `${lab}: this one is for ${u}.`,
+    not_found: (q) => `${q} is not in our list of Indian medicines. Please check the spelling, or ask your pharmacist.`,
+  },
+  ta: {
+    this_is: (n, k) => `இது ${n}${k ? `, ${k}` : ""}.`,
+    looks_like: (k) => `இது ${k}.`,
+    for_use: (u) => `பயன்: ${u}.`,
+    contains: (i) => `இதில் ${i} உள்ளது.`,
+    careful: (n, u) => `கவனம். ${n} என்ற அதே பெயரில், ${u}க்கான வேறு ஒரு மருந்தும் உள்ளது.`,
+    twin: (n, c, uses) => `கவனம். ${n} என்ற பெயரில் ${c} வெவ்வேறு மருந்துகள் உள்ளன: ${uses}.`,
+    or: " அல்லது ",
+    no_twin: "வேறு எந்த மருந்துக்கும் இந்தப் பெயர் இல்லை.",
+    ing_only: (i, u) => `பிராண்ட் பெயரைப் படிக்க முடியவில்லை. ஆனால் இதில் ${i} உள்ளது. பயன்: ${u}.`,
+    nothing: "மன்னிக்கவும், மருந்துப் பெயரைப் படிக்க முடியவில்லை. அட்டையின் முன்பக்கத்தை வெளிச்சத்தில் நெருக்கமாகப் படம் எடுங்கள்.",
+    picked: (lab, u) => `${lab}: இது ${u}க்கானது.`,
+    not_found: (q) => `${q} எங்கள் இந்திய மருந்துப் பட்டியலில் இல்லை. எழுத்துகளைச் சரிபாருங்கள், அல்லது மருந்தாளரிடம் கேளுங்கள்.`,
+  },
+  kn: {
+    this_is: (n, k) => `ಇದು ${n}${k ? `, ${k}` : ""}.`,
+    looks_like: (k) => `ಇದು ${k}.`,
+    for_use: (u) => `ಉಪಯೋಗ: ${u}.`,
+    contains: (i) => `ಇದರಲ್ಲಿ ${i} ಇದೆ.`,
+    careful: (n, u) => `ಎಚ್ಚರಿಕೆ. ${n} ಎಂಬ ಅದೇ ಹೆಸರಿನಲ್ಲಿ, ${u}ಗಾಗಿ ಬೇರೆಯೇ ಔಷಧಿಯೂ ಇದೆ.`,
+    twin: (n, c, uses) => `ಎಚ್ಚರಿಕೆ. ${n} ಎಂಬ ಹೆಸರಿನಲ್ಲಿ ${c} ಬೇರೆ ಬೇರೆ ಔಷಧಿಗಳಿವೆ: ${uses}.`,
+    or: " ಅಥವಾ ",
+    no_twin: "ಬೇರೆ ಯಾವ ಔಷಧಿಗೂ ಈ ಹೆಸರು ಇಲ್ಲ.",
+    ing_only: (i, u) => `ಬ್ರ್ಯಾಂಡ್ ಹೆಸರು ಓದಲಾಗಲಿಲ್ಲ. ಆದರೆ ಇದರಲ್ಲಿ ${i} ಇದೆ. ಉಪಯೋಗ: ${u}.`,
+    nothing: "ಕ್ಷಮಿಸಿ, ಔಷಧಿಯ ಹೆಸರು ಓದಲಾಗಲಿಲ್ಲ. ಸ್ಟ್ರಿಪ್‌ನ ಮುಂಭಾಗವನ್ನು ಬೆಳಕಿನಲ್ಲಿ ಹತ್ತಿರದಿಂದ ಫೋಟೋ ತೆಗೆಯಿರಿ.",
+    picked: (lab, u) => `${lab}: ಇದು ${u}ಗಾಗಿ.`,
+    not_found: (q) => `${q} ನಮ್ಮ ಭಾರತೀಯ ಔಷಧಿ ಪಟ್ಟಿಯಲ್ಲಿ ಇಲ್ಲ. ಅಕ್ಷರಗಳನ್ನು ಪರಿಶೀಲಿಸಿ ಅಥವಾ ಫಾರ್ಮಸಿಸ್ಟ್‌ರನ್ನು ಕೇಳಿ.`,
+  },
+};
+
+// Photo card labels
+export const PHOTO = {
+  en: { read_from: "Read from your photo", kind: "Kind of medicine", printed: "Printed on the pack", this_one: "This pack is", loading: "Getting the photo reader ready (first time only)…", reading: "Reading the pack on your device…", rotate: "Trying the photo turned sideways…", no_brand: "Brand name not readable", unknown_kind: "not printed" },
+  ta: { read_from: "உங்கள் படத்திலிருந்து படித்தது", kind: "மருந்து வகை", printed: "அட்டையில் அச்சிடப்பட்டது", this_one: "இந்த அட்டை", loading: "பட வாசிப்பான் தயாராகிறது (முதல் முறை மட்டும்)…", reading: "அட்டை உங்கள் சாதனத்திலேயே படிக்கப்படுகிறது…", rotate: "படத்தைத் திருப்பி முயற்சிக்கிறது…", no_brand: "பிராண்ட் பெயர் தெளிவாக இல்லை", unknown_kind: "அச்சிடப்படவில்லை" },
+  kn: { read_from: "ನಿಮ್ಮ ಫೋಟೋದಿಂದ ಓದಿದ್ದು", kind: "ಔಷಧಿಯ ವಿಧ", printed: "ಪ್ಯಾಕ್ ಮೇಲೆ ಮುದ್ರಿತ", this_one: "ಈ ಪ್ಯಾಕ್", loading: "ಫೋಟೋ ಓದುವಿಕೆ ಸಿದ್ಧವಾಗುತ್ತಿದೆ (ಮೊದಲ ಬಾರಿ ಮಾತ್ರ)…", reading: "ಪ್ಯಾಕ್ ಅನ್ನು ನಿಮ್ಮ ಸಾಧನದಲ್ಲೇ ಓದಲಾಗುತ್ತಿದೆ…", rotate: "ಫೋಟೋವನ್ನು ತಿರುಗಿಸಿ ಪ್ರಯತ್ನಿಸುತ್ತಿದೆ…", no_brand: "ಬ್ರ್ಯಾಂಡ್ ಹೆಸರು ಸ್ಪಷ್ಟವಿಲ್ಲ", unknown_kind: "ಮುದ್ರಿತವಾಗಿಲ್ಲ" },
+};

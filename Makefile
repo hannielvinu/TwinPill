@@ -21,6 +21,9 @@ evaluate:        ## collect all metrics + plots into results/ and the app's Evid
 
 test:
 	$(PY) -m pytest -q tests
+	node tests/test_search.mjs
+	node tests/test_voice.mjs
+	node tests/test_photo.mjs
 
 serve:           ## run the app locally at http://localhost:8000
 	cd web && $(PY) -m http.server 8000

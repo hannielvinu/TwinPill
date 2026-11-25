@@ -37,6 +37,46 @@ const CASES = [
     pass += ok;
     console.log(`${ok ? "PASS" : "FAIL"}  ${q.padEnd(14)} -> ${badge.trim()}  (${times.at(-1)} ms)`);
   }
+  // Photo: render a pack label, upload it, and check the brand, the exact medicine, the kind and the spoken answer.
+  await page.evaluate(() => { window.__said = []; const S = window.speechSynthesis; const o = S.speak.bind(S); S.speak = (u) => { window.__said.push(u.text); try { o(u); } catch (e) { /* headless */ } }; });
+  const PACKS = [
+    ["Adnil 0.5", "Clonazepam Tablets IP", "Each uncoated tablet contains Clonazepam IP 0.5 mg", "clonazepam", "Tablet", "This is Adnil 0.5"],
+    ["Olip", "Olopatadine Hydrochloride Ophthalmic Solution", "Eye Drops 5 ml", "olopatadine", "Eye drops", "eye or nose allergy"],
+    ["Acetam", "Piracetam Injection IP", "For intravenous or intramuscular use · 200 mg/ml", "piracetam", "Injection", "an injection"],
+  ];
+  const fs = require("fs"), os = require("os"), path = require("path");
+  const shot = await browser.newPage({ viewport: { width: 900, height: 500 } });
+  for (const [brand, generic, small, ing, kind, said] of PACKS) {
+    await shot.setContent(`<div id="p" style="width:820px;padding:40px;background:#f3f6fb;font-family:Arial">
+      <div style="font-size:30px;color:#333">${generic}</div><div style="font-size:78px;font-weight:700;color:#0b4ea2;margin:14px 0">${brand}</div>
+      <div style="font-size:22px;color:#444">${small}</div><div style="font-size:20px;color:#666;margin-top:12px">Mfd. by Example Labs · 10 x 10</div></div>`);
+    const file = path.join(os.tmpdir(), `tp_${brand.replace(/\W/g, "")}.png`);
+    await (await shot.$("#p")).screenshot({ path: file });
+    await page.evaluate(() => { window.__said = []; });
+    const t0 = Date.now();
+    await page.setInputFiles("#photo", file);
+    await page.waitForFunction(() => !document.querySelector(".photocard.reading") && document.querySelector(".photocard .kindtag"), null, { timeout: 180000 });
+    await page.waitForFunction(() => window.__said.length > 0, null, { timeout: 10000 }).catch(() => {});
+    const r = await page.evaluate(() => ({ brand: document.querySelector(".pc-brand")?.textContent || "", kind: document.querySelector(".kindtag")?.textContent || "",
+      pick: document.querySelector(".mcard.pick")?.textContent || "", said: window.__said.join(" ") }));
+    const ok = r.brand.toLowerCase().startsWith(brand.split(" ")[0].toLowerCase()) && r.kind.toLowerCase() === kind.toLowerCase()
+      && r.pick.toLowerCase().includes(ing) && r.said.toLowerCase().includes(said.toLowerCase());
+    pass += ok;
+    console.log(`${ok ? "PASS" : "FAIL"}  photo ${brand.padEnd(8)} -> ${r.brand} · ${r.kind} · said: ${r.said.slice(0, 70)}  (${Date.now() - t0} ms)`);
+  }
+  // Tap the answer (Olip has a sounds-alike list: the case that used to do nothing)
+  await page.fill("#q", "Olip");
+  await page.click("button.go");
+  await page.waitForSelector("#dq .answer");
+  await page.evaluate(() => { window.__said = []; });
+  await page.click("#dq .answer >> nth=1");
+  await page.waitForTimeout(300);
+  const tap = await page.evaluate(() => ({ first: document.querySelector("#cards .mcard")?.classList.contains("pick"), said: window.__said.join(" ") }));
+  const tapOk = tap.first && tap.said.length > 0;
+  pass += tapOk;
+  console.log(`${tapOk ? "PASS" : "FAIL"}  tap answer      -> moved to top, said: ${tap.said}`);
+  const TOTAL = CASES.length + PACKS.length + 1;
+
   // warm lookups (shards cached) for a latency figure
   const warm = [];
   for (let i = 0; i < 20; i++) {
@@ -49,9 +89,9 @@ const CASES = [
     }
   }
   warm.sort((a, b) => a - b);
-  const res = { cases: CASES.length, passed: pass, page_errors: errors, warm_lookup_ms_median: warm[Math.floor(warm.length / 2)], warm_lookup_ms_p95: warm[Math.floor(warm.length * 0.95)] };
+  const res = { cases: TOTAL, passed: pass, page_errors: errors, warm_lookup_ms_median: warm[Math.floor(warm.length / 2)], warm_lookup_ms_p95: warm[Math.floor(warm.length * 0.95)] };
   console.log(JSON.stringify(res));
   require("fs").writeFileSync(require("path").join(__dirname, "..", "results", "e2e.json"), JSON.stringify(res, null, 2));
   await browser.close();
-  process.exit(pass === CASES.length && !errors.length ? 0 : 1);
+  process.exit(pass === TOTAL && !errors.length ? 0 : 1);
 })();

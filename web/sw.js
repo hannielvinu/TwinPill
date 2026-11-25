@@ -1,8 +1,8 @@
 // Offline support: the demo keeps working if the venue Wi-Fi drops.
 // Network first (always fresh when online), cache as fallback; the core files are cached on first visit.
-const CACHE = "twinpill-v1";
+const CACHE = "twinpill-v2";
 const CORE = ["./", "index.html", "css/style.css", "js/app.js", "js/search.js", "js/phonetic.js", "js/translit.js", "js/i18n.js",
-  "js/voice.js", "js/ocr.js", "assets/icon.svg", "data/roots.json", "data/ingredients.json", "data/common_words.json",
+  "js/voice.js", "js/ocr.js", "js/photo.js", "js/speak.js", "assets/icon.svg", "data/roots.json", "data/ingredients.json", "data/common_words.json",
   "data/stats.json", "data/atlas.json", "data/ranker.json", "data/metrics.json", "data/live.json",
   "data/p/ad.json", "data/p/ol.json", "data/p/ac.json", "data/p/bi.json", "data/p/do.json", "data/p/ze.json"];
 
@@ -19,6 +19,14 @@ self.addEventListener("fetch", (e) => {
   const same = url.origin === location.origin;
   const font = /fonts\.(googleapis|gstatic)\.com$/.test(url.hostname);
   if (!same && !font) return;
+  // The photo reader (vendor/ocr, ~30 MB) never changes: cache first, download once.
+  if (same && url.pathname.includes("/vendor/")) {
+    e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((res) => {
+      if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); }
+      return res;
+    })));
+    return;
+  }
   e.respondWith(
     fetch(req).then((res) => {
       if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); }

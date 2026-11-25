@@ -178,6 +178,25 @@ def main() -> None:
         "note": "When only the company differs, Twinpill says so plainly and asks the person to read the company name on the strip.",
         "plot": "data/plots/twin_counts.png"})
 
+    photo_path, cmp_path = RESULTS / "photo_eval.json", RESULTS / "photo_ocr_compare.json"
+    if photo_path.exists():
+        ph = json.loads(photo_path.read_text())
+        rows = []
+        if cmp_path.exists():
+            cm = json.loads(cmp_path.read_text())
+            rows.append({"name": f"Tesseract.js (common browser OCR), {cm['photos']} product photos", "vals": [cm["tesseract_js"]["right"] / cm["photos"], cm["tesseract_js"]["wrong"] / cm["photos"], "—"]})
+            rows.append({"name": f"PaddleOCR PP-OCRv4 in the browser, same {cm['photos']} photos", "vals": [cm["paddleocr_ppocrv4"]["right"] / cm["photos"], cm["paddleocr_ppocrv4"]["wrong"] / cm["photos"], "—"], "ours": True})
+        for key, label in (("pack", "pack photos, all sides (front, back, strip)"), ("phone", "phone-style copies (tilted, blurred, dark, compressed)")):
+            d = ph[key]
+            rows.append({"name": f"Twinpill, {d['photos']} {label}", "vals": [d["right"] / d["photos"], d["wrong"] / d["photos"], d["kind_right"] / max(d["kind_read"], 1)], "ours": True})
+        sections.append({
+            "title": f"{len(sections) + 1} · Photo of a pack: which medicine is it?",
+            "what": "Real Indian pack photos from 1mg product pages. The app reads the printed ingredients and the kind of medicine, and accepts a brand only when the pack backs it up.",
+            "cols": ["Right brand", "Wrong brand", "Kind of medicine right"], "fmt": ["pct", "pct", "pct"],
+            "rows": rows,
+            "note": f"When the brand is readable on the photo, Twinpill never named a wrong one ({ph['pack']['brand_visible']} + {ph['phone']['brand_visible']} photos). "
+                    "Back-of-pack photos without the brand give the ingredients instead. Re-run: node tests/test_photo.mjs."})
+
     live_path = RESULTS / "live_check_summary.json"
     if live_path.exists():
         lv = json.loads(live_path.read_text())

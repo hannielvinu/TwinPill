@@ -1,0 +1,12 @@
+{
+    "photos": 58,
+    "note": "main 1mg product photo per product, same matching logic for both engines (tests/photo_fixtures.json, scratch comparison)",
+    "tesseract_js": {
+        "right": 30,
+        "wrong": 1
+    },
+    "paddleocr_ppocrv4": {
+        "right": 57,
+        "wrong": 0
+    }
+}

@@ -133,6 +133,23 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 20px 64px; }
 .heardcard div:first-child b { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line-strong); }
 .heardcard .arrow { font-size: 1.2rem; color: var(--muted); }
 
+/* photo result: what was read from the pack */
+.photocard { display: flex; gap: 16px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; }
+.photocard img { width: 96px; height: 96px; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); flex: none; background: var(--sunken); }
+.photocard .pc-body { min-width: 0; flex: 1; }
+.photocard .hl-label { font-size: .75rem; font-weight: 500; color: var(--muted); }
+.photocard .pc-brand { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.015em; margin: 2px 0 6px; display: flex; align-items: center; gap: 8px; }
+.photocard.reading .pc-brand { font-size: 1rem; font-weight: 500; color: var(--ink-2); }
+.photocard dl { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 0; font-size: .88rem; }
+.photocard dt { color: var(--muted); }
+.photocard dd { margin: 0; font-weight: 500; }
+.photocard .pc-use { font-weight: 700; }
+.photocard .ha { display: inline-block; background: var(--red-soft); color: var(--red-ink); border: 1px solid var(--red-line); border-radius: 6px; padding: 0 6px; font-weight: 600; font-size: .72rem; margin-left: 4px; }
+.kindtag { display: inline-block; background: var(--ink); color: var(--bg); border-radius: 6px; padding: 1px 8px; font-weight: 700; font-size: .78rem; letter-spacing: .02em; text-transform: uppercase; }
+.chosen:empty { display: none; }
+.chosen { margin-top: 12px; padding: 10px 12px; border-radius: 10px; background: color-mix(in srgb, var(--bg) 12%, transparent); color: var(--bg); font-size: .95rem; }
+.chosen span { color: color-mix(in srgb, var(--bg) 70%, transparent); }
+
 .question { background: var(--ink); color: var(--bg); border-radius: var(--radius); padding: 22px; }
 .question .label { font-size: .8rem; font-weight: 500; color: color-mix(in srgb, var(--bg) 60%, transparent); }
 .question h3 { font-size: clamp(1.2rem, 2.6vw, 1.5rem); margin: 6px 0 14px; color: var(--bg); }
@@ -233,4 +250,11 @@ tr.ours td { font-weight: 700; background: var(--sunken); }
   .tile:first-child { border-top: 0; }
   .arow { grid-template-columns: 1fr 56px; }
   .arow .side { grid-column: 1 / -1; }
+}
+
+@media (max-width: 760px) {
+  .photocard { flex-direction: column; align-items: stretch; }
+  .photocard img { width: 100%; height: 160px; object-fit: contain; }
+  .photocard dl { grid-template-columns: 1fr; gap: 0; }
+  .photocard dt { margin-top: 8px; font-size: .78rem; }
 }

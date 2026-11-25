@@ -1,0 +1,4 @@
+Photo reader files, used unmodified:
+- det.onnx, rec.onnx, keys.txt: PaddleOCR PP-OCRv4 models (Apache License 2.0), ONNX export from @gutenye/ocr-models (MIT).
+- paddle.mjs: bundle of @gutenye/ocr-browser and @gutenye/ocr-common (MIT), @techstark/opencv-js (Apache 2.0) and onnxruntime-web (MIT).
+- ort-wasm-simd-threaded.*: ONNX Runtime Web (MIT).

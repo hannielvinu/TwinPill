@@ -46,10 +46,12 @@ Real examples from the catalogue (click any of them in the app):
 
 ## What Twinpill does
 
-1. **Type, say or snap** a medicine name, in **English, Tamil or Kannada**. Voice uses the browser's speech recognition (Google's engine in Chrome and Android, the same as Google voice typing). A name said or typed in Tamil or Kannada script is converted to Latin letters and matched by sound. Photo reading (Tesseract) and all matching run on the device.
+1. **Type, say or snap** a medicine name, in **English, Tamil or Kannada**. Voice uses the browser's speech recognition (Google's engine in Chrome and Android, the same as Google voice typing). A name said or typed in Tamil or Kannada script is converted to Latin letters and matched by sound. Photo reading (PaddleOCR, in the browser) and all matching run on the device.
+
+   **Snap a pack and it talks back.** The photo reader finds the brand, the ingredients printed on the pack and the kind of medicine (tablet, injection, eye drops, syrup…), works out which of the name's medicines this exact pack is, and says the answer out loud in English, Tamil or Kannada. It accepts a brand only when the pack backs it up (printed ingredients, or a brand standing on its own line), so a back-of-strip photo gives the ingredients instead of a guess.
 2. Twinpill finds the brand, **plus every name a listener, a speech app or a hurried reader could land on instead**.
 3. It groups everything sold under that name by active ingredient, in plain words ("fits (epilepsy)", not "antiepileptic"), in **English, Tamil or Kannada**.
-4. It asks **the one question that splits the unrelated medicines**: the form, then the printed number, then the letters after the name, then the company. Tap the answer that matches the strip and the right medicine lights up.
+4. It asks **the one question that splits the unrelated medicines**: the form, then the printed number, then the letters after the name, then the company. Tap the answer that matches the strip: the right medicine moves to the top and is read out loud.
 5. The **Twin Atlas** ranks India's most dangerous name clashes for pharmacists, hospitals and the regulator.
 6. When you speak, it shows **what the speech AI heard and what Twinpill found** ("add nil" → Adnil), so the correction is visible.
 7. **Warn my family on WhatsApp:** one tap sends the warning and the deciding question in English, Tamil or Kannada.
@@ -83,10 +85,10 @@ flowchart LR
   G --> H
   V[Google speech via Web Speech API<br/>en-IN · ta-IN · kn-IN] --> H
   X[Tamil/Kannada → Latin<br/>sound-normalised match] --> H
-  O[Tesseract.js OCR] --> H
+  O[PaddleOCR in the browser<br/>ingredients + kind read from the pack] --> H
 ```
 
-**Stack:** Python (pandas, scikit-learn, LightGBM, rapidfuzz, jellyfish, matplotlib) for the pipeline; vanilla JavaScript, the Web Speech API and Tesseract.js for the app; static hosting on GitHub Pages. No server, no account, no tracking.
+**Stack:** Python (pandas, scikit-learn, LightGBM, rapidfuzz, jellyfish, matplotlib) for the pipeline; vanilla JavaScript, the Web Speech API and speech synthesis, and PaddleOCR (PP-OCRv4 on ONNX Runtime Web) for the app; static hosting on GitHub Pages. No server, no account, no tracking.
 
 ## AI / ML methods
 
@@ -101,6 +103,8 @@ flowchart LR
 ## Results
 
 See the live [Evidence page](https://hannielvinu.github.io/TwinPill/#/evidence) and [`results/metrics.json`](results/metrics.json).
+
+**Photo of a pack.** On 181 real Indian pack photos from 1mg (front, back and strip sides) Twinpill named the right brand on 115 and a wrong one on 3; on 120 phone-style copies (tilted, blurred, dark, compressed) 108 right and 0 wrong. When the brand is readable it never named a wrong one, and the kind of medicine was right every time it was printed (239 of 239). On the same 58 product photos, PaddleOCR found 57 brands vs 30 for Tesseract.js ([`results/photo_eval.json`](results/photo_eval.json), `node tests/test_photo.mjs`).
 
 **Still sold today?** On 24 Nov 2026 we re-checked 40 of the most dangerous twin names live on 1mg (`make live`). 36 still had two or more listings, and **30 are still twins today**, for example Adnil 2.5mg = glibenclamide (diabetes, Globela Pharma) vs Adnil 0.5mg = clonazepam (sedative, Medinova Labs), and Olip eye drop = olopatadine vs Olip 10mg = olanzapine (antipsychotic). Rows tagged LIVE in the Twin Atlas link to those pages ([`results/live_check_summary.json`](results/live_check_summary.json)).
 
@@ -173,7 +177,7 @@ docs/       technical report
 - Indian medicine catalogue ([junioralive/Indian-Medicine-Dataset](https://github.com/junioralive/Indian-Medicine-Dataset)), downloaded at build time and not redistributed.
 - WHO ATC codes via [Wikidata](https://www.wikidata.org) (CC0).
 - [ISMP List of Confused Drug Names](https://online.ecri.org/hubfs/ISMP/Resources/ISMP_ConfusedDrugNames.pdf), used to label training pairs.
-- Open-source libraries: pandas, scikit-learn, LightGBM, rapidfuzz, jellyfish, wordfreq, matplotlib, the browser's Web Speech API (Google speech recognition in Chrome), and [Tesseract.js](https://github.com/naptha/tesseract.js).
+- Open-source libraries: pandas, scikit-learn, LightGBM, rapidfuzz, jellyfish, wordfreq, matplotlib, the browser's Web Speech API (Google speech recognition in Chrome), [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) PP-OCRv4 models (Apache-2.0) via [@gutenye/ocr-browser](https://github.com/gutenye/ocr) and ONNX Runtime Web (MIT).
 - Gemini TTS and Groq-hosted Whisper large-v3, used only offline for the audit.
 - Fonts: Poppins, Inter, Anek Tamil and Anek Kannada (Google Fonts).
 
