@@ -43,15 +43,17 @@ const CASES = [
     ["Adnil 0.5", "Clonazepam Tablets IP", "Each uncoated tablet contains Clonazepam IP 0.5 mg", "clonazepam", "Tablet", "This is Adnil 0.5"],
     ["Olip", "Olopatadine Hydrochloride Ophthalmic Solution", "Eye Drops 5 ml", "olopatadine", "Eye drops", "eye or nose allergy"],
     ["Acetam", "Piracetam Injection IP", "For intravenous or intramuscular use · 200 mg/ml", "piracetam", "Injection", "an injection"],
+    ["Olip 10", "Olanzapine Tablets IP", "Each film coated tablet contains Olanzapine IP 10 mg", "olanzapine", "Tablet", "mental illness", 90], // photo taken sideways
   ];
   const fs = require("fs"), os = require("os"), path = require("path");
   const shot = await browser.newPage({ viewport: { width: 900, height: 500 } });
-  for (const [brand, generic, small, ing, kind, said] of PACKS) {
-    await shot.setContent(`<div id="p" style="width:820px;padding:40px;background:#f3f6fb;font-family:Arial">
+  for (const [brand, generic, small, ing, kind, said, rot = 0] of PACKS) {
+    await shot.setViewportSize({ width: rot ? 600 : 900, height: rot ? 1000 : 500 });
+    await shot.setContent(`<div id="w" style="display:inline-block;transform-origin:top left;${rot ? "transform:rotate(90deg) translateY(-100%);" : ""}"><div id="p" style="width:820px;padding:40px;background:#f3f6fb;font-family:Arial">
       <div style="font-size:30px;color:#333">${generic}</div><div style="font-size:78px;font-weight:700;color:#0b4ea2;margin:14px 0">${brand}</div>
-      <div style="font-size:22px;color:#444">${small}</div><div style="font-size:20px;color:#666;margin-top:12px">Mfd. by Example Labs · 10 x 10</div></div>`);
+      <div style="font-size:22px;color:#444">${small}</div><div style="font-size:20px;color:#666;margin-top:12px">Mfd. by Example Labs · 10 x 10</div></div></div>`);
     const file = path.join(os.tmpdir(), `tp_${brand.replace(/\W/g, "")}.png`);
-    await (await shot.$("#p")).screenshot({ path: file });
+    await shot.screenshot({ path: file, fullPage: true });
     await page.evaluate(() => { window.__said = []; });
     const t0 = Date.now();
     await page.setInputFiles("#photo", file);

@@ -29,3 +29,20 @@ def test_suffix_and_root():
 def test_ingredients_normalised():
     assert ingredients("Paracetamol (500mg) ", "Acetaminophen (500mg)") == ["paracetamol"]
     assert ingredients("Amoxycillin  (500mg) ", " Clavulanic Acid (125mg)") == ["amoxicillin", "clavulanic acid"]
+
+
+def test_truncation_guard_flags_possibly_cut_ingredient_lists():
+    import sys, pathlib
+    import pandas as pd
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "pipeline"))
+    from s3_twins import flag_incomplete
+    prods = pd.DataFrame({
+        "root": ["telma"] * 4,
+        "maker": ["Glenmark"] * 4,
+        "strength": ["40mg", "40mg/12.5mg", "40mg/5mg", "50mg/25mg/12.5mg"],
+        "ings": [["telmisartan"], ["telmisartan", "hydrochlorothiazide"], ["telmisartan", "amlodipine"], ["metoprolol", "chlorthalidone"]],
+    })
+    inc = flag_incomplete(prods)
+    # 3 printed doses but 2 listed ingredients, and missing the family molecule telmisartan (Telma-MCT)
+    assert bool(inc.iloc[3]) is True
+    assert not inc.iloc[:3].any()

@@ -28,6 +28,14 @@ const dolo = meanings([
   P("Dolo 500 Tablet", "Micro", "500", "tablet", ["paracetamol"], "pain and fever"),
 ]);
 assert.equal(isTwin(dolo), false);
+// a number the name never comes in ("Liv 52") matches no group, so the app can warn instead of ignoring it
+assert.equal(matchNumber(acetam, "52").length, 0);
+// only the company differs: same form, same strength, no suffix -> ask for the company / full printed name
+const same = meanings([
+  P("Zentra 100mg Tablet", "Alpha", "100mg", "tablet", ["tramadol"], "strong painkiller"),
+  P("Zentra 100mg Tablet", "Beta", "100mg", "tablet", ["itraconazole"], "fungal infection"),
+]);
+assert.ok(["company", "fullname"].includes(decidingQuestion(same).kind));
 console.log("search.js: all assertions passed");
 
 // Tamil / Kannada input (typed or from Google speech) resolves to the Latin brand by sound
