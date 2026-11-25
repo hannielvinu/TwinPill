@@ -1,0 +1,551 @@
+{
+ "date": "2026-11-24",
+ "summary": {
+  "date": "2026-11-24",
+  "checked": 40,
+  "with_2plus_listings": 36,
+  "still_twins": 30
+ },
+ "names": {
+  "adnil": [
+   {
+    "name": "Adnil 2.5mg Tablet",
+    "composition": "Glibenclamide (2.5mg)",
+    "marketer": "Globela Pharma Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/adnil-2.5mg-tablet-754568"
+   },
+   {
+    "name": "Adnil 0.5mg Tablet",
+    "composition": "Clonazepam (0.5mg)",
+    "marketer": "Medinova Labs",
+    "url": "https://www.1mg.com/drugs/adnil-0.5mg-tablet-254553"
+   }
+  ],
+  "olip": [
+   {
+    "name": "Olip 0.1% Eye Drop",
+    "composition": "Olopatadine (0.1% w/v)",
+    "marketer": "Synovia Life Sciences Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/olip-0.1-eye-drop-761469"
+   },
+   {
+    "name": "Olip 10mg Tablet",
+    "composition": "Olanzapine (10mg)",
+    "marketer": "PJ Pharmaceuticals",
+    "url": "https://www.1mg.com/drugs/olip-10mg-tablet-481653"
+   }
+  ],
+  "acetam": [
+   {
+    "name": "Acetam 100mg Injection",
+    "composition": "Levetiracetam (100mg)",
+    "marketer": "Ambreyo Lifesciences",
+    "url": "https://www.1mg.com/drugs/acetam-100mg-injection-668024"
+   },
+   {
+    "name": "Acetam 200mg Injection",
+    "composition": "Piracetam (200mg)",
+    "marketer": "Garwyn Remedies",
+    "url": "https://www.1mg.com/drugs/acetam-200mg-injection-621018"
+   },
+   {
+    "name": "Acetam SR 1000 Tablet",
+    "composition": "Paracetamol (1000mg)",
+    "marketer": "Hippocrat Biotech Private Limited",
+    "url": "https://www.1mg.com/drugs/acetam-sr-1000-tablet-897714"
+   }
+  ],
+  "zentra": [
+   {
+    "name": "Zentra 100mg Capsule",
+    "composition": "Itraconazole (100mg)",
+    "marketer": "Zenexa Healthcare",
+    "url": "https://www.1mg.com/drugs/zentra-100mg-capsule-683307"
+   },
+   {
+    "name": "Zentra 100mg Injection",
+    "composition": "Tramadol (100mg)",
+    "marketer": "Zentis Drugs Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/zentra-100mg-injection-411695"
+   },
+   {
+    "name": "Zentra-OZ Cream",
+    "composition": "Ofloxacin (0.75% w/w) + Ornidazole (2% w/w) + Itraconazole (1% w/w) + Clobetasol (0.05% w/w)",
+    "marketer": "Zenexa Healthcare",
+    "url": "https://www.1mg.com/drugs/zentra-oz-cream-683316"
+   }
+  ],
+  "medol": [
+   {
+    "name": "Medol 200 CR Tablet",
+    "composition": "Tramadol (200mg)",
+    "marketer": "Mediez Pharma",
+    "url": "https://www.1mg.com/drugs/medol-200-cr-tablet-506966"
+   },
+   {
+    "name": "Medol P 100mg/325mg Tablet",
+    "composition": "Aceclofenac (100mg) + Paracetamol (325mg)",
+    "marketer": "Medbionic Healthcare",
+    "url": "https://www.1mg.com/drugs/medol-p-100mg-325mg-tablet-794022"
+   },
+   {
+    "name": "Medol-Plus Tablet",
+    "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+    "marketer": "Mediez Pharma",
+    "url": "https://www.1mg.com/drugs/medol-plus-tablet-506695"
+   }
+  ],
+  "avil": [
+   {
+    "name": "AVil Injection",
+    "composition": "Pheniramine (22.75mg/ml)",
+    "marketer": "Sanofi India Ltd",
+    "url": "https://www.1mg.com/drugs/avil-injection-344388"
+   },
+   {
+    "name": "Avil NU 10mg Tablet",
+    "composition": "Cetirizine (10mg)",
+    "marketer": "Sanofi India Ltd",
+    "url": "https://www.1mg.com/drugs/avil-nu-10mg-tablet-690632"
+   }
+  ],
+  "rantac": [
+   {
+    "name": "Rantac 150 Tablet",
+    "composition": "Ranitidine (150mg)",
+    "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+    "url": "https://www.1mg.com/drugs/rantac-150-tablet-30363"
+   },
+   {
+    "name": "Rantac Mps Oral Suspension Elaichi Sugar Free",
+    "composition": "Magaldrate (400mg) + Dimethicone (20mg)",
+    "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+    "url": "https://www.1mg.com/drugs/rantac-mps-oral-suspension-elaichi-sugar-free-793585"
+   },
+   {
+    "name": "Rantac-Dom Tablet",
+    "composition": "Domperidone (10mg) + Ranitidine (150mg)",
+    "marketer": "J B Chemicals and Pharmaceuticals Ltd",
+    "url": "https://www.1mg.com/drugs/rantac-dom-tablet-1154703"
+   }
+  ],
+  "allegra": [
+   {
+    "name": "Allegra 120mg Tablet",
+    "composition": "Fexofenadine (120mg)",
+    "marketer": "Sanofi India Ltd",
+    "url": "https://www.1mg.com/drugs/allegra-120mg-tablet-68763"
+   },
+   {
+    "name": "Allegra Nasal Spray",
+    "composition": "Fluticasone Furoate (27.5mcg)",
+    "marketer": "Sanofi Consumer Healthcare India Limited",
+    "url": "https://www.1mg.com/drugs/allegra-nasal-spray-551613"
+   },
+   {
+    "name": "Allegra-M Tablet",
+    "composition": "Montelukast (10mg) + Fexofenadine (120mg)",
+    "marketer": "Sanofi India Ltd",
+    "url": "https://www.1mg.com/drugs/allegra-m-tablet-9172"
+   }
+  ],
+  "tamrik": [
+   {
+    "name": "Tamrik-D Tablet",
+    "composition": "Tamsulosin (0.4mg) + Dutasteride (0.5mg)",
+    "marketer": "Rikaltis Healthcare",
+    "url": "https://www.1mg.com/drugs/tamrik-d-tablet-687378"
+   },
+   {
+    "name": "Tamrik 50mg Injection",
+    "composition": "Tramadol (50mg)",
+    "marketer": "Erika Remedies",
+    "url": "https://www.1mg.com/drugs/tamrik-50mg-injection-529527"
+   },
+   {
+    "name": "Tamrik Tablet",
+    "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+    "marketer": "Erika Remedies",
+    "url": "https://www.1mg.com/drugs/tamrik-tablet-545885"
+   }
+  ],
+  "mectin": [
+   {
+    "name": "Mectin 6mg Tablet",
+    "composition": "Ivermectin (6mg)",
+    "marketer": "Meridian Medicare Ltd",
+    "url": "https://www.1mg.com/drugs/mectin-6mg-tablet-226088"
+   },
+   {
+    "name": "Mectin Plus Tablet",
+    "composition": "Glimepiride (1mg) + Metformin (1000mg)",
+    "marketer": "Biorhythms Health Care",
+    "url": "https://www.1mg.com/drugs/mectin-plus-tablet-440314"
+   },
+   {
+    "name": "Mectin Plus Tablet",
+    "composition": "Ivermectin (6mg) + Albendazole (400mg)",
+    "marketer": "Focus Healthcare",
+    "url": "https://www.1mg.com/drugs/mectin-plus-tablet-651341"
+   }
+  ],
+  "maxpride": [
+   {
+    "name": "Maxpride 50 Tablet",
+    "composition": "Amisulpride (50mg)",
+    "marketer": "Micro Labs Ltd",
+    "url": "https://www.1mg.com/drugs/maxpride-50-tablet-257078"
+   },
+   {
+    "name": "Maxpride M 2mg/500mg Tablet SR",
+    "composition": "Glimepiride (2mg) + Metformin (500mg)",
+    "marketer": "Maxcare Lifesciences",
+    "url": "https://www.1mg.com/drugs/maxpride-m-2mg-500mg-tablet-sr-697295"
+   }
+  ],
+  "lozin": [
+   {
+    "name": "Lozin 100mg Tablet",
+    "composition": "Clozapine (100mg)",
+    "marketer": "Pifer Pharmaceuticals Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/lozin-100mg-tablet-447757"
+   },
+   {
+    "name": "Lozin CL 200mg/600mg Tablet",
+    "composition": "Cefixime (200mg) + Linezolid (600mg)",
+    "marketer": "Protech Telelinks",
+    "url": "https://www.1mg.com/drugs/lozin-cl-200mg-600mg-tablet-756280"
+   }
+  ],
+  "medizole": [
+   {
+    "name": "Medizole O 200mg/500mg Tablet",
+    "composition": "Ofloxacin (200mg) + Ornidazole (500mg)",
+    "marketer": "Medizova Pharmaceuticals",
+    "url": "https://www.1mg.com/drugs/medizole-o-200mg-500mg-tablet-672979"
+   },
+   {
+    "name": "Medizole 0.25mg Tablet",
+    "composition": "Alprazolam (0.25mg)",
+    "marketer": "Medicross Pharmaceuticals",
+    "url": "https://www.1mg.com/drugs/medizole-0.25mg-tablet-488739"
+   },
+   {
+    "name": "Medizole P 0.25mg/20mg Tablet",
+    "composition": "Alprazolam (0.25mg) + Propranolol (20mg)",
+    "marketer": "Medicross Pharmaceuticals",
+    "url": "https://www.1mg.com/drugs/medizole-p-0.25mg-20mg-tablet-488774"
+   }
+  ],
+  "mepin": [
+   {
+    "name": "Mepin 100mg Tablet",
+    "composition": "Quetiapine (100mg)",
+    "marketer": "Micron Biotech",
+    "url": "https://www.1mg.com/drugs/mepin-100mg-tablet-356178"
+   },
+   {
+    "name": "Mepin AT 5mg/50mg Tablet",
+    "composition": "Amlodipine (5mg) + Atenolol (50mg)",
+    "marketer": "Mepro Pharmaceuticals",
+    "url": "https://www.1mg.com/drugs/mepin-at-5mg-50mg-tablet-488621"
+   },
+   {
+    "name": "Mepin Spas 10mg/250mg Tablet",
+    "composition": "Dicyclomine (10mg) + Mefenamic Acid (250mg)",
+    "marketer": "Pinamed Drugs Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/mepin-spas-10mg-250mg-tablet-997418"
+   }
+  ],
+  "metshine": [
+   {
+    "name": "Metshine-XL 50 Tablet",
+    "composition": "Metoprolol Succinate (47.5mg)",
+    "marketer": "Bencure Life Sciences Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/metshine-xl-50-tablet-400872"
+   },
+   {
+    "name": "Metshine-Plus Tablet",
+    "composition": "Metformin (500mg) + Voglibose (0.2mg)",
+    "marketer": "Alexa Organics Private Limited",
+    "url": "https://www.1mg.com/drugs/metshine-plus-tablet-685783"
+   },
+   {
+    "name": "Metshine P 750mcg/75mg Capsule",
+    "composition": "Methylcobalamin (750mcg) + Pregabalin (75mg)",
+    "marketer": "Maxnova Healthcare",
+    "url": "https://www.1mg.com/drugs/metshine-p-750mcg-75mg-capsule-527322"
+   }
+  ],
+  "clomid": [
+   {
+    "name": "Clomid 0.25 Tablet",
+    "composition": "Clonazepam (0.25mg)",
+    "marketer": "Midas Healthcare Ltd",
+    "url": "https://www.1mg.com/drugs/clomid-0.25-tablet-330187"
+   },
+   {
+    "name": "Clomid 100mg Tablet",
+    "composition": "Cefixime (100mg)",
+    "marketer": "Scoshia Remedy Inc",
+    "url": "https://www.1mg.com/drugs/clomid-100mg-tablet-418564"
+   },
+   {
+    "name": "Clomid-LB Dry Syrup",
+    "composition": "Cefixime (50mg) + Lactobacillus (20Million cells)",
+    "marketer": "Scoshia Remedy Inc",
+    "url": "https://www.1mg.com/drugs/clomid-lb-dry-syrup-418573"
+   }
+  ],
+  "loract": [
+   {
+    "name": "Loract Tablet",
+    "composition": "Loratadine (10mg)",
+    "marketer": "Organic Laboratories",
+    "url": "https://www.1mg.com/drugs/loract-tablet-226325"
+   },
+   {
+    "name": "Loract PF 8mg/500mg Tablet",
+    "composition": "Lornoxicam (8mg) + Paracetamol (500mg)",
+    "marketer": "Medicraft Group",
+    "url": "https://www.1mg.com/drugs/loract-pf-8mg-500mg-tablet-599799"
+   },
+   {
+    "name": "Loract D Tablet",
+    "composition": "Loratadine (5mg) + Pseudoephedrine (60mg) + Nimesulide (100mg)",
+    "marketer": "Organic Laboratories",
+    "url": "https://www.1mg.com/drugs/loract-d-tablet-232409"
+   }
+  ],
+  "loram": [
+   {
+    "name": "Loram 5 Tablet",
+    "composition": "Ramipril (5mg) + Losartan (50mg)",
+    "marketer": "Torrent Pharmaceuticals Ltd",
+    "url": "https://www.1mg.com/drugs/loram-5-tablet-115450"
+   },
+   {
+    "name": "Loram 1mg Tablet",
+    "composition": "Lorazepam (1mg)",
+    "marketer": "Tuttsan Pharma Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/loram-1mg-tablet-452000"
+   },
+   {
+    "name": "Loram-H 2.5 Tablet",
+    "composition": "Ramipril (2.5mg) + Losartan (50mg) + Hydrochlorothiazide (12.5mg)",
+    "marketer": "Torrent Pharmaceuticals Ltd",
+    "url": "https://www.1mg.com/drugs/loram-h-2.5-tablet-123595"
+   }
+  ],
+  "medistat": [
+   {
+    "name": "Medistat MF 500mg/250mg Tablet",
+    "composition": "Tranexamic Acid (500mg) + Mefenamic Acid (250mg)",
+    "marketer": "Medikind Lifesciences Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/medistat-mf-500mg-250mg-tablet-563808"
+   },
+   {
+    "name": "Medistat 0.5mg Tablet",
+    "composition": "Midazolam (0.5mg)",
+    "marketer": "Alteus Biogenics Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/medistat-0.5mg-tablet-334448"
+   }
+  ],
+  "metafin": [
+   {
+    "name": "Metafin Forte 0.2 Tablet SR",
+    "composition": "Glimepiride (1mg) + Metformin (500mg) + Voglibose (0.2mg)",
+    "marketer": "Medford Pharmaceuticals",
+    "url": "https://www.1mg.com/drugs/metafin-forte-0.2-tablet-sr-687754"
+   },
+   {
+    "name": "Metafin 25mg/500mg Tablet",
+    "composition": "Pyrimethamine (25mg) + Sulphadoxine (500mg)",
+    "marketer": "Advik Laboratories Ltd",
+    "url": "https://www.1mg.com/drugs/metafin-25mg-500mg-tablet-420616"
+   },
+   {
+    "name": "Metafin-G 2 Tablet PR",
+    "composition": "Glimepiride (2mg) + Metformin (500mg)",
+    "marketer": "Medford Pharmaceuticals",
+    "url": "https://www.1mg.com/drugs/metafin-g-2-tablet-pr-687752"
+   }
+  ],
+  "methotin": [
+   {
+    "name": "Methotin 16mg Tablet",
+    "composition": "Methylprednisolone (16mg)",
+    "marketer": "Astonea Labs Private Limited",
+    "url": "https://www.1mg.com/drugs/methotin-16mg-tablet-790604"
+   },
+   {
+    "name": "Methotin 5mg Tablet",
+    "composition": "Methotrexate (5mg)",
+    "marketer": "TNT Lifesciences",
+    "url": "https://www.1mg.com/drugs/methotin-5mg-tablet-793136"
+   }
+  ],
+  "claz": [
+   {
+    "name": "Claz OD 30mg Tablet",
+    "composition": "Gliclazide (30mg)",
+    "marketer": "Franco-Indian Pharmaceuticals Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/claz-od-30mg-tablet-396450"
+   },
+   {
+    "name": "Claz 250mg Tablet",
+    "composition": "Clarithromycin (250mg)",
+    "marketer": "Scortis Lab Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/claz-250mg-tablet-312428"
+   },
+   {
+    "name": "Claz M OD 60mg/500mg Tablet",
+    "composition": "Gliclazide (60mg) + Metformin (500mg)",
+    "marketer": "Franco-Indian Pharmaceuticals Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/claz-m-od-60mg-500mg-tablet-396475"
+   }
+  ],
+  "clonec": [
+   {
+    "name": "Clonec MR 100mg/325mg/250mg Tablet",
+    "composition": "Aceclofenac (100mg) + Chlorzoxazone (250mg) + Paracetamol (325mg)",
+    "marketer": "Amplec Healthcare Pvt. Ltd.",
+    "url": "https://www.1mg.com/drugs/clonec-mr-100mg-325mg-250mg-tablet-555262"
+   },
+   {
+    "name": "Clonec 0.25 MD Tablet",
+    "composition": "Clonazepam (0.25mg)",
+    "marketer": "Nectar Pharma",
+    "url": "https://www.1mg.com/drugs/clonec-0.25-md-tablet-507300"
+   },
+   {
+    "name": "Clonec D 75mg Injection",
+    "composition": "Diclofenac (75mg)",
+    "marketer": "Reticine Pharmaids Limited",
+    "url": "https://www.1mg.com/drugs/clonec-d-75mg-injection-908793"
+   }
+  ],
+  "odep": [
+   {
+    "name": "Odep 10mg Tablet",
+    "composition": "Amitriptyline (10mg)",
+    "marketer": "Crescent Therapeutics Ltd",
+    "url": "https://www.1mg.com/drugs/odep-10mg-tablet-278795"
+   },
+   {
+    "name": "Odep 2.5mg Tablet",
+    "composition": "Olanzapine (2.5mg)",
+    "marketer": "Micron Biotech",
+    "url": "https://www.1mg.com/drugs/odep-2.5mg-tablet-355967"
+   },
+   {
+    "name": "Odep 4mg Tablet",
+    "composition": "Ondansetron (4mg)",
+    "marketer": "Plenus Pharmaceuticals Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/odep-4mg-tablet-447348"
+   }
+  ],
+  "nimdol": [
+   {
+    "name": "Nimdol 100mg Tablet",
+    "composition": "Nimesulide (100mg)",
+    "marketer": "Mefro Pharmaceuticals Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/nimdol-100mg-tablet-447775"
+   },
+   {
+    "name": "Nimdol T 37.5mg/325mg Tablet",
+    "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+    "marketer": "Chemross Lifesciences",
+    "url": "https://www.1mg.com/drugs/nimdol-t-37.5mg-325mg-tablet-605608"
+   }
+  ],
+  "mobiya": [
+   {
+    "name": "Mobiya 50mg Injection",
+    "composition": "Tramadol (50mg/ml)",
+    "marketer": "Health Care Formulations Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/mobiya-50mg-injection-518588"
+   },
+   {
+    "name": "Mobiya S 50mg/10mg Tablet",
+    "composition": "Diclofenac (50mg) + Serratiopeptidase (10mg)",
+    "marketer": "United Formulations Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/mobiya-s-50mg-10mg-tablet-472865"
+   },
+   {
+    "name": "Mobiya T 37.5mg/325mg Tablet",
+    "composition": "Tramadol (37.5mg) + Paracetamol (325mg)",
+    "marketer": "Health Care Formulations Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/mobiya-t-37.5mg-325mg-tablet-518598"
+   }
+  ],
+  "cipin": [
+   {
+    "name": "CIpin 50mg Tablet",
+    "composition": "Clozapine (50mg)",
+    "marketer": "D D Pharmaceuticals",
+    "url": "https://www.1mg.com/drugs/cipin-50mg-tablet-258022"
+   },
+   {
+    "name": "Cipin TZ 500mg/600mg Tablet",
+    "composition": "Ciprofloxacin (500mg) + Tinidazole (600mg)",
+    "marketer": "Vision Biotech",
+    "url": "https://www.1mg.com/drugs/cipin-tz-500mg-600mg-tablet-401155"
+   }
+  ],
+  "olpine": [
+   {
+    "name": "Olpine 10mg Tablet",
+    "composition": "Olanzapine (10mg)",
+    "marketer": "Tas Med India Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/olpine-10mg-tablet-268754"
+   },
+   {
+    "name": "Olpine-AT 5mg/50mg Tablet",
+    "composition": "Amlodipine (5mg) + Atenolol (50mg)",
+    "marketer": "Uniroyal Biotech",
+    "url": "https://www.1mg.com/drugs/olpine-at-5mg-50mg-tablet-417316"
+   }
+  ],
+  "olsa": [
+   {
+    "name": "Olsa 200 Tablet",
+    "composition": "Ofloxacin (200mg)",
+    "marketer": "Integral Lifesciences",
+    "url": "https://www.1mg.com/drugs/olsa-200-tablet-578982"
+   },
+   {
+    "name": "Olsa 2.5mg Tablet",
+    "composition": "Olanzapine (2.5mg)",
+    "marketer": "Suraksha Pharma Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/olsa-2.5mg-tablet-502483"
+   },
+   {
+    "name": "Olsa-OZ Tablet",
+    "composition": "Ofloxacin (200mg) + Ornidazole (500mg)",
+    "marketer": "Integral Lifesciences",
+    "url": "https://www.1mg.com/drugs/olsa-oz-tablet-578999"
+   }
+  ],
+  "olez": [
+   {
+    "name": "Olez-DSR Capsule",
+    "composition": "Domperidone (30mg) + Rabeprazole (20mg)",
+    "marketer": "Dr. Johns Laboratories Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/olez-dsr-capsule-162809"
+   },
+   {
+    "name": "Olez 200mg/500mg Tablet",
+    "composition": "Ofloxacin (200mg) + Ornidazole (500mg)",
+    "marketer": "Stallion Laboratories Pvt Ltd",
+    "url": "https://www.1mg.com/drugs/olez-200mg-500mg-tablet-350334"
+   },
+   {
+    "name": "Olez-D Capsule",
+    "composition": "Domperidone (10mg) + Omeprazole (20mg)",
+    "marketer": "Mediquest Inc.",
+    "url": "https://www.1mg.com/drugs/olez-d-capsule-597149"
+   }
+  ]
+ }
+}
