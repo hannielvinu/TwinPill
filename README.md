@@ -4,6 +4,8 @@
 
 # Twinpill
 
+**Winner · Data Sprint 2.0 (Anveshan, NIE Mysuru) · Open Innovation track · November 2026**
+
 ### One name. Two medicines. Caught.
 
 **In India, one medicine name can mean two completely different drugs.**
